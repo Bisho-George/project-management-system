@@ -1,0 +1,14 @@
+@mixin login-section {
+  background: url('/assets/images/login-background.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 100vh;
+  @include flexCenter;
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

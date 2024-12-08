@@ -1,0 +1,55 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 m-auto auth-form">
+        <div class="d-flex justify-content-center">
+          <img class="w-75" src="../../assets/logo.svg" alt="food logo">
+        </div>
+        <h5 class="text-color mt-4">Log in</h5>
+        <p class="gray-color">Welcome Back! Please enter your details</p>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text h-100" id="basic-addon1">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+            </div>
+            <input type="email" class="form-control textfield-background" placeholder="Email" aria-label="Email" formControlName="email"
+              aria-describedby="basic-addon1">
+            </div>
+            <ng-container *ngIf="email?.dirty || email?.touched">
+              <p class="text-danger" *ngIf="email?.errors?.['required']">The email is required</p>
+              <p class="text-danger" *ngIf="email?.errors?.['email']">
+                Email is not valid</p>
+            </ng-container>
+          <div class="input-group mb-3 ">
+            <div class="input-group-prepend">
+              <span class="input-group-text h-100" id="basic-addon1">
+                <i class="fa-solid fa-lock"></i>
+              </span>
+            </div>
+            <input [type]="isPasswordVisible ? 'text': 'password'" class=" form-control textfield-background" placeholder="Password"
+              aria-label="Password" formControlName="password" aria-describedby="basic-addon1">
+            <div class="input-group-text textfield-background">
+              <i (click)="togglePasswordVisibility()" [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
+            </div>
+          </div>
+          <ng-container *ngIf="password?.dirty || password?.touched">
+            <p class="text-danger" *ngIf="password?.errors?.['required']">The password is required</p>
+            <p class="text-danger" *ngIf="password?.errors?.['pattern']">The password should contain at
+              least 8 characters, one
+              special character, one lowercase letter, one uppercase letter and one digit.</p>
+          </ng-container>
+          <div class="d-flex justify-content-between my-3">
+            <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register Now</a>
+            <a routerLink="/auth/request-reset-password" class="main-color text-decoration-none text-nowrap">Forgot Password ?</a>
+          </div>
+          <p class="text-danger">{{error}}</p>
+          {{error}}
+          <button [disabled]="loginForm.invalid" class="button main-btn">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

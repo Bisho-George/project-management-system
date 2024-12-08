@@ -1,0 +1,136 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 m-auto auth-form">
+        <div class="d-flex justify-content-center">
+          <ngx-dropzone class="dropzone" (change)="onSelect($event)">
+            <ngx-dropzone-label class="dropzone-label text-wrap">Upload your image <i
+                class="fa-solid fa-cloud-arrow-up"></i></ngx-dropzone-label>
+            <ngx-dropzone-image-preview class="m-0 image-preview" style="height: 100px; width: 100px; border-radius: 50%; "
+              ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+              </ngx-dropzone-image-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="my-2 mt-4">
+          <h5 class="text-color">Register</h5>
+          <p class="gray-color">Welcome Back! Please enter your details</p>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+          <div class="row justify-content-between">
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control textfield-background" placeholder="UserName"
+                  aria-label="userName" formControlName="userName" aria-describedby="basic-addon1">
+              </div>
+              <ng-container *ngIf="userName?.dirty || userName?.touched">
+                <p class="text-danger" *ngIf="userName?.errors?.['required']"> username is required</p>
+              </ng-container>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-envelope"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control textfield-background" placeholder="Enter your E-mail"
+                  aria-label="Email" formControlName="email" aria-describedby="basic-addon1">
+              </div>
+              <ng-container *ngIf="email?.dirty || email?.touched">
+                <p class="text-danger" *ngIf="email?.errors?.['required']"> email is required</p>
+                <p class="text-danger" *ngIf="email?.errors?.['email']">
+                  Email is not valid</p>
+              </ng-container>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-globe"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control textfield-background" placeholder="Country" aria-label="Country"
+                  formControlName="country" aria-describedby="basic-addon1">
+              </div>
+              <ng-container *ngIf="country?.dirty || country?.touched">
+                <p class="text-danger" *ngIf="country?.errors?.['required']"> country is required</p>
+              </ng-container>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                  </span>
+                </div>
+                <input type="number" class="form-control textfield-background" placeholder="Phone Number"
+                  aria-label="PhoneNumber" formControlName="phoneNumber" aria-describedby="basic-addon1">
+              </div>
+              <ng-container *ngIf="phoneNumber?.dirty || phoneNumber?.touched">
+                <p class="text-danger" *ngIf="phoneNumber?.errors?.['required']"> Phone Number is required</p>
+              </ng-container>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                </div>
+                <input [type]="isPasswordVisible['password'] ? 'text' : 'password'"
+                  class="form-control textfield-background" placeholder="Password" aria-label="Password"
+                  formControlName="password" aria-describedby="basic-addon1">
+                <div class="input-group-text textfield-background">
+                  <i (click)="togglePasswordVisibility('password')"
+                    [ngClass]="isPasswordVisible['password'] ? 'fa-eye-slash' : 'fa-eye'" class="fa-regular"></i>
+                </div>
+              </div>
+              <ng-container *ngIf="password?.dirty || password?.touched">
+                <p class="text-danger" *ngIf="password?.errors?.['required']">Password is required</p>
+                <p class="text-danger" *ngIf="password?.errors?.['pattern']">
+                  Password should contain at least 8 characters, one special character,
+                  one lowercase letter, one uppercase letter, and one digit.
+                </p>
+              </ng-container>
+            </div>
+
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text h-100" id="basic-addon1">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                </div>
+                <input [type]="isPasswordVisible['confirmPassword'] ? 'text' : 'password'"
+                  class="form-control textfield-background" placeholder="Confirm Password" aria-label="Confirm Password"
+                  formControlName="confirmPassword" aria-describedby="basic-addon1">
+                <div class="input-group-text textfield-background">
+                  <i (click)="togglePasswordVisibility('confirmPassword')"
+                    [ngClass]="isPasswordVisible['confirmPassword'] ? 'fa-eye-slash' : 'fa-eye'" class="fa-regular"></i>
+                </div>
+              </div>
+              <ng-container *ngIf="confirmPassword?.dirty || confirmPassword?.touched">
+                <p class="text-danger" *ngIf="confirmPassword?.errors?.['required']">Confirm password is required</p>
+                <p class="text-danger" *ngIf="registerForm?.errors?.['PasswordNoMatch'] && !(confirmPassword?.errors?.['requird'])">
+                  Confirm password does not match the password
+                </p>
+              </ng-container>
+            </div>
+            <div class="d-flex justify-content-end my-1">
+              <a routerLink="/auth/login" class="text-decoration-none text-nowrap main-color">Login Now ?</a>
+            </div>
+            <p class="text-danger">{{error}}</p>
+            <div class="col-md-6 mx-auto">
+              <button [disabled]="registerForm.invalid" class="button main-btn">Register</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

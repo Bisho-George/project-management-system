@@ -1,0 +1,46 @@
+@import '../../../../../assets/scss/layout.scss';
+
+section {
+  @include login-section;
+}
+
+// .auth-form {
+//   @include auth-form;
+// }
+
+.dropzone {
+  border-radius: 50% !important;
+  width: 100px !important;
+  height: 100px !important;
+  overflow: hidden !important;
+  border: none !important;
+  background-color: #d6d6d6 !important;
+}
+.dropzone-label {
+  font-size: .8rem !important;
+}
+
+:host ::ng-deep img {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 100% !important;
+  object-fit:  cover;
+  transition: opacity .3s;
+  object-position: center center;
+  margin: 0;
+}
+:host ::ng-deep ngx-dropzone-image-preview {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .dropzone ngx-dropzone-image-preview ngx-dropzone-remove-badge {
+  right: 20px !important;
+  top: 30px !important;
+  transition: all .3s;
+  svg line{
+    stroke: red !important;
+  }
+}
