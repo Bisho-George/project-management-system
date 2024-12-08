@@ -4,10 +4,10 @@
   background-position: center center;
   background-size: cover;
   min-height: 100vh;
-  @include flexCenter;
+  @include flex-center;
 }
 
-@mixin flexCenter {
+@mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
