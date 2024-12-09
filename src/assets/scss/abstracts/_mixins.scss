@@ -1,12 +1,23 @@
-@import './variables';
+@import "./variables";
 
-@mixin login-section {
-  background: url('/assets/images/login-background.jpeg');
-  background-repeat: no-repeat;
+@mixin auth-section {
+background-repeat: no-repeat !important;
   background-position: center center;
-  background-size: cover;
+  background-size: cover !important;
   min-height: 100vh;
   @include flex-center;
+}
+@mixin login-section {
+  @include auth-section;
+  background: url("/assets/images/login-background.jpeg");
+}
+@mixin reset-password-section {
+  @include login-section;
+}
+
+@mixin register-section {
+  @include auth-section;
+  background: url("/assets/images/register-background.jpeg");
 }
 
 @mixin flex-center {
@@ -29,4 +40,8 @@
   background-color: $auth-bg-color;
   padding: 3rem 3.2rem 2.5rem 3rem;
   border-radius: 16px;
+}
+@mixin register-form {
+  @include auth-form;
+  background-color: $register-bg-color;
 }

@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { MatDialog } from '@angular/material/dialog';
+import { CropDialogComponent } from 'src/app/shared/components/crop-dialog/crop-dialog.component';
+import { ICropperDialogResult } from 'src/app/shared/interface/cropper-dialog.interface';
+import { filter } from 'rxjs';
+
 
 @Component({
   selector: 'app-register',
@@ -12,7 +17,9 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  croppedImage = signal<ICropperDialogResult | undefined>(undefined);
   resMessage = '';
+  isDragging = false;
   isPasswordVisible: { [key: string]: boolean } = {
     password: false,
     confirmPassword: false,
@@ -20,8 +27,19 @@ export class RegisterComponent implements OnInit {
 
   error!: string;
   files: File[] = [];
+  placeholder = computed(
+    () => '../../../../../assets/images/profile-pic.svg'
+  );
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
+  imageSource = computed(() => {
+    if (this.croppedImage()) {
+      console.log(this.croppedImage());
+      return this.croppedImage()?.imageUrl;
+    }
+    return this.placeholder();
+  });
+
+  constructor(private dialog: MatDialog, private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
     this.registerForm = this.fb.group({
       userName: [null, [Validators.required, Validators.pattern(/^(?=.*\d)[A-Za-z\d]{1,8}$/)]],
       phoneNumber: [null, [Validators.required]],
@@ -34,23 +52,38 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() { }
 
-  onSelect(event: { addedFiles: any; }) {
-    console.log(event);
-    this.files.push(...event.addedFiles);
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = true;
   }
 
-  onRemove(event: File) {
-    console.log(event);
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      const fileEvent = { target: { files: [file] } }; // Mimic file input event
+      this.fileSelected(fileEvent);
+    }
+  }
+
+  onRemove(event: any) {
+    event.stopPropagation();
     this.files.splice(this.files.indexOf(event), 1);
+    this.croppedImage.set(undefined);
   }
 
   togglePasswordVisibility(field: string): void {
     this.isPasswordVisible[field] = !this.isPasswordVisible[field];
   }
 
-  private buildFormData(formGroup: FormGroup, fileFields: { [key: string]: File }): FormData {
+  private buildFormData(formGroup: FormGroup, fileFields: { [key: string]: Blob | undefined }): FormData {
     const formData = new FormData();
-
     // Add all form control values
     Object.keys(formGroup.controls).forEach((key) => {
       const value = formGroup.get(key)?.value;
@@ -65,27 +98,46 @@ export class RegisterComponent implements OnInit {
         formData.append(key, file);
       }
     })
-
     return formData;
   }
 
-  onRegister() {
-    const form = this.buildFormData(this.registerForm, { profileImage: this.files[0] });
-    console.log(form.get('profileImage'));
-    this.authService.register(form).subscribe({
-      next: (res:any) => {
-        console.log(res);
+  onSubmit() {
+    const formData = this.buildFormData(this.registerForm, { profileImage: this.croppedImage()?.blob });
+    this.register(formData);
+  }
+
+  fileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const dialogRef = this.dialog.open(CropDialogComponent, {
+        data: {
+          image: file,
+        },
+        width: '50%',
+      });
+      dialogRef
+        .afterClosed()
+        .pipe(filter((result) => !!result))
+        .subscribe((result) => {
+          this.croppedImage.set(result);
+        });
+    }
+  }
+
+  register(data: FormData) {
+    this.authService.register(data).subscribe({
+      next: (res: any) => {
         this.resMessage = res.message;
       },
-      error: (err) => this.toast.error(err.error.message),
-      complete: () => {
+      error: (err) => {
+        this.toast.error(err.error.message);
+      }, complete: () => {
         this.toast.success(this.resMessage);
         localStorage.setItem('userEmail', this.registerForm.get('email')?.value);
         this.router.navigateByUrl('auth/verify-email');
       }
     });
   }
-
   get email() {
     return this.registerForm.get('email');
   }

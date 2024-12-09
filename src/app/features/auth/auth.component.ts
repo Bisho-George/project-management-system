@@ -28,11 +28,14 @@ export class AuthComponent {
 
 
   onLogin() {
+    console.log(this.loginForm.value);
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
+        console.log(res);
         localStorage.setItem('userToken', res.token);
       },
       error: (err) => {
+        console.log(err.error.message);
         this.toast.error(err.error.message);
       },
       complete: () => {
@@ -47,7 +50,7 @@ export class AuthComponent {
       }
     });
   }
-  
+
   get email() {
     return this.loginForm.get('email');
   }
@@ -55,5 +58,6 @@ export class AuthComponent {
   get password() {
     return this.loginForm.get('password');
   }
+
 
 }

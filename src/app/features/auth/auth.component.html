@@ -14,10 +14,9 @@
           <h3>Log in</h3>
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-          <mat-form-field appearance="fill" >
+          <mat-form-field>
             <mat-label>E-mail</mat-label>
-            <input  type="email" matInput formControlName="email"
-              placeholder="Enter your e-mail">
+            <input type="email" matInput formControlName="email" placeholder="Enter your e-mail">
             <mat-error *ngIf="email?.invalid && email?.touched">
               <span *ngIf="email?.hasError('required')">Email is required</span>
               <span *ngIf="email?.hasError('email')">
@@ -25,26 +24,20 @@
               </span>
             </mat-error>
           </mat-form-field>
-          <div class="input-group mb-3 ">
-            <div class="input-group-prepend">
-              <span class="input-group-text h-100" id="basic-addon1">
-                <i class="fa-solid fa-lock"></i>
-              </span>
-            </div>
-            <input [type]="isPasswordVisible ? 'text': 'password'" class=" form-control textfield-background"
-              placeholder="Password" aria-label="Password" formControlName="password" aria-describedby="basic-addon1">
-            <div class="input-group-text textfield-background">
-              <i (click)="togglePasswordVisibility()" [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'"
-                class="fa-regular"></i>
-            </div>
-          </div>
-          <ng-container *ngIf="password?.dirty || password?.touched">
-            <p class="text-danger" *ngIf="password?.errors?.['required']">The password is required</p>
-            <p class="text-danger" *ngIf="password?.errors?.['pattern']">The password should contain at
-              least 8 characters, one
-              special character, one lowercase letter, one uppercase letter and one digit.</p>
-          </ng-container>
-          <div class="d-flex justify-content-between my-3">
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input placeholder="Enter your password" matInput [type]="isPasswordVisible ? 'text': 'password'" formControlName="password">
+            <button class="icon-button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="isPasswordVisible">
+              <i [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
+            </button>
+            <mat-error *ngIf="password?.invalid && password?.touched">
+              <span *ngIf="password?.hasError('required')">Password is required</span>
+              <span *ngIf="password?.hasError('pattern') && !(password?.hasError('required'))">Password should contain at least 8 characters, one special character,
+                  one lowercase letter, one uppercase letter, and one digit.</span>
+            </mat-error>
+          </mat-form-field>
+          <div class="d-flex justify-content-between mt-2 mb-5">
             <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register
               Now</a>
             <a routerLink="/auth/request-reset-password" class="main-color text-decoration-none text-nowrap">Forgot
@@ -53,8 +46,7 @@
           <p class="text-danger">{{error}}</p>
           {{error}}
           <div class="w-75 mx-auto">
-
-            <button [disabled]="loginForm.invalid" class="button">Login</button>
+            <button [disabled]="loginForm.invalid" class="button" type="submit">Login</button>
           </div>
         </form>
       </div>
