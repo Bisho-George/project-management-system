@@ -1,0 +1,9 @@
+@import '../abstracts/mixins';
+
+.light {
+  @include theme($light-theme: true);
+}
+
+.dark {
+  @include theme($light-theme: false);
+}

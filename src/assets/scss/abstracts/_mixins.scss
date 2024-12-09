@@ -1,14 +1,32 @@
+@import './variables';
+
 @mixin login-section {
-  background: url('/assets/images/login-background.svg');
+  background: url('/assets/images/login-background.jpeg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   min-height: 100vh;
-  @include flexCenter;
+  @include flex-center;
 }
 
-@mixin flexCenter {
+@mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin theme($light-theme: true) {
+  @if $light-theme {
+    background-color: lighten(white, 100%);
+    color: darken($secondary-color, 100%);
+  } @else {
+    background-color: lighten($secondary-color, 100%);
+    color: white;
+  }
+}
+
+@mixin auth-form {
+  background-color: $auth-bg-color;
+  padding: 3rem 3.2rem 2.5rem 3rem;
+  border-radius: 16px;
 }

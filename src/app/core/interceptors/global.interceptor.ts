@@ -10,7 +10,7 @@ import { TokenService } from 'src/app/shared/services/token.service';
 
 @Injectable()
 export class GlobalInterceptor implements HttpInterceptor {
-  baseUrl = 'https://upskilling-egypt.com:3006/api/v1/'
+  baseUrl = 'https://upskilling-egypt.com:3003/api/v1/';
   newRequest: HttpRequest<unknown> | undefined;
   constructor(private tokenService: TokenService) { }
 

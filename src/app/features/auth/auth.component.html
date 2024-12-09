@@ -1,37 +1,41 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-md-7 m-auto auth-form">
+      <div class="col-md-7 mx-auto mb-2">
         <div class="d-flex justify-content-center">
-          <img class="w-75" src="../../assets/logo.svg" alt="food logo">
+          <img class="w-50 mx-auto" src="../../../assets/images/logo.svg" alt="pms logo">
         </div>
-        <h5 class="text-color mt-4">Log in</h5>
-        <p class="gray-color">Welcome Back! Please enter your details</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 m-auto auth-form">
+        <div class="my-4">
+          <p class="m-0">Welcome to PMS</p>
+          <h3>Log in</h3>
+        </div>
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text h-100" id="basic-addon1">
-                <i class="fa-solid fa-envelope"></i>
+          <mat-form-field appearance="fill" >
+            <mat-label>E-mail</mat-label>
+            <input  type="email" matInput formControlName="email"
+              placeholder="Enter your e-mail">
+            <mat-error *ngIf="email?.invalid && email?.touched">
+              <span *ngIf="email?.hasError('required')">Email is required</span>
+              <span *ngIf="email?.hasError('email')">
+                Please enter a valid email address
               </span>
-            </div>
-            <input type="email" class="form-control textfield-background" placeholder="Email" aria-label="Email" formControlName="email"
-              aria-describedby="basic-addon1">
-            </div>
-            <ng-container *ngIf="email?.dirty || email?.touched">
-              <p class="text-danger" *ngIf="email?.errors?.['required']">The email is required</p>
-              <p class="text-danger" *ngIf="email?.errors?.['email']">
-                Email is not valid</p>
-            </ng-container>
+            </mat-error>
+          </mat-form-field>
           <div class="input-group mb-3 ">
             <div class="input-group-prepend">
               <span class="input-group-text h-100" id="basic-addon1">
                 <i class="fa-solid fa-lock"></i>
               </span>
             </div>
-            <input [type]="isPasswordVisible ? 'text': 'password'" class=" form-control textfield-background" placeholder="Password"
-              aria-label="Password" formControlName="password" aria-describedby="basic-addon1">
+            <input [type]="isPasswordVisible ? 'text': 'password'" class=" form-control textfield-background"
+              placeholder="Password" aria-label="Password" formControlName="password" aria-describedby="basic-addon1">
             <div class="input-group-text textfield-background">
-              <i (click)="togglePasswordVisibility()" [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
+              <i (click)="togglePasswordVisibility()" [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'"
+                class="fa-regular"></i>
             </div>
           </div>
           <ng-container *ngIf="password?.dirty || password?.touched">
@@ -41,15 +45,19 @@
               special character, one lowercase letter, one uppercase letter and one digit.</p>
           </ng-container>
           <div class="d-flex justify-content-between my-3">
-            <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register Now</a>
-            <a routerLink="/auth/request-reset-password" class="main-color text-decoration-none text-nowrap">Forgot Password ?</a>
+            <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register
+              Now</a>
+            <a routerLink="/auth/request-reset-password" class="main-color text-decoration-none text-nowrap">Forgot
+              Password ?</a>
           </div>
           <p class="text-danger">{{error}}</p>
           {{error}}
-          <button [disabled]="loginForm.invalid" class="button main-btn">Login</button>
+          <div class="w-75 mx-auto">
+
+            <button [disabled]="loginForm.invalid" class="button">Login</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </section>
-
