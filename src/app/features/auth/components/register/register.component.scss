@@ -1,46 +1,108 @@
-@import '../../../../../assets/scss/abstracts/mixins';
+@import "../../../../../assets/scss/layout.scss";
 
 section {
-  @include login-section;
+  @include register-section;
 }
 
-// .auth-form {
-//   @include auth-form;
-// }
-
-.dropzone {
-  border-radius: 50% !important;
-  width: 100px !important;
-  height: 100px !important;
-  overflow: hidden !important;
-  border: none !important;
-  background-color: #d6d6d6 !important;
-}
-.dropzone-label {
-  font-size: .8rem !important;
+.auth-form {
+  @include register-form;
 }
 
-:host ::ng-deep img {
-  width: 100px !important;
-  height: 100px !important;
-  border-radius: 100% !important;
-  object-fit:  cover;
-  transition: opacity .3s;
-  object-position: center center;
-  margin: 0;
-}
-:host ::ng-deep ngx-dropzone-image-preview {
-  width: 100px !important;
-  height: 100px !important;
-  border-radius: 50% !important;
-  overflow: hidden !important;
+h3 {
+  color: $primary-color;
+  font-weight: 700;
+  font-size: 2rem;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 2px;
+    width: 1.3rem;
+    height: 4px;
+    background-color: $primary-color;
+  }
 }
 
-::ng-deep .dropzone ngx-dropzone-image-preview ngx-dropzone-remove-badge {
-  right: 20px !important;
-  top: 30px !important;
-  transition: all .3s;
-  svg line{
-    stroke: red !important;
+mat-form-field {
+  min-width: 100%;
+}
+
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  mat-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    color: white;
+    &:hover {
+      transform: scale(1.2);
+      color: red;
+    }
+  }
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.camera-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $primary-color;
+  font-size: larger;
+  cursor: pointer;
+}
+
+image-cropper {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.image-input {
+  background-color: #F1FFF0;
+  width: 100%;
+  text-align: center;
+  height: 14vh;
+  margin: 0 auto;
+  border: 1px dashed #009247;
+  border-radius: 8px;
+  padding: 1.4rem;
+  position: relative;
+  transition: opacity 0.3s, background-color 0.3s;
+  i {
+    margin-bottom: 0.7rem;
+    font-size: 1.7rem;
+    color: #4F4F4F;
+  }
+  p {
+    margin: 0;
+    color: #4F4F4F;
+    cursor: pointer;
+  }
+
+  &.dragging {
+    opacity: 0.5;
+  }
+
+  input[type='file'] {
+    display: none;
   }
 }

@@ -3,21 +3,31 @@ import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { CropDialogComponent } from './components/crop-dialog/crop-dialog.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CropDialogComponent
+  ],
   imports: [
     CommonModule,
     NgxDropzoneModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    ImageCropperModule,
+    MatIconModule
   ],
   exports: [
     NgxDropzoneModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+    CropDialogComponent,
+    MatIconModule
   ]
 })
 export class SharedModule { }
