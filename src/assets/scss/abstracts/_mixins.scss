@@ -8,6 +8,9 @@
   min-height: 100vh;
   @include flex-center;
 }
+@mixin reset-password-section {
+  @include login-section;
+}
 
 @mixin flex-center {
   display: flex;
