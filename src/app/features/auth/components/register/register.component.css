@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+section {
+  background: url("/assets/images/login-background.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone {
+  border-radius: 50% !important;
+  width: 100px !important;
+  height: 100px !important;
+  overflow: hidden !important;
+  border: none !important;
+  background-color: #d6d6d6 !important;
+}
+
+.dropzone-label {
+  font-size: 0.8rem !important;
+}
+
+:host ::ng-deep img {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 100% !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: opacity 0.3s;
+  -o-object-position: center center;
+     object-position: center center;
+  margin: 0;
+}
+
+:host ::ng-deep ngx-dropzone-image-preview {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .dropzone ngx-dropzone-image-preview ngx-dropzone-remove-badge {
+  right: 20px !important;
+  top: 30px !important;
+  transition: all 0.3s;
+}
+::ng-deep .dropzone ngx-dropzone-image-preview ngx-dropzone-remove-badge svg line {
+  stroke: red !important;
+}/*# sourceMappingURL=register.component.css.map */

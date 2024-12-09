@@ -13,10 +13,9 @@ import { confirmPasswordValidator } from '../../validators/confirm-password.vali
 export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
   resMessage = '';
-  isPasswordVisible: { [key: string]: boolean } = {
-    password: false,
-    confirmPassword: false,
-  };
+  isHide:boolean = true;
+  isHideRePassword:boolean = true;
+
   error!: string;
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
@@ -32,9 +31,7 @@ export class ResetPasswordComponent implements OnInit {
     this.resetForm.patchValue({ email })
   }
 
-  togglePasswordVisibility(field: string): void {
-    this.isPasswordVisible[field] = !this.isPasswordVisible[field];
-  }
+   
 
   onReset() {
     this.authService.resetPassword(this.resetForm.value).subscribe({

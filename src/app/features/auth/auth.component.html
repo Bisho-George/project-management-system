@@ -35,7 +35,7 @@
             </div>
           </div>
           <ng-container *ngIf="password?.dirty || password?.touched">
-            <p class="text-danger" *ngIf="password?.errors?.['required']">The password is required !</p>
+            <p class="text-danger" *ngIf="password?.errors?.['required']">The password is required</p>
             <p class="text-danger" *ngIf="password?.errors?.['pattern']">The password should contain at
               least 8 characters, one
               special character, one lowercase letter, one uppercase letter and one digit.</p>
@@ -52,5 +52,4 @@
     </div>
   </div>
 </section>
-
 
