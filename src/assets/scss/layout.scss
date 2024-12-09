@@ -1,4 +1,6 @@
-@import './themes/theme';
-@import './base/reset';
 @import './abstracts/variables';
+@import './base/reset';
 @import './abstracts/mixins';
+@import './themes/theme';
+@import './components/button';
+@import './components/input';
