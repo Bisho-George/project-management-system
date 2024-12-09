@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -8,10 +10,14 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   declarations: [],
   imports: [
     CommonModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class SharedModule { }
