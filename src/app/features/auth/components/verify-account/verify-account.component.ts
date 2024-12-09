@@ -13,7 +13,6 @@ export class VerifyAccountComponent {
   verifyForm: FormGroup;
   resMessage = '';
   error!: string;
-
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
     this.verifyForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -24,7 +23,6 @@ export class VerifyAccountComponent {
     const email = localStorage.getItem('userEmail');
     this.verifyForm.patchValue({ email })
   }
-
   onVerify() {
     console.log(this.verifyForm.value);
     this.authService.verifyAccount(this.verifyForm.value).subscribe({

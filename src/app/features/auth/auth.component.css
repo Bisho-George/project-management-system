@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+section {
+  background: url("/assets/images/login-background.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=auth.component.css.map */
