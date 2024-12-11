@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -8,6 +8,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GlobalInterceptor } from './core/interceptors/global.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -20,14 +22,21 @@ import { GlobalInterceptor } from './core/interceptors/global.interceptor';
     ToastrModule.forRoot(),
     NgbModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       multi: true,
       useClass: GlobalInterceptor
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: LoadingInterceptor
     }
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
