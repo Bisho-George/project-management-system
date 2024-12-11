@@ -15,7 +15,10 @@ export class ResetPasswordComponent implements OnInit {
   resMessage = '';
   isHide:boolean = true;
   isHideRePassword:boolean = true;
-
+  isPasswordVisible: { [key: string]: boolean } = {
+    password: false,
+    confirmPassword: false,
+  };
   error!: string;
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
@@ -31,7 +34,7 @@ export class ResetPasswordComponent implements OnInit {
     this.resetForm.patchValue({ email })
   }
 
-   
+
 
   onReset() {
     this.authService.resetPassword(this.resetForm.value).subscribe({
@@ -50,6 +53,10 @@ export class ResetPasswordComponent implements OnInit {
     );
   }
 
+
+  togglePasswordVisibility(field: string): void {
+    this.isPasswordVisible[field] = !this.isPasswordVisible[field];
+  }
   get email() {
     return this.resetForm.get('email');
   }
