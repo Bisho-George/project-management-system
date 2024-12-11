@@ -113,7 +113,6 @@ export class RegisterComponent implements OnInit {
         data: {
           image: file,
         },
-        width: '50%',
       });
       dialogRef
         .afterClosed()

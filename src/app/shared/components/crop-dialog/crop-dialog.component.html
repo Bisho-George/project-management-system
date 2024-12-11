@@ -1,13 +1,10 @@
-<section class="p-5">
-  <div class="container">
-    <div class="w-50 mx-auto">
+<div class="crop-container">
       <image-cropper [imageFile]="data.image" [maintainAspectRatio]="true" [aspectRatio]="1"
         [resizeToHeight]="200" [resizeToWidth]="200" (imageCropped)="onImageCropped($event)">
       </image-cropper>
-    </div>
     <div class="actions w-100">
-      <button class="button cancel-btn" (click)="onCancel()">Cancel</button>
+      <button class="button secondary-btn cancel" (click)="onCancel()">Cancel</button>
       <button class="button main-btn" (click)="onConfirm()">Confirm</button>
     </div>
-  </div>
-</section>
+</div>
+

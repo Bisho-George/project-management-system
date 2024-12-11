@@ -1,3 +1,15 @@
+@import '../../../../assets/scss/abstracts/variables';
+
+.crop-container {
+  width: 35rem;
+  padding: 3rem;
+  background-color: $secondary-color;
+  image-cropper {
+    width: 50%;
+    margin: 0 auto 4rem auto;
+  }
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
