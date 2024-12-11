@@ -7,10 +7,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CropDialogComponent } from './components/crop-dialog/crop-dialog.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatIconModule } from '@angular/material/icon';
+import { TableComponent } from './components/table/table.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
-    CropDialogComponent
+    CropDialogComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +22,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatDialogModule,
     ImageCropperModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
   ],
   exports: [
     NgxDropzoneModule,
@@ -27,7 +31,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatDialogModule,
     CropDialogComponent,
-    MatIconModule
+    MatIconModule,
+    TableComponent
   ]
 })
 export class SharedModule { }
