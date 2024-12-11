@@ -19,10 +19,15 @@
   }
   &.secondary-btn {
     background-color: transparent;
-    color: $secondary-color;
+    color: white;
+    border: 1px solid $primary-color;
     &:hover {
-      background-color: $secondary-color;
-      color: white;
+      background-color: $primary-color;
+    }
+    &.cancel {
+      &:hover {
+        background-color: red;
+      }
     }
   }
 }
@@ -33,3 +38,4 @@
   cursor: pointer;
   color: white;
 }
+
