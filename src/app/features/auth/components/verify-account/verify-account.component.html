@@ -1,35 +1,38 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-md-7 m-auto auth-form ">
+      <div class="col-md-7 mx-auto mb-2">
         <div class="d-flex justify-content-center">
-          <img class="w-50" src="../../../../../assets/images/logo.svg" alt="">
+          <img src="../../../../../assets/images/logo.svg" alt="pms logo">
         </div>
-        <div class="content">
-          <p class="text-white mb-0">welcome to PMS</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 m-auto auth-form ">
+        <div>
+          <p class="m-0">welcome to PMS</p>
           <h3 class="main-color fs-1">Verify Account</h3>
           <form [formGroup]="verifyForm" (ngSubmit)="onVerify()">
-            <div class=" mb-3">
-              <label for="email" class="main-color">E-mail</label>
-              <input readonly type="email" class="form-control  " id="email" placeholder="Email" aria-label="Email"
-                formControlName="email" aria-describedby="basic-addon1">
-            </div>
-            <ng-container *ngIf="email?.dirty || email?.touched">
-              <p class="text-danger" *ngIf="email?.errors?.['required']">The email is required</p>
-              <p class="text-danger" *ngIf="email?.errors?.['email']">
-                Email is not valid</p>
-            </ng-container>
-            <div class=" mb-3">
-              <label for="otp" class="main-color">OTP Verification</label>
-              <input type="text" class="form-control textfield-background" id="otp" placeholder="Otp" aria-label="Otp"
-                formControlName="code" aria-describedby="basic-addon1">
-            </div>
-            <ng-container *ngIf="code?.dirty || code?.touched">
-              <p class="text-danger" *ngIf="code?.errors?.['required']">The code is required</p>
-            </ng-container>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input readonly matInput type="email" formControlName="email" placeholder="Email" aria-label="Email"
+                aria-describedby="basic-addon1">
+              <mat-error *ngIf="email?.invalid || email?.touched">
+                <span *ngIf="email?.errors?.['required']">Email is required</span>
+                <span *ngIf="email?.errors?.['email']">Email is not valid</span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Otp</mat-label>
+              <input matInput type="text" formControlName="code" placeholder="Otp" aria-label="Otp"
+                aria-describedby="basic-addon1">
+              <mat-error *ngIf="code?.invalid || code?.touched">
+                <span *ngIf="code?.errors?.['required']">Otp is required</span>
+              </mat-error>
+            </mat-form-field>
             <p class="text-danger">{{error}}</p>
             {{error}}
-            <button [disabled]="verifyForm.invalid" class="button main-btn">Save</button>
+            <button [disabled]="verifyForm.invalid" class="button main-btn">Verify</button>
           </form>
         </div>
 
@@ -37,4 +40,3 @@
     </div>
   </div>
 </section>
-

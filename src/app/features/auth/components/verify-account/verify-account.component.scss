@@ -1,31 +1,58 @@
-section{
-  background: url("../../../../../assets/images/login-background.jpeg");
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .content{
-    background-color: #ffffff33;
-    border-radius: 20px;
-    margin-top: 20px;
-    padding: 70px;
-    .form-control{
-      border: 0px;
-      border-bottom: #ffffffa6 solid 1px !important;
-      border-radius: 0px;
-      background-color: transparent;
-      color: #fff;
-      padding-left: 0px ;
-    }
-    .form-control::placeholder{
-      color: #fff !important;
+@import '../../../../../assets/scss/layout.scss';
 
-    }
-  }
-  .main-color{
-    color: #EF9B28;
+section {
+  @include login-section;
+}
+.auth-form {
+  @include auth-form;
+}
+mat-form-field {
+  min-width: 100%;
+}
+
+h3 {
+  color: $primary-color;
+  font-weight: 700;
+  font-size: 2rem;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 2px;
+    width: 1.3rem;
+    height: 4px;
+    background-color: $primary-color;
   }
 }
+// section{
+//   background: url("../../../../../assets/images/login-background.jpeg");
+//   background-position: center center;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   .content{
+//     background-color: #ffffff33;
+//     border-radius: 20px;
+//     margin-top: 20px;
+//     padding: 70px;
+//     .form-control{
+//       border: 0px;
+//       border-bottom: #ffffffa6 solid 1px !important;
+//       border-radius: 0px;
+//       background-color: transparent;
+//       color: #fff;
+//       padding-left: 0px ;
+//     }
+//     .form-control::placeholder{
+//       color: #fff !important;
+
+//     }
+//   }
+//   .main-color{
+//     color: #EF9B28;
+//   }
+// }
