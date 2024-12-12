@@ -42,10 +42,10 @@ export class AuthComponent {
         this.toast.success('User logged in successfully')
         this.authService.getProfile();
         if (this.authService.role === 'SystemUser') {
-          this.router.navigateByUrl('/dashboard/user');
+          this.router.navigateByUrl('/dashboard/employee');
         }
         else if (this.authService.role === 'SuperAdmin') {
-          this.router.navigateByUrl('/dashboard/admin');
+          this.router.navigateByUrl('/dashboard/manager');
         }
       }
     });
