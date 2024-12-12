@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GlobalInterceptor } from './core/interceptors/global.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DashboardRoutingModule } from './features/dashboard/dashboard-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ToastrModule.forRoot(),
     NgbModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DashboardRoutingModule,
   ],
   providers: [
     {

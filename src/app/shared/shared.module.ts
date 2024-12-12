@@ -9,11 +9,15 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './components/table/table.component';
 import { MatTableModule } from '@angular/material/table';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     CropDialogComponent,
-    TableComponent
+    TableComponent,
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,9 @@ import { MatTableModule } from '@angular/material/table';
     MatDialogModule,
     CropDialogComponent,
     MatIconModule,
-    TableComponent
+    TableComponent,
+    NavbarComponent,
+    HomeComponent
   ]
 })
 export class SharedModule { }

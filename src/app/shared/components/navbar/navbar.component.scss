@@ -1,0 +1,22 @@
+@import '../../../../assets/scss/layout.scss';
+
+header {
+  height: 10vh;
+}
+
+header {
+  a {
+    color: black;
+  }
+  p {
+    color: #0000005E;
+  }
+  h5 {
+    color:$secondary-color;
+    font-size: 1.2rem;
+  }
+  i {
+    color: #A7A7A7;
+  }
+}
+
