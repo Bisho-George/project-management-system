@@ -11,13 +11,15 @@ import { TableComponent } from './components/table/table.component';
 import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     CropDialogComponent,
     TableComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { HomeComponent } from './components/home/home.component';
     MatIconModule,
     TableComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent
   ]
 })
 export class SharedModule { }
