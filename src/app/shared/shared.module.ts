@@ -11,6 +11,7 @@ import { TableComponent } from './components/table/table.component';
 import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     ImageCropperModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -41,6 +43,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     TableComponent,
     NavbarComponent,
     HomeComponent,
+    MatPaginatorModule
     SidebarComponent
   ]
 })
