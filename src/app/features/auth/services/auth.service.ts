@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { IJwt } from '../interfaces/IJwt.interface';
 import { IVerifyAccount } from '../interfaces/IVerifyAccount.interface';
 import { Router } from '@angular/router';
+import { IchangePassword } from '../interfaces/IchangePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,8 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.router.navigate(['/auth']);
+  }
+  changePassword(data:IchangePassword){
+    return this._http.put('Users/ChangePassword',data)
   }
 }

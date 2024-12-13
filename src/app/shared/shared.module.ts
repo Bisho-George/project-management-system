@@ -12,13 +12,15 @@ import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     CropDialogComponent,
     TableComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     NavbarComponent,
     HomeComponent,
     MatPaginatorModule
+    SidebarComponent
   ]
 })
 export class SharedModule { }
