@@ -35,16 +35,15 @@ export class AuthComponent {
         localStorage.setItem('userToken', res.token);
       },
       error: (err) => {
-        console.log(err.error.message);
         this.toast.error(err.error.message);
       },
       complete: () => {
         this.toast.success('User logged in successfully')
         this.authService.getProfile();
-        if (this.authService.role === 'SystemUser') {
+        if (this.authService.role === 'Employee') {
           this.router.navigateByUrl('/dashboard/employee');
         }
-        else if (this.authService.role === 'SuperAdmin') {
+        else if (this.authService.role === 'Manager') {
           this.router.navigateByUrl('/dashboard/manager');
         }
       }
