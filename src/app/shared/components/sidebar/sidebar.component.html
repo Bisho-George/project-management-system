@@ -1,8 +1,6 @@
 <section>
-  <div>
-
-
-    <ul >
+  <div class="links">
+    <ul class="p-3 me-3">
       <ng-container *ngFor="let item of menu">
         <li *ngIf="item.isActive">
           <a [routerLink]="item.link" routerLinkActive="active">
