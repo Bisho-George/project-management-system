@@ -11,6 +11,7 @@ import { TableComponent } from './components/table/table.component';
 import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { HomeComponent } from './components/home/home.component';
     ImageCropperModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -38,7 +40,8 @@ import { HomeComponent } from './components/home/home.component';
     MatIconModule,
     TableComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    MatPaginatorModule
   ]
 })
 export class SharedModule { }
