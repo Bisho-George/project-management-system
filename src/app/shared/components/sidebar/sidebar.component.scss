@@ -4,7 +4,7 @@ section{
   width: 100%;
   background-color:$secondary-color;
   margin-left: -12px;
-  margin-top: -15px;
+
   ul{
     list-style: none;
     padding: 0px;
@@ -17,7 +17,6 @@ section{
         display: block;
         &.active{
           background-color:rgba(239, 155, 40,0.3);
-          position: relative;
           color: #fff;
           border-radius: 10px;
         }
@@ -25,12 +24,13 @@ section{
           margin: 0px 5px;
         }
       }
+
+    }
+    .link:hover{
+      background-color:rgba(239, 156, 40, 0.075);
+      color: #fff;
+      border-radius: 10px;
     }
   }
-  .links{
-    position: relative;
-    &::after{
-      
-    }
-  }
+
 }

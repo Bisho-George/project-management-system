@@ -27,5 +27,7 @@ export class SidebarComponent {
     {link:'/dashboard/employee/employee-projects',icon:'fa-table-list',text:'Projects',isActive:this.isEmployee()},
     {link:'/dashboard/employee/employee-tasks',icon:'fa-heart',text:'Tasks',isActive:this.isEmployee()},
   ];
-
+  logOut(){
+    this._AuthService.logout()
+  }
 }
