@@ -1,0 +1,16 @@
+<section>
+  <div>
+
+
+    <ul >
+      <ng-container *ngFor="let item of menu">
+        <li *ngIf="item.isActive">
+          <a [routerLink]="item.link" routerLinkActive="active">
+            <span><i class="fa-solid" [class]="item.icon"></i></span>
+            <span>{{ item.text }}</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</section>
