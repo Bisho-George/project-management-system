@@ -1,0 +1,57 @@
+@import "../../../../assets/scss/layout";
+.home-image {
+  background-image: url("../../../../assets/images/Rectangle.png");
+  border-radius: 10px;
+  background-position: center center;
+  background-size: cover;
+  padding: 70px 10px;
+  margin-block: 30px;
+}
+.userName {
+  color: $primary-color;
+}
+.content {
+  position: relative;
+  border-radius: 15px;
+  padding: 10px;
+  p {
+    color:$light-gray;
+  }
+  .head-data{
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .content-data {
+
+    padding: 20px 15px;
+    border-radius: 15px;
+    .icon {
+      padding: 10px;
+      background-color: #cfd1ec;
+      border-radius: 17px;
+      color: black;
+    }
+
+  }
+  .bg-color-one{
+    background-color: #E5E6F4;
+  }
+  .bg-color-two{
+    background-color: #F4F4E5;
+  }
+  .bg-color-three{
+    background-color: #F4E5ED;
+  }
+}
+h5{
+
+  &::after {
+    position: absolute;
+    content: "";
+    top: 25px;
+    left: 2px;
+    width: 4px;
+    height:50px;
+    background-color: $primary-color;
+  }
+}

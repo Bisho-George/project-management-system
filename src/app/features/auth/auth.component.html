@@ -27,7 +27,7 @@
           <mat-form-field>
             <mat-label>Password</mat-label>
             <input placeholder="Enter your password" matInput [type]="isPasswordVisible ? 'text': 'password'" formControlName="password">
-            <button class="icon-button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'"
+            <button class="icon-button" type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="isPasswordVisible">
               <i [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
             </button>
