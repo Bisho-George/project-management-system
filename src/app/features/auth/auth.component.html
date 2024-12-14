@@ -16,7 +16,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
           <mat-form-field>
             <mat-label>E-mail</mat-label>
-            <input type="email" matInput formControlName="email" placeholder="Enter your e-mail">
+            <input type="email" matInput formControlName="email" placeholder="Enter your E-mail">
             <mat-error *ngIf="email?.invalid && email?.touched">
               <span *ngIf="email?.hasError('required')">Email is required</span>
               <span *ngIf="email?.hasError('email')">
@@ -27,7 +27,7 @@
           <mat-form-field>
             <mat-label>Password</mat-label>
             <input placeholder="Enter your password" matInput [type]="isPasswordVisible ? 'text': 'password'" formControlName="password">
-            <button class="icon-button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'"
+            <button class="icon-button" type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="isPasswordVisible">
               <i [ngClass]="isPasswordVisible ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
             </button>
@@ -38,8 +38,7 @@
             </mat-error>
           </mat-form-field>
           <div class="d-flex justify-content-between mt-2 mb-5">
-            <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register
-              Now</a>
+            <a routerLink="/auth/register" class="text-decoration-none text-nowrap secondary-text-color">Register Now ?</a>
             <a routerLink="/auth/request-reset-password" class="main-color text-decoration-none text-nowrap">Forgot
               Password ?</a>
           </div>

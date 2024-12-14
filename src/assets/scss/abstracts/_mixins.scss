@@ -11,6 +11,10 @@ background-repeat: no-repeat !important;
   @include auth-section;
   background: url("/assets/images/login-background.jpeg");
 }
+@mixin request-reset-password-section{
+  @include auth-section;
+   background: url("../../images/WhatsApp Image 2024-12-08 at 4.30.15 PM.jpeg");
+}
 @mixin reset-password-section {
   @include login-section;
 }
