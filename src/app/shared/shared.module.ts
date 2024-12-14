@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RouterModule } from '@angular/router';
     TableComponent,
     NavbarComponent,
     HomeComponent,
-    SidebarComponent
+    SidebarComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,

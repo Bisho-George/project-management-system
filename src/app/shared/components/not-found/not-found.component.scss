@@ -1,0 +1,33 @@
+@import '../../../../assets/scss/layout.scss';
+
+
+section {
+  font-family: Arial, sans-serif;
+  background-color: #D3D3D3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  @include login-section;
+}
+.error-container {
+  text-align: center;
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 5rem;
+  color:$primary-color;
+  font-weight: 800;
+  font-family:  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p {
+  font-size: 1.5rem;
+  color:$light-gray;
+  margin-bottom: 20px;
+}
+
