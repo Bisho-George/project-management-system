@@ -1,0 +1,17 @@
+<section>
+  <div>
+    <ul class="p-3 me-3">
+      <ng-container *ngFor="let item of menu">
+        <li *ngIf="item.isActive" class="link">
+          <a [routerLink]="item.link" routerLinkActive="active">
+            <span><i class="fa-solid" [class]="item.icon"></i></span>
+            <span>{{ item.text }}</span>
+          </a>
+        </li>
+      </ng-container>
+      <li class="mt-4 link"><a (click)="logOut()">
+        <span><i class="fa-solid fa-right-from-bracket"></i></span>
+         Log Out</a></li>
+    </ul>
+  </div>
+</section>

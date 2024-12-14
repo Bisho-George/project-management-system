@@ -12,6 +12,9 @@ import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MatSortModule } from '@angular/material/sort';
 import { HeaderSectionComponent } from './components/header-section/header-section.component';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
     TableComponent,
     NavbarComponent,
     HomeComponent,
+    SidebarComponent,
+    NotFoundComponent
     HeaderSectionComponent
   ],
   imports: [
@@ -35,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    RouterModule
     MatSortModule,
     MatCardModule,
     MatMenuModule
@@ -50,6 +56,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NavbarComponent,
     HomeComponent,
     MatPaginatorModule,
+    SidebarComponent
     MatSortModule,
     HeaderSectionComponent,
     MatCardModule,
