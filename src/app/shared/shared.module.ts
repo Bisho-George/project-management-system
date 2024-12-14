@@ -30,7 +30,7 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     HomeComponent,
     SidebarComponent,
     NotFoundComponent,
-    HeaderSectionComponent
+    HeaderSectionComponent,
     NotFoundComponent,
     AddEditComponent
   ],
