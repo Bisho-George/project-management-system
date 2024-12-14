@@ -1,0 +1,11 @@
+@import 'src/assets/scss/layout.scss';
+
+mat-form-field {
+  color: $secondary-color;
+  width: 35%;
+}
+
+.mdc-text-field--outlined {
+  border-radius: 50%;
+  --mdc-outlined-text-field-container-shape: 100px !important;
+}

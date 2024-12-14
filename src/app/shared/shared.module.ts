@@ -15,6 +15,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatSortModule } from '@angular/material/sort';
+import { HeaderSectionComponent } from './components/header-section/header-section.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     HomeComponent,
     SidebarComponent,
     NotFoundComponent
+    HeaderSectionComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +41,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MatTableModule,
     MatPaginatorModule,
     RouterModule
+    MatSortModule,
+    MatCardModule,
+    MatMenuModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -49,6 +57,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     HomeComponent,
     MatPaginatorModule,
     SidebarComponent
+    MatSortModule,
+    HeaderSectionComponent,
+    MatCardModule,
   ]
 })
 export class SharedModule { }
