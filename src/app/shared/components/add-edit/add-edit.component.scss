@@ -1,0 +1,15 @@
+@import "../../../../assets/scss/layout";
+.header{
+  background-color: #fff;
+  padding: 20px;
+  color: black;
+  p,i{
+    color: $light-gray;
+  }
+}
+::placeholder{
+  color: rgb(0, 0, 0) !important;
+}
+.button{
+  width: 100px;
+}

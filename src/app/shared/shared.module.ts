@@ -15,7 +15,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-
+import { AddEditComponent } from './components/add-edit/add-edit.component';
+ 
 @NgModule({
   declarations: [
     CropDialogComponent,
@@ -23,7 +24,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     NavbarComponent,
     HomeComponent,
     SidebarComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddEditComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     NavbarComponent,
     HomeComponent,
     MatPaginatorModule,
-    SidebarComponent
+    SidebarComponent,
+    AddEditComponent
   ]
 })
 export class SharedModule { }
