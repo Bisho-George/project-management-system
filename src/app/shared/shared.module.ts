@@ -15,8 +15,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MatSortModule } from '@angular/material/sort';
+import { HeaderSectionComponent } from './components/header-section/header-section.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { AddEditComponent } from './components/add-edit/add-edit.component';
- 
+
 @NgModule({
   declarations: [
     CropDialogComponent,
@@ -24,6 +29,8 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     NavbarComponent,
     HomeComponent,
     SidebarComponent,
+    NotFoundComponent,
+    HeaderSectionComponent
     NotFoundComponent,
     AddEditComponent
   ],
@@ -37,7 +44,10 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    RouterModule
+    RouterModule,
+    MatSortModule,
+    MatCardModule,
+    MatMenuModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -50,6 +60,10 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     NavbarComponent,
     HomeComponent,
     MatPaginatorModule,
+    SidebarComponent,
+    MatSortModule,
+    HeaderSectionComponent,
+    MatCardModule,
     SidebarComponent,
     AddEditComponent
   ]

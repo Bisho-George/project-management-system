@@ -14,8 +14,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.projectsService.getProjects().subscribe({
       next: (res) => {
-        console.log(res);
-        this.tableData.data = res.data;
+        this.tableData.data = res;
         this.tableData.columns = res?.data.map((d: any) => {
           return {
             field: d.name,
