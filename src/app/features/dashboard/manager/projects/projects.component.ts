@@ -3,6 +3,7 @@ import { ProjectsService } from './services/projects.service';
 import { Component, OnInit } from '@angular/core';
 import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
 import { IProject } from './interfaces/project.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-projects',
@@ -10,40 +11,84 @@ import { IProject } from './interfaces/project.interface';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  constructor(private projectsService: ProjectsService) { }
   tableData!: ITableData;
+  searchValue = '';
+  constructor(private projectsService: ProjectsService, private toast: ToastrService) { }
 
   ngOnInit(): void {
-    this.projectsService.getProjects().subscribe({
-      next: (res: IDataResponse<IProject>) => {
-        if (res.data.length > 0) {
-          const excludedFields = ['id']
-          const sampleProject = res.data[0]; // Take the first project as a sample
+    this.getProjects();
+  }
 
-          this.tableData = {
-            data: res.data,
-            columns: Object.keys(sampleProject).filter((key) => !excludedFields.includes(key)).map((key) => ({
-              field: key,
-              header: this.formatHeader(key),
-            })),
-          };
-        } else {
-          // Handle the case where no data is returned
-          this.tableData = {
-            data: [],
-            columns: [],
-          };
-        }
+  getProjects() {
+    let myParams = {
+      title: this.searchValue || '',
+      pageNumber: this.tableData?.data.pageNumber,
+      pageSize: this.tableData?.data.pageSize,
+    };
+    this.projectsService.getProjects(myParams).subscribe({
+      next: (res: IDataResponse<IProject>) => {
+        this.passDataToTable(res);
       },
       error: (err) => {
-        console.error(err);
+        this.toast.error(err.error.message);
       }
     });
+  }
+  passDataToTable(res: IDataResponse<IProject>) {
+    if (res.data.length > 0) {
+      const excludedFields = ['id']
+      const sampleProject = res.data[0];
+      this.tableData = {
+        data: res,
+        columns: Object.keys(sampleProject).filter((key) => !excludedFields.includes(key)).map((key) => ({
+          field: key,
+          header: this.formatHeader(key),
+        })),
+        actions: [
+          {
+            type: 'button',
+            label: 'View',
+            icon: 'visibility',
+            callback: (row: IProject) => {
+              console.log('view', row);
+            }
+          }, {
+            type: 'button',
+            label: 'Edit',
+            icon: 'edit',
+            callback: (row: IProject) => {
+              console.log('edit', row);
+            }
+          }, {
+            type: 'button',
+            label: 'Delete',
+            icon: 'delete',
+            callback: (row: IProject) => {
+              console.log('delete', row);
+            }
+          },
+        ]
+      };
+    }
   }
 
   private formatHeader(key: string): string {
     return key
-      .replace(/_/g, ' ') // Replace underscores with spaces
-      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
   }
+
+  onPageChange(event: { pageNumber: number, pageSize: number }): void {
+    this.tableData.data.pageNumber = event.pageNumber;
+    this.tableData.data.pageSize = event.pageSize;
+    this.getProjects();
+  }
+editProject(id: number): void {
+  console.log('Edit project:', id);
+}
+
+deleteProject(id: number): void {
+  console.log('Delete project:', id);
+}
+
 }

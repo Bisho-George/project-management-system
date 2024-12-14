@@ -1,14 +1,38 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-table">
+<table mat-table *ngIf="tableData?.columns?.length" [dataSource]="dataSource" matSort class="mat-table"
+  (matSortChange)="announceSortChange($event)">
   <!-- Dynamic Column Headers -->
   <ng-container *ngFor="let column of tableData.columns" [matColumnDef]="column.field">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</th>
     <td mat-cell *matCellDef="let element">{{ element[column.field] }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <button class="icon-button" mat-icon-button [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button *ngFor="let action of tableData.actions" mat-menu-item>
+          <ng-container *ngIf="action.type === 'icon'">
+            <button class="icon-button" mat-icon-button (click)="action.callback(element)">
+              <mat-icon>{{ action.icon }}</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="action.type === 'button'">
+            <button class="icon-button" mat-button (click)="action.callback(element)">
+              {{ action.label }}
+            </button>
+          </ng-container>
+        </button>
+      </mat-menu>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-</div>
+<mat-paginator *ngIf="tableData?.data" [pageSize]="tableData.data.pageSize" [pageIndex]="tableData.data.pageNumber"
+  (page)="handlePageEvent($event)" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+</mat-paginator>

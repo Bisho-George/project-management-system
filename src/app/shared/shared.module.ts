@@ -12,13 +12,18 @@ import { MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { HeaderSectionComponent } from './components/header-section/header-section.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
     CropDialogComponent,
     TableComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    HeaderSectionComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +34,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ImageCropperModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule,
+    MatCardModule,
+    MatMenuModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -41,7 +49,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     TableComponent,
     NavbarComponent,
     HomeComponent,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule,
+    HeaderSectionComponent,
+    MatCardModule,
   ]
 })
 export class SharedModule { }
