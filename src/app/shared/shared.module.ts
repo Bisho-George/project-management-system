@@ -27,7 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NavbarComponent,
     HomeComponent,
     SidebarComponent,
-    NotFoundComponent
+    NotFoundComponent,
     HeaderSectionComponent
   ],
   imports: [
@@ -40,7 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    RouterModule
+    RouterModule,
     MatSortModule,
     MatCardModule,
     MatMenuModule
@@ -56,7 +56,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NavbarComponent,
     HomeComponent,
     MatPaginatorModule,
-    SidebarComponent
+    SidebarComponent,
     MatSortModule,
     HeaderSectionComponent,
     MatCardModule,
