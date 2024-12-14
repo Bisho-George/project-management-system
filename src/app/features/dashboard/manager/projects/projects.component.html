@@ -1,8 +1,15 @@
 <section>
   <div class="container">
+    <app-header-section title="Projects" buttonName="Add new project"></app-header-section>
     <div class="row">
-
-      <app-table [tableData]="tableData"></app-table>
+      <mat-card>
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput placeholder="Search fleets">
+            <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData"></app-table>
+      </mat-card>
     </div>
   </div>
 </section>
