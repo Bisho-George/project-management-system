@@ -28,6 +28,7 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tableData'] && changes['tableData'].currentValue) {
       this.initializeTable();
+      console.log(this.tableData);
     }
   }
 

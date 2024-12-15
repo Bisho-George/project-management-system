@@ -1,12 +1,13 @@
 <section>
-  <div class="container">
-    <app-header-section title="Projects" buttonName="Add new project"></app-header-section>
+  <app-header-section title="Projects" buttonName="Add new project"></app-header-section>
+<div class="container">
     <div class="row">
-      <mat-card>
-          <mat-form-field appearance="outline">
+      <mat-card class="py-4">
+          <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
             <mat-label>Search</mat-label>
-            <input matInput placeholder="Search fleets">
+            <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">
             <mat-icon matPrefix>search</mat-icon>
+            <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
         </mat-form-field>
         <app-table (pageChange)="onPageChange($event)" [tableData]="tableData"></app-table>
       </mat-card>
