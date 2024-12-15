@@ -27,7 +27,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="row justify-content-between">
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>User name</mat-label>
                 <input type="text" matInput formControlName="userName" placeholder="Enter your username">
                 <mat-error *ngIf="userName?.invalid && userName?.touched">
@@ -38,7 +38,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>E-mail</mat-label>
                 <input type="email" matInput formControlName="email" placeholder="Enter your e-mail">
                 <mat-error *ngIf="email?.invalid && email?.touched">
@@ -50,7 +50,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>Country</mat-label>
                 <input type="text" matInput formControlName="country" placeholder="Enter your country">
                 <mat-error *ngIf="country?.invalid && country?.touched">
@@ -59,7 +59,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>Phone number</mat-label>
                 <input type="text" matInput formControlName="phoneNumber" placeholder="Enter your phone number">
                 <mat-error *ngIf="phoneNumber?.invalid && phoneNumber?.touched">
@@ -68,7 +68,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>Password</mat-label>
                 <input placeholder="Enter your password" matInput
                   [type]="isPasswordVisible['password'] ? 'text': 'password'" formControlName="password">
@@ -86,7 +86,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="dark-input">
                 <mat-label>Confirm password</mat-label>
                 <input placeholder="Enter your confirm-password" matInput
                   [type]="isPasswordVisible['confirmPassword'] ? 'text': 'password'" formControlName="confirmPassword">
