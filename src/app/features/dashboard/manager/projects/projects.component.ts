@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
 import { IProject } from './interfaces/project.interface';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-projects',
@@ -21,13 +22,14 @@ export class ProjectsComponent implements OnInit {
 
   getProjects() {
     let myParams = {
-      title: this.searchValue || '',
+      title: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
     };
     this.projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
+        console.log(res);
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -35,41 +37,46 @@ export class ProjectsComponent implements OnInit {
     });
   }
   passDataToTable(res: IDataResponse<IProject>) {
-    if (res.data.length > 0) {
-      const excludedFields = ['id']
-      const sampleProject = res.data[0];
-      this.tableData = {
-        data: res,
-        columns: Object.keys(sampleProject).filter((key) => !excludedFields.includes(key)).map((key) => ({
+    if (!res.data || res.data.length === 0) {
+      this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
+      return;
+    }
+
+    const excludedFields = ['id'];
+    const sampleProject = res.data[0];
+
+    this.tableData = {
+      data: res,
+      columns: Object.keys(sampleProject)
+        .filter((key) => !excludedFields.includes(key))
+        .map((key) => ({
           field: key,
           header: this.formatHeader(key),
         })),
-        actions: [
-          {
-            type: 'button',
-            label: 'View',
-            icon: 'visibility',
-            callback: (row: IProject) => {
-              console.log('view', row);
-            }
-          }, {
-            type: 'button',
-            label: 'Edit',
-            icon: 'edit',
-            callback: (row: IProject) => {
-              console.log('edit', row);
-            }
-          }, {
-            type: 'button',
-            label: 'Delete',
-            icon: 'delete',
-            callback: (row: IProject) => {
-              console.log('delete', row);
-            }
-          },
-        ]
-      };
-    }
+      actions: [
+        {
+          type: 'button',
+          label: 'View',
+          icon: 'visibility',
+          callback: (row: IProject) => console.log('view', row),
+        },
+        {
+          type: 'button',
+          label: 'Edit',
+          icon: 'edit',
+          callback: (row: IProject) => console.log('edit', row),
+        },
+        {
+          type: 'button',
+          label: 'Delete',
+          icon: 'delete',
+          callback: (row: IProject) => console.log('delete', row),
+        },
+      ],
+    };
+
+    // Trigger change detection explicitly if needed
+    this.tableData = { ...this.tableData };
   }
 
   private formatHeader(key: string): string {
@@ -83,12 +90,17 @@ export class ProjectsComponent implements OnInit {
     this.tableData.data.pageSize = event.pageSize;
     this.getProjects();
   }
-editProject(id: number): void {
-  console.log('Edit project:', id);
-}
+  clearFilter(): void {
+    this.searchValue = '';
+    this.getProjects();
+  }
 
-deleteProject(id: number): void {
-  console.log('Delete project:', id);
-}
+  editProject(id: number): void {
+    console.log('Edit project:', id);
+  }
+
+  deleteProject(id: number): void {
+    console.log('Delete project:', id);
+  }
 
 }
