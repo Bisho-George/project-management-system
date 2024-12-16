@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from '../../interface/table-data.interface';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -23,6 +23,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.initializeTable();
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      if (property === 'creationDate') {
+        return new Date(item.creationDate);
+      }
+      return item[property];
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -55,8 +61,7 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: any): void {
+  announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
