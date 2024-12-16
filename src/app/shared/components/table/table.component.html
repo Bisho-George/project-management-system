@@ -4,15 +4,17 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</th>
     <td mat-cell *matCellDef="let element">
       <ng-container *ngIf="isArray(element[column.field])">
-        <span *ngFor="let item of element[column.field]; let i = index">
-          {{ item.title }}<span *ngIf="i < element[column.field].length - 1">, </span>
-        </span>
+        <mat-chip-listbox>
+          <mat-chip *ngFor="let item of element[column.field]">{{ item.title || item }}</mat-chip>
+        </mat-chip-listbox>
       </ng-container>
       <ng-container *ngIf="column.field === 'creationDate' || column.field === 'modificationDate'">
         {{ element[column.field] | date:'dd/MM/yyyy' }}
       </ng-container>
       <ng-container *ngIf="column.field === 'imagePath'">
-        <img width="40px" height="40px" [src]="element[column.field] === null ? '../../../../assets/images/profile-pic-placeholder.svg' : element[column.field]" alt="Profile Picture" class="table-image" />
+        <img width="40px" height="40px"
+          [src]="element[column.field] === null ? '../../../../assets/images/profile-pic-placeholder.svg' : element[column.field]"
+          alt="Profile Picture" class="table-image" />
       </ng-container>
       <ng-container
         *ngIf="!isArray(element[column.field]) && !(column.field === 'imagePath') && !(column.field === 'creationDate') && !(column.field === 'modificationDate')">
@@ -30,11 +32,6 @@
       </button>
       <mat-menu #menu="matMenu">
         <button *ngFor="let action of tableData.actions" mat-menu-item>
-          <ng-container *ngIf="action.type === 'icon'">
-            <button class="icon-button" mat-icon-button (click)="action.callback(element)">
-              <mat-icon>{{ action.icon }}</mat-icon>
-            </button>
-          </ng-container>
           <ng-container *ngIf=" action.type === 'button'">
             <button class="icon-button" mat-button (click)="action.callback(element)">
               <mat-icon [color]="action.color">{{action.icon}}</mat-icon>
