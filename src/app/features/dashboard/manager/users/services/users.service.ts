@@ -10,11 +10,12 @@ export class UsersService {
  constructor(private _http: HttpClient) { }
 
   getUsers(params?: any): Observable<any> {
-    return this._http.get('Users/Manager', {
+    return this._http.get('Users/', {
       params: {
-        title: params?.title || '',
+        userName: params?.userName || '',
         pageNumber: params?.pageNumber || 1,
         pageSize: params?.pageSize || 5,
+        groups:params?.groups||2,
       }
     });
   }

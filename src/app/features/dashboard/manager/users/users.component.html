@@ -1,16 +1,31 @@
 <section>
-  <app-header-section title="Users"></app-header-section>
+  <app-header-section title="Users" ></app-header-section>
 <div class="container">
     <div class="row">
       <mat-card class="py-4">
-          <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
-            <mat-label>Search</mat-label>
-            <input [(ngModel)]="searchValue" (keydown.enter)="getUsers()" matInput placeholder="Search fleets">
-            <mat-icon matPrefix>search</mat-icon>
-            <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
-        </mat-form-field>
-        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData"></app-table>
+        <div class="row">
+          <div class="col-3">
+            <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
+              <mat-label>Search</mat-label>
+              <input [(ngModel)]="searchValue" (keydown.enter)="getUsers()" matInput placeholder="Search fleets">
+              <mat-icon matPrefix>search</mat-icon>
+              <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
+          </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field class="rounded-full" appearance="outline">
+              <mat-label>Role</mat-label>
+              <mat-select [(ngModel)]="roleId" (selectionChange)="getUsers()">
+                <mat-option  [value]="[1,2]">All</mat-option>
+                <mat-option  [value]="1">Manager</mat-option>
+                <mat-option  [value]="2">Employee</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <app-table (pageChange)="onPageChange($event)" *ngIf="resTable.data.length > 0" [tableData]="tableData"></app-table>
       </mat-card>
     </div>
   </div>
 </section>
+<app-no-data *ngIf="resTable.data.length === 0" header="user"></app-no-data>

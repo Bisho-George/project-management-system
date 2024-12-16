@@ -8,8 +8,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
- tableData!: any;
+  tableData!: any;
+  resTable:any;
   searchValue = '';
+  roleId:number[]=[1,2];
   constructor(private _UsersService: UsersService, private toast: ToastrService) { }
 
   ngOnInit(): void {
@@ -18,13 +20,15 @@ export class UsersComponent {
 
   getUsers() {
     let myParams = {
-      title: this.searchValue,
+      userName: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
+      groups:this.roleId,
     };
     this._UsersService.getUsers(myParams).subscribe({
       next: (res: any) => {
         this.passDataToTable(res);
+        this.resTable = res
         console.log(res);
       },
       error: (err) => {
@@ -37,7 +41,6 @@ export class UsersComponent {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
     }
-
     const excludedFields = ['id'];
     const sampleUser = res.data[0];
 
@@ -59,7 +62,7 @@ export class UsersComponent {
         {
           type: 'button',
           label: 'Block',
-          icon: 'Block',
+          icon: 'block',
           callback: (row: any) => console.log('Block', row),
         },
       ],
