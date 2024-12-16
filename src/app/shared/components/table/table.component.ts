@@ -12,7 +12,9 @@ import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/pag
 })
 export class TableComponent implements OnInit, OnChanges {
   @Input() tableData!: ITableData;
-  @Output() pageChange: EventEmitter<{ pageNumber: number, pageSize: number }> = new EventEmitter<{ pageNumber: number, pageSize: number }>();
+  @Output() pageChange = new EventEmitter<{ pageNumber: number, pageSize: number }>();
+  pageNumber = 1;
+  pageSize = 5;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [];
   projectNames: string[] = [];
@@ -35,16 +37,6 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tableData'] && changes['tableData'].currentValue) {
       this.initializeTable();
-    }
-  }
-
-  ngAfterViewInit(): void {
-    if (this.dataSource) {
-      setTimeout(() => {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.updatePagination();
-      }, 2000);
     }
   }
 
@@ -76,7 +68,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   updatePagination(): void {
-    console.log(this.paginator);
     if (this.paginator) {
       console.log(this.tableData);
       this.paginator.pageIndex = this.tableData.data.pageNumber;
