@@ -36,7 +36,7 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     NotFoundComponent,
     HeaderSectionComponent,
     AddEditDialogComponent,
-    ArrayToStringPipe
+    ArrayToStringPipe,
     HeaderSectionComponent,
     NotFoundComponent,
     AddEditComponent
@@ -76,7 +76,7 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     MatCardModule,
     FormsModule,
     AddEditDialogComponent,
-    MatSelectModule
+    MatSelectModule,
     SidebarComponent,
     AddEditComponent
   ]
