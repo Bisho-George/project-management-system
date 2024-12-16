@@ -1,0 +1,39 @@
+<div mat-dialog-content class="dialog">
+  <form [formGroup]="form">
+    <ng-container *ngFor="let field of data.fields">
+      <div [ngSwitch]="field.type">
+        <!-- Text Input -->
+        <mat-form-field *ngSwitchCase="'text'" appearance="outline" class="w-100">
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [formControlName]="field.name" />
+          <mat-error>{{field.label}} is required</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'number'" appearance="outline" class="w-100">
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput type="number" [formControlName]="field.name" />
+          <mat-error>{{field.label}} is required</mat-error>
+        </mat-form-field>
+        <!-- Select Dropdown -->
+        <mat-form-field *ngSwitchCase="'select'" appearance="outline" class="w-50">
+          <mat-label>{{ field.label }}</mat-label>
+          <mat-select [formControlName]="field.name">
+            <mat-option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'description'" appearance="outline" class="w-100">
+          <mat-label>{{ field.label }}</mat-label>
+          <textarea [formControlName]="field.name" matInput cdkAutosizeMaxRows="5"></textarea>
+          <mat-error>{{field.label}} is required</mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </form>
+</div>
+<div mat-dialog-actions class="d-flex" [ngClass]="data.readOnly ? 'justify-content-end': 'justify-content-between'">
+  <button *ngIf="!data.readOnly" class="button secondary-btn w-auto" mat-button (click)="onCancel()">Cancel</button>
+  <button class="button w-auto" (click)="onSubmit()" [disabled]="form.invalid">
+    Save
+  </button>
+</div>

@@ -1,7 +1,7 @@
-@use 'assets/scss/abstracts/variables' as vars;
+@use "assets/scss/abstracts/variables" as vars;
 @use "@angular/material" as mat;
 @import "bootstrap/scss/bootstrap";
-@import 'assets/scss/layout.scss';
+@import "assets/scss/layout.scss";
 
 $custom-primary-palette: (
   50: #fef4e9,
@@ -74,7 +74,7 @@ $custom-secondary-palette: (
   ),
 );
 $my-primary: mat.define-palette($custom-primary-palette, 500);
-$my-accent: mat.define-palette($custom-secondary-palette, A200, A100, A400);
+$my-accent: mat.define-palette($custom-secondary-palette, 500 ,A200, A100, A400);
 
 // The "warn" palette is optional and defaults to red if not specified.
 $my-warn: mat.define-palette(mat.$red-palette);
@@ -90,5 +90,32 @@ $my-theme: mat.define-light-theme(
     density: 0,
   )
 );
+$my-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+      background: (
+        default: #121212,
+        app-bar: #1e1e1e,
+        card: #1f1f1f,
+        dialog: #232323,
+        hover: #252525,
+      ),
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
 @include mat.core();
-@include mat.all-component-themes($my-theme);
+
+:root {
+  @include mat.all-component-themes($my-theme);
+}
+
+// Include dark theme inside a dark-theme class
+.dark-theme {
+  @include mat.all-component-themes($my-dark-theme);
+}
+

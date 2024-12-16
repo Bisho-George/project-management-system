@@ -19,6 +19,8 @@ thead {
 }
 .icon-button {
   color: $secondary-color;
+  display: flex;
+  align-items: center;
 }
 
 // .mat-header-cell {
