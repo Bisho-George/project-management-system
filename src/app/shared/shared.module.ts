@@ -25,6 +25,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 import { MatChipsModule } from '@angular/material/chips';
 
+import { AddEditComponent } from './components/add-edit/add-edit.component';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import { DeleteItemComponent } from './components/delete-item/delete-item.component';
+
 @NgModule({
   declarations: [
     CropDialogComponent,
@@ -35,7 +39,12 @@ import { MatChipsModule } from '@angular/material/chips';
     NotFoundComponent,
     HeaderSectionComponent,
     AddEditDialogComponent,
-    ArrayToStringPipe
+    ArrayToStringPipe,
+    HeaderSectionComponent,
+    NotFoundComponent,
+    AddEditComponent,
+    NoDataComponent,
+    DeleteItemComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +83,11 @@ import { MatChipsModule } from '@angular/material/chips';
     FormsModule,
     AddEditDialogComponent,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule,
+    SidebarComponent,
+    AddEditComponent,
+    NoDataComponent
   ]
 })
 export class SharedModule { }

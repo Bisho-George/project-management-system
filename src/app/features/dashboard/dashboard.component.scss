@@ -1,3 +1,24 @@
+*{
+  transition: all .8s ease;
+}
 .row{
   background-color: #F5F5F5;
+}
+.nav-bar{
+  z-index: 200;
+  padding: 0;
+  background: #FFF;
+  position: sticky;
+}
+.sidebarClose{
+  width: 4%;
+}
+.sidebarOpen{
+  width: 15%;
+}
+.dashbordSmall{
+  width: 85%;
+}
+.dashbordLarg{
+  width: 96%;
 }

@@ -7,6 +7,7 @@ import { IDataResponse } from 'src/app/shared/interface/data-response.interface'
 import { ITableData } from 'src/app/shared/interface/table-data.interface';
 import { IProject } from './interfaces/project.interface';
 import { ProjectsService } from './services/projects.service';
+import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 
 @Component({
   selector: 'app-projects',
@@ -16,6 +17,7 @@ import { ProjectsService } from './services/projects.service';
 export class ProjectsComponent implements OnInit {
   tableData!: ITableData;
   searchValue = '';
+
   constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
 
   ngOnInit(): void {
@@ -31,6 +33,8 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
+        console.log(res);
+
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -74,7 +78,7 @@ export class ProjectsComponent implements OnInit {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (id: number) => this.deleteProject(id),
+          callback: (row: IProject) => this.deleteProject(row.id),
         },
       ],
     };
@@ -107,6 +111,13 @@ export class ProjectsComponent implements OnInit {
         ],
         readOnly
       }
+    })
+    return dialogRef.afterClosed();
+  }
+  private openDeleteDialog(id:number) {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      width: '40%',
+      data: { text:'projectyy'}
     })
     return dialogRef.afterClosed();
   }
@@ -147,7 +158,20 @@ export class ProjectsComponent implements OnInit {
     this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
   }
   deleteProject(id: number): void {
-    console.log('Delete project:', id);
+    this.openDeleteDialog(id).subscribe((result) => {
+      if (result) {
+        this.projectsService.deleteProject(id).subscribe({
+          next: () => {},
+          error: (err) => {
+            this.toast.error(err.error.message);
+          },
+          complete: () => {
+            this.toast.success('Project deleted')
+            this.getProjects();
+          }
+        })
+      }
+    });
   }
 
 }

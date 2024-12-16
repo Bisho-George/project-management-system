@@ -1,17 +1,18 @@
-<section>
-  <div>
+<section [ngClass]="{'max-height': isMaxHeight, 'v-height': is100vHeight }">
+  <div class="row">
+    <div class="iconAnimation">
+      <a (click)="onClicked()" [ngClass]="isOpened ? 'position-left' : 'position-right'"><i class="fa-solid"
+          [class]="isOpened ? 'fa-chevron-left' : 'fa-chevron-right'"></i></a>
+    </div>
     <ul class="p-3 me-3">
       <ng-container *ngFor="let item of menu">
         <li *ngIf="item.isActive" class="link">
-          <a [routerLink]="item.link" routerLinkActive="active">
+          <a [routerLink]="item.link" routerLinkActive="active" [class]="isOpened?'':'justify-content-center'">
             <span><i class="fa-solid" [class]="item.icon"></i></span>
-            <span>{{ item.text }}</span>
+            <span [ngClass]="{ 'd-none': !isOpened }">{{ item.text }}</span>
           </a>
         </li>
       </ng-container>
-      <li class="mt-4 link"><a (click)="logOut()">
-        <span><i class="fa-solid fa-right-from-bracket"></i></span>
-         Log Out</a></li>
     </ul>
   </div>
 </section>
