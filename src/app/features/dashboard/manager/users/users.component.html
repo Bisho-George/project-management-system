@@ -1,1 +1,16 @@
-<app-add-edit></app-add-edit>
+<section>
+  <app-header-section title="Users"></app-header-section>
+<div class="container">
+    <div class="row">
+      <mat-card class="py-4">
+          <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
+            <mat-label>Search</mat-label>
+            <input [(ngModel)]="searchValue" (keydown.enter)="getUsers()" matInput placeholder="Search fleets">
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
+        </mat-form-field>
+        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData"></app-table>
+      </mat-card>
+    </div>
+  </div>
+</section>
