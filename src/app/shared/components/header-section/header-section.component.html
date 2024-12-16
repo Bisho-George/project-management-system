@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center p-3 mb-3 justify-content-between bg-white">
-  <h4>{{title}}</h4>
+  <h4 class="ms-2">{{title}}</h4>
   <div>
-    <button (click)="openDialog()" class="w-auto button d-flex gap-3 align-items-center justify-content-center">
+    <button *ngIf="title !== 'Users' " (click)="openDialog()" class="w-auto button d-flex gap-3 align-items-center justify-content-center">
       <i class="fa-solid fa-add "></i>
       <span>{{buttonName}}</span>
     </button>

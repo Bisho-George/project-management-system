@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 
 import { AddEditComponent } from './components/add-edit/add-edit.component';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import { DeleteItemComponent } from './components/delete-item/delete-item.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     ArrayToStringPipe,
     HeaderSectionComponent,
     NotFoundComponent,
-    AddEditComponent
+    AddEditComponent,
+    NoDataComponent,
+    DeleteItemComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +82,8 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     AddEditDialogComponent,
     MatSelectModule,
     SidebarComponent,
-    AddEditComponent
+    AddEditComponent,
+    NoDataComponent
   ]
 })
 export class SharedModule { }
