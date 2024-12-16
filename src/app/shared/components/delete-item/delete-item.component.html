@@ -1,0 +1,14 @@
+<h1 mat-dialog-title [align]="'end'">
+  <mat-icon (click)="onNoClick()" class="mat-18">cancel</mat-icon>
+</h1>
+<div mat-dialog-content>
+
+  <div class="text-center">
+    <img src="assets/image/girlImg.png" alt="" style="width: 120px;">
+    <h3>Delete This {{data.text}}?</h3>
+    <p>are you sure you want to delete this item ? if you are sure just <br> click on delete it</p>
+  </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button [mat-dialog-close]="data.id" class="button bg-danger m-3 w-25 ms-auto" cdkFocusInitial>Delete</button>
+</div>
