@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
@@ -61,7 +62,8 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -80,6 +82,8 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     MatCardModule,
     FormsModule,
     AddEditDialogComponent,
+    MatSelectModule,
+    MatChipsModule
     MatSelectModule,
     SidebarComponent,
     AddEditComponent,
