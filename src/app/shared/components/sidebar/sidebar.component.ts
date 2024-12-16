@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
 interface Imenu{
   link:string;
@@ -12,6 +12,10 @@ interface Imenu{
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+  @Output() isOpenedValue = new EventEmitter<boolean>();
+  isOpened:boolean =true;
+  isMaxHeight:boolean=true;
+  is100vHeight:boolean=false;
   constructor(private _AuthService:AuthService){}
   isManager(){
     return this._AuthService.role === 'Manager' ? true : false
@@ -27,7 +31,15 @@ export class SidebarComponent {
     {link:'/dashboard/employee/employee-projects',icon:'fa-table-list',text:'Projects',isActive:this.isEmployee()},
     {link:'/dashboard/employee/employee-tasks',icon:'fa-heart',text:'Tasks',isActive:this.isEmployee()},
   ];
-  logOut(){
-    this._AuthService.logout()
+  onClicked() {
+    this.isOpened = !this.isOpened;
+    this.isOpenedValue.emit(this.isOpened);
+    console.log(this.isOpened)
   }
+  @HostListener('window:scroll', [])
+    onWindowScroll() {
+      const offset = window.scrollY;
+      this.isMaxHeight = offset < 64;
+      this.is100vHeight= offset > 64;
+    }
 }

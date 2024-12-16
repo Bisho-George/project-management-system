@@ -1,10 +1,13 @@
 @import '../../../../assets/scss/layout.scss';
+* {
+  transition: all 0.5s ease;
+}
 section{
-  height: 100vh;
-  width: 100%;
-  background-color:$secondary-color;
-  margin-left: -12px;
-
+  background-color: #0e382f;
+  position: sticky;
+  top: 0;
+  z-index: 1071;
+  transition: height 0.3s ease;
   ul{
     list-style: none;
     padding: 0px;
@@ -32,5 +35,37 @@ section{
       border-radius: 10px;
     }
   }
-
 }
+  .position-left {
+    padding: 10px 5px;
+    border-radius: 0.5rem 0 0 0.5rem;
+    background: #ef9b28;
+    color: #fff;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    cursor: pointer;
+  }
+  .position-right {
+    padding: 10px 5px;
+    border-radius: 0 0.5rem 0.5rem 0;
+    background: #ef9b28;
+    position: absolute;
+    right: -20px;
+    top: 20px;
+    color: #fff;
+    cursor: pointer;
+  }
+  @media (max-width: 425px) {
+    .iconAnimation {
+      display: none;
+    }
+  }
+  .max-height{
+
+    height: calc(100vh - 64px );
+  }
+  .v-height{
+  height: 100vh;
+
+  }

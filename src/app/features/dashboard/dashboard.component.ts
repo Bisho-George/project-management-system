@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   isDarkTheme = false;
+  sidebarBoolean: boolean = true;
   ngOnInit(): void {
     const theme = localStorage.getItem('theme');
     if (theme) {
@@ -16,5 +17,7 @@ export class DashboardComponent implements OnInit {
       this.isDarkTheme = false;
     }
   }
-
+  onChange(value: boolean) {
+    this.sidebarBoolean = value;
+  }
 }
