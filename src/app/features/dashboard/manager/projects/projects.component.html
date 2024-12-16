@@ -1,6 +1,6 @@
 <section>
-  <app-header-section title="Projects" buttonName="Add new project"></app-header-section>
-<div class="container">
+  <app-header-section (buttonClick)="addProject()" title="Projects" buttonName="Add new project"></app-header-section>
+<div class="container-fluid">
     <div class="row">
       <mat-card class="py-4">
           <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
