@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 import { UsersService } from '../users/services/users.service';
+import { ITask } from './interfaces/task.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -110,7 +111,7 @@ export class TasksComponent {
           label: 'View',
           color: 'accent',
           icon: 'visibility',
-          callback: (row: any) => this.viewTask(row),
+          callback: (row: any) => this.viewTask(row.id),
         },
         {
           type: 'button',
@@ -124,7 +125,7 @@ export class TasksComponent {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (id: number) => this.deleteTask(id),
+          callback: (row: ITask) => this.deleteTask(row.id),
         },
       ],
     };
@@ -154,27 +155,23 @@ export class TasksComponent {
   editTask(id: number): void {
     console.log('Edit Task:', id);
   }
-  private openDeleteDialog(id: number) {
-    const dialogRef = this.dialog.open(DeleteItemComponent, {
-      width: '40%',
-      data: { text: 'projectyy' }
-    })
-    return dialogRef.afterClosed();
-  }
   deleteTask(id: number): void {
-    this.openDeleteDialog(id).subscribe((result) => {
-      if (result) {
-        this._TasksService.deleteTask(id).subscribe({
-          next: () => { },
-          error: (err) => {
-            this.toast.error(err.error.message);
-          },
-          complete: () => {
-            this.toast.success('Task deleted')
-            this.getTasks();
-          }
-        })
-      }
-    });
+    const dialogRef = this.dialog.open(
+      DeleteItemComponent, {
+      data: 'Delete Task'
+    })
+    dialogRef.afterClosed().subscribe(() => {
+      this._TasksService.deleteTask(id).subscribe({
+        next: () => {
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
+        },
+        complete: () => {
+          this.toast.success('Task deleted')
+          this.getTasks();
+        }
+      })
+    })
   }
 }
