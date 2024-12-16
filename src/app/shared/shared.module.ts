@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
     MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -71,7 +73,8 @@ import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
     MatCardModule,
     FormsModule,
     AddEditDialogComponent,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ]
 })
 export class SharedModule { }
