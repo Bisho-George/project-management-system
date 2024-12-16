@@ -12,7 +12,7 @@
         {{ element[column.field] | date:'dd/MM/yyyy' }}
       </ng-container>
       <ng-container *ngIf="column.field === 'imagePath'">
-        <img [src]="element[column.field]" alt="Profile Picture" class="table-image" />
+        <img [src]="element[column.field] === null ? '../../../../assets/images/profile-pic-placeholder.svg' : element[column.field]" alt="Profile Picture" class="table-image" />
       </ng-container>
       <ng-container
         *ngIf="!isArray(element[column.field]) && !(column.field === 'imagePath') && !(column.field === 'creationDate') && !(column.field === 'modificationDate')">
