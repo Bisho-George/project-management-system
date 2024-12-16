@@ -19,6 +19,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { HeaderSectionComponent } from './components/header-section/header-section.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,9 @@ import { MatMenuModule } from '@angular/material/menu';
     HomeComponent,
     SidebarComponent,
     NotFoundComponent,
-    HeaderSectionComponent
+    HeaderSectionComponent,
+    AddEditDialogComponent,
+    ArrayToStringPipe
   ],
   imports: [
     CommonModule,
@@ -43,7 +49,10 @@ import { MatMenuModule } from '@angular/material/menu';
     RouterModule,
     MatSortModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -60,6 +69,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSortModule,
     HeaderSectionComponent,
     MatCardModule,
+    FormsModule,
+    AddEditDialogComponent,
+    MatSelectModule
   ]
 })
 export class SharedModule { }
