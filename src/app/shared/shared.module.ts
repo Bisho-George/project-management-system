@@ -83,7 +83,7 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     FormsModule,
     AddEditDialogComponent,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
     MatSelectModule,
     SidebarComponent,
     AddEditComponent,
