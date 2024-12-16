@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header-section',
@@ -8,4 +8,9 @@ import { Component, Input } from '@angular/core';
 export class HeaderSectionComponent {
   @Input() title = '';
   @Input() buttonName = '';
+  @Output() buttonClick = new EventEmitter<void>();
+
+  openDialog() {
+    this.buttonClick.emit();
+  }
 }

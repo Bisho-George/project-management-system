@@ -19,6 +19,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { HeaderSectionComponent } from './components/header-section/header-section.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 
 import { AddEditComponent } from './components/add-edit/add-edit.component';
 
@@ -30,6 +34,9 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     HomeComponent,
     SidebarComponent,
     NotFoundComponent,
+    HeaderSectionComponent,
+    AddEditDialogComponent,
+    ArrayToStringPipe
     HeaderSectionComponent,
     NotFoundComponent,
     AddEditComponent
@@ -47,7 +54,10 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     RouterModule,
     MatSortModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -64,6 +74,9 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     MatSortModule,
     HeaderSectionComponent,
     MatCardModule,
+    FormsModule,
+    AddEditDialogComponent,
+    MatSelectModule
     SidebarComponent,
     AddEditComponent
   ]

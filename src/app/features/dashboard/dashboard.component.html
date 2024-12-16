@@ -1,11 +1,11 @@
-<main>
+<main [class.dark-theme]="isDarkTheme">
   <app-navbar></app-navbar>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-2 p-0">
         <app-sidebar></app-sidebar>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-10 p-0">
         <router-outlet></router-outlet>
       </div>
     </div>

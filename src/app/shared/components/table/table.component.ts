@@ -28,7 +28,6 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tableData'] && changes['tableData'].currentValue) {
       this.initializeTable();
-      console.log(this.tableData);
     }
   }
 
@@ -43,15 +42,12 @@ export class TableComponent implements OnInit, OnChanges {
   initializeTable(): void {
     if (this.tableData) {
       this.displayedColumns = this.tableData.columns.map((c) => c.field);
-
       // Add actions column if actions exist
       if (this.tableData.actions?.length) {
         this.displayedColumns.push('actions');
       }
-
       this.dataSource.data = this.tableData.data.data;
       this.updatePagination();
-
       if (this.sort && this.paginator) {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -83,6 +79,9 @@ export class TableComponent implements OnInit, OnChanges {
 
   handlePageEvent(event: PageEvent): void {
     this.pageChange.emit({ pageNumber: event.pageIndex, pageSize: event.pageSize });
+  }
+  isArray(value: any): boolean {
+    return Array.isArray(value);
   }
 }
 

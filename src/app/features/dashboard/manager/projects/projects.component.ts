@@ -1,10 +1,12 @@
-import { ITableData } from 'src/app/shared/interface/table-data.interface';
-import { ProjectsService } from './services/projects.service';
 import { Component, OnInit } from '@angular/core';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
-import { IProject } from './interfaces/project.interface';
+import { Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Title } from '@angular/platform-browser';
+import { AddEditDialogComponent } from 'src/app/shared/components/add-edit-dialog/add-edit-dialog.component';
+import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { ITableData } from 'src/app/shared/interface/table-data.interface';
+import { IProject } from './interfaces/project.interface';
+import { ProjectsService } from './services/projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -14,7 +16,7 @@ import { Title } from '@angular/platform-browser';
 export class ProjectsComponent implements OnInit {
   tableData!: ITableData;
   searchValue = '';
-  constructor(private projectsService: ProjectsService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getProjects();
@@ -29,7 +31,6 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
-        console.log(res);
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -57,24 +58,26 @@ export class ProjectsComponent implements OnInit {
         {
           type: 'button',
           label: 'View',
+          color: 'accent',
           icon: 'visibility',
-          callback: (row: IProject) => console.log('view', row),
+          callback: (row: IProject) => this.viewProject(row),
         },
         {
           type: 'button',
           label: 'Edit',
-          icon: 'edit',
-          callback: (row: IProject) => console.log('edit', row),
+          color: 'accent',
+          icon: 'edit_square',
+          callback: (row: IProject) => this.editProject(row),
         },
         {
           type: 'button',
+          color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: IProject) => console.log('delete', row),
+          callback: (id: number) => this.deleteProject(id),
         },
       ],
     };
-
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
   }
@@ -94,11 +97,55 @@ export class ProjectsComponent implements OnInit {
     this.searchValue = '';
     this.getProjects();
   }
-
-  editProject(id: number): void {
-    console.log('Edit project:', id);
+  private openAddEditDialog(title?: string, description?: string, readOnly = false) {
+    const dialogRef = this.dialog.open(AddEditDialogComponent, {
+      width: '40%',
+      data: {
+        fields: [
+          { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
+          { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
+        ],
+        readOnly
+      }
+    })
+    return dialogRef.afterClosed();
+  }
+  addProject() {
+    this.openAddEditDialog().subscribe((result) => {
+      if (result) {
+        this.projectsService.addProject(result).subscribe({
+          next: () => { },
+          error: (err) => {
+            this.toast.error(err.error.message);
+          }, complete: () => {
+            this.toast.success('Project added successfully');
+            this.getProjects();
+          }
+        })
+      }
+    })
   }
 
+  editProject(project: IProject): void {
+    this.openAddEditDialog(project.title, project.description).subscribe((result) => {
+      if (result) {
+        this.projectsService.updateProject(project.id, result).subscribe({
+          next: () => {},
+          error: (err) => {
+            this.toast.error(err.error.message);
+          },
+          complete: () => {
+            this.toast.success('Project updated successfully')
+            this.getProjects();
+          }
+        })
+      }
+    });
+  }
+
+  viewProject(project: IProject): void {
+    this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
+  }
   deleteProject(id: number): void {
     console.log('Delete project:', id);
   }
