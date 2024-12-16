@@ -1,11 +1,11 @@
-<table mat-table *ngIf="tableData?.columns?.length" [dataSource]="dataSource" matSort class="mat-table"
+<table mat-table *ngIf="tableData?.data?.data?.length" [dataSource]="dataSource" matSort class="mat-table"
   (matSortChange)="announceSortChange($event)">
   <ng-container *ngFor="let column of tableData.columns" [matColumnDef]="column.field">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.header }}</th>
     <td mat-cell *matCellDef="let element">
       <ng-container *ngIf="isArray(element[column.field])">
         <mat-chip-listbox>
-          <mat-chip *ngFor="let item of element[column.field]">{{ item.title || item }}</mat-chip>
+          <mat-chip *ngFor="let item of element[column.field]">{{item.title}}</mat-chip>
         </mat-chip-listbox>
       </ng-container>
       <ng-container *ngIf="column.field === 'creationDate' || column.field === 'modificationDate'">
@@ -19,7 +19,12 @@
       <ng-container
         *ngIf="!isArray(element[column.field]) && !(column.field === 'imagePath') && !(column.field === 'creationDate') && !(column.field === 'modificationDate')">
         <!-- Display scalar values -->
-        {{ element[column.field] }}
+        <ng-container *ngIf="column.field === 'project'; else elseTemplate">
+          {{element[column.field]?.title}}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{element[column.field]}}
+        </ng-template>
       </ng-container>
     </td>
   </ng-container>
@@ -47,6 +52,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator *ngIf="tableData?.data" [pageSize]="tableData.data.pageSize" [pageIndex]="tableData.data.pageNumber"
+<mat-paginator *ngIf="tableData.data.data.length > 0" [pageSize]="tableData.data.pageSize" [pageIndex]="tableData.data.pageNumber"
   (page)="handlePageEvent($event)" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
 </mat-paginator>

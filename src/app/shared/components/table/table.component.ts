@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, Output, 
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from '../../interface/table-data.interface';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
@@ -15,11 +15,12 @@ export class TableComponent implements OnInit, OnChanges {
   @Output() pageChange: EventEmitter<{ pageNumber: number, pageSize: number }> = new EventEmitter<{ pageNumber: number, pageSize: number }>();
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [];
+  projectNames: string[] = [];
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer) {  }
 
   ngOnInit(): void {
     this.initializeTable();
@@ -39,21 +40,21 @@ export class TableComponent implements OnInit, OnChanges {
 
   ngAfterViewInit(): void {
     if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.updatePagination();
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.updatePagination();
+      }, 2000);
     }
   }
 
   initializeTable(): void {
     if (this.tableData) {
       this.displayedColumns = this.tableData.columns.map((c) => c.field);
-      // Add actions column if actions exist
       if (this.tableData.actions?.length) {
         this.displayedColumns.push('actions');
       }
-      this.dataSource.data = this.tableData.data.data;
-      this.updatePagination();
+      this.dataSource.data = this.tableData?.data?.data;
       if (this.sort && this.paginator) {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -75,7 +76,9 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   updatePagination(): void {
+    console.log(this.paginator);
     if (this.paginator) {
+      console.log(this.tableData);
       this.paginator.pageIndex = this.tableData.data.pageNumber;
       this.paginator.pageSize = this.tableData.data.pageSize;
       this.paginator.length = this.tableData.data.totalNumberOfRecords;
