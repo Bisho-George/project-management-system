@@ -1,6 +1,6 @@
 <section>
   <app-header-section (buttonClick)="addProject()" title="Projects" buttonName="Add new project"></app-header-section>
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="row">
       <mat-card class="py-4">
           <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
@@ -9,8 +9,9 @@
             <mat-icon matPrefix>search</mat-icon>
             <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
         </mat-form-field>
-        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData"></app-table>
+        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData" *ngIf="tableData.data.data.length >  0"></app-table>
       </mat-card>
     </div>
   </div>
 </section>
+<app-no-data *ngIf="tableData.data.data.length ==  0" header="project"></app-no-data>
