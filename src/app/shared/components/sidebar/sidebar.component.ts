@@ -34,7 +34,6 @@ export class SidebarComponent {
   onClicked() {
     this.isOpened = !this.isOpened;
     this.isOpenedValue.emit(this.isOpened);
-    console.log(this.isOpened)
   }
   @HostListener('window:scroll', [])
     onWindowScroll() {
