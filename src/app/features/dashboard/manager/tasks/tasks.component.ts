@@ -7,6 +7,9 @@ import { Validators } from '@angular/forms';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 import { UsersService } from '../users/services/users.service';
 import { ITask } from './interfaces/task.interface';
+import { ProjectsService } from '../projects/services/projects.service';
+import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IProject } from '../projects/interfaces/project.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -17,13 +20,16 @@ export class TasksComponent {
   tableData!: any;
   resData: any;
   userData: any;
+  projectData:any;
   statusValue: string = '';
   searchValue = '';
   status: string[] = ['ToDo', 'InProgress', 'Done'];
-  constructor(private dialog: MatDialog, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog,private _ProjectsService:ProjectsService, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getTasks();
+    this.getUsers()
+    this.getProjects()
   }
 
   getTasks() {
@@ -37,8 +43,9 @@ export class TasksComponent {
     this._TasksService.getTasks(myParams).subscribe({
       next: (res: any) => {
         this.passDataToTable(res);
-        console.log(res);
+        // console.log(res.data);
         this.resData = res.data
+        localStorage.setItem('tasksCount',JSON.stringify(res.totalNumberOfRecords))
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -53,13 +60,30 @@ export class TasksComponent {
     this._UsersService.getUsers(myParams).subscribe({
       next: (res: any) => {
         this.userData = res.data
-        console.log(res);
+        console.log(res.data);
       },
       error: (err) => {
-        this.toast.error(err.error.message);
+       console.log(err)
       }
     });
   }
+  getProjects() {
+      console.log(this.tableData);
+      let myParams = {
+        pageNumber: 1,
+        pageSize: 9999,
+      };
+      this._ProjectsService.getProjects(myParams).subscribe({
+        next: (res: IDataResponse<IProject>) => {
+          console.log( res.data);
+          this.projectData = res.data
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
+        }
+      });
+    }
+
   private openAddEditDialog(title?: string, description?: string, readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
@@ -68,6 +92,7 @@ export class TasksComponent {
           { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
           { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
           { type: 'select', label: 'User', name: 'user', value: this.userData || '', validators: [Validators.required] },
+          { type: 'select', label: 'Project', name: 'project', value: this.projectData || '', validators: [Validators.required] },
         ],
         readOnly
       }

@@ -14,7 +14,7 @@
           <mat-error>{{field.label}} is required</mat-error>
         </mat-form-field>
         <!-- Select Dropdown -->
-        <mat-form-field *ngSwitchCase="'select'" appearance="outline" class="w-50">
+        <mat-form-field *ngSwitchCase="'select'" appearance="outline" class="w-100">
           <mat-label>{{ field.label }}</mat-label>
           <mat-select [formControlName]="field.name">
             <mat-option *ngFor="let option of field.options" [value]="option.userName || option.title">
