@@ -23,24 +23,6 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.getProjects();
   }
-
-  getProjects() {
-    let myParams = {
-      title: this.searchValue,
-      pageNumber: this.tableData?.data.pageNumber,
-      pageSize: this.tableData?.data.pageSize,
-    };
-    this.projectsService.getProjects(myParams).subscribe({
-      next: (res: IDataResponse<IProject>) => {
-        this.passDataToTable(res);
-        console.log(res);
-
-      },
-      error: (err) => {
-        this.toast.error(err.error.message);
-      }
-    });
-  }
   passDataToTable(res: IDataResponse<IProject>) {
     if (!res.data || res.data.length === 0) {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
@@ -49,7 +31,7 @@ export class ProjectsComponent implements OnInit {
 
     const excludedFields = ['id'];
     const sampleProject = res.data[0];
-
+    console.log (res);
     this.tableData = {
       data: res,
       columns: Object.keys(sampleProject)
@@ -84,6 +66,23 @@ export class ProjectsComponent implements OnInit {
     };
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
+  }
+
+  getProjects() {
+    console.log(this.tableData);
+    let myParams = {
+      title: this.searchValue,
+      pageNumber: this.tableData?.data.pageNumber,
+      pageSize: this.tableData?.data.pageSize,
+    };
+    this.projectsService.getProjects(myParams).subscribe({
+      next: (res: IDataResponse<IProject>) => {
+        this.passDataToTable(res);
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      }
+    });
   }
 
   private formatHeader(key: string): string {
