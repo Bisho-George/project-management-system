@@ -1,0 +1,36 @@
+<section>
+  <div class="d-flex align-items-center p-3 mb-3 bg-white">
+    <h4 class="ms-2">Tasks board</h4>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="d-flex flex-column">
+          <h5>To do</h5>
+          <ul id="todo" [cdkDropListConnectedTo]="['inProgress', 'done']" [cdkDropListData]="todo" cdkDropList
+            (cdkDropListDropped)="drop($event, 'Todo')" class="tasks-container">
+            <li cdkDrag *ngFor="let task of todo">{{task.title}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex flex-column">
+          <h5>In progress</h5>
+          <ul id="inProgress" [cdkDropListConnectedTo]="['todo', 'done']" [cdkDropListData]="inProgress" cdkDropList
+            (cdkDropListDropped)="drop($event, 'InProgress')" class="tasks-container">
+            <li cdkDrag *ngFor="let task of inProgress">{{task.title}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex flex-column">
+          <h5>Done</h5>
+          <ul id="done" [cdkDropListConnectedTo]="['todo', 'inProgress']" [cdkDropListData]="done" cdkDropList
+            (cdkDropListDropped)="drop($event, 'Done')" class="tasks-container">
+            <li cdkDrag *ngFor="let task of done">{{task.title}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -29,7 +29,7 @@ export class SidebarComponent {
     {link:'/dashboard/manager/tasks',icon:'fa-list',text:'Tasks',isActive:this.isManager()},
     {link:'/dashboard/manager/projects',icon:'fa-table-list',text:'Projects',isActive:this.isManager()},
     {link:'/dashboard/employee/employee-projects',icon:'fa-table-list',text:'Projects',isActive:this.isEmployee()},
-    {link:'/dashboard/employee/employee-tasks',icon:'fa-heart',text:'Tasks',isActive:this.isEmployee()},
+    {link:'/dashboard/employee/tasks',icon:'fa-heart',text:'Tasks',isActive:this.isEmployee()},
   ];
   onClicked() {
     this.isOpened = !this.isOpened;

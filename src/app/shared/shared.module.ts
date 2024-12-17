@@ -24,10 +24,10 @@ import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-di
 import { MatSelectModule } from '@angular/material/select';
 import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 import { MatChipsModule } from '@angular/material/chips';
-
 import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { DeleteItemComponent } from './components/delete-item/delete-item.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -64,6 +64,7 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     ReactiveFormsModule,
     MatSelectModule,
     MatChipsModule,
+    DragDropModule
   ],
   exports: [
     NgxDropzoneModule,
@@ -87,7 +88,8 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     MatSelectModule,
     SidebarComponent,
     AddEditComponent,
-    NoDataComponent
+    NoDataComponent,
+    DragDropModule
   ]
 })
 export class SharedModule { }
