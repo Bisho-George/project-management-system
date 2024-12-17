@@ -125,7 +125,7 @@ export class TasksComponent {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: ITask) => this.deleteTask(row.id),
+          callback: (row: any) => this.openDeleteDialog(row),
         },
       ],
     };
@@ -155,23 +155,49 @@ export class TasksComponent {
   editTask(id: number): void {
     console.log('Edit Task:', id);
   }
-  deleteTask(id: number): void {
-    const dialogRef = this.dialog.open(
-      DeleteItemComponent, {
-      data: 'Delete Task'
-    })
-    dialogRef.afterClosed().subscribe(() => {
-      this._TasksService.deleteTask(id).subscribe({
-        next: () => {
-        },
-        error: (err) => {
-          this.toast.error(err.error.message);
-        },
-        complete: () => {
-          this.toast.success('Task deleted')
-          this.getTasks();
-        }
-      })
+  // deleteTask(id: number): void {
+  //   const dialogRef = this.dialog.open(
+  //     DeleteItemComponent, {
+  //       data: { text:'Task'}
+  //   })
+  //   dialogRef.afterClosed().subscribe(() => {
+  //     this._TasksService.deleteTask(id).subscribe({
+  //       next: () => {
+  //       },
+  //       error: (err) => {
+  //         this.toast.error(err.error.message);
+  //       },
+  //       complete: () => {
+  //         this.toast.success('Task deleted')
+  //         this.getTasks();
+  //       }
+  //     })
+  //   })
+  // }
+  openDeleteDialog(item:any): void {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      data:  {text:'Task',id:item.id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result){
+        this.onDeleteUser(result)
+      }
+    });
+  }
+  onDeleteUser(id:number){
+    this._TasksService.deleteTask(id).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.toast.success('Task is deleted')
+      },
+      error(err) {
+        console.log(err);
+      },
+      complete:()=>{
+        this.getTasks();
+      }
     })
   }
 }

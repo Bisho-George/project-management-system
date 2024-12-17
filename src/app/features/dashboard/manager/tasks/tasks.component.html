@@ -12,7 +12,7 @@
               <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
             </mat-form-field>
           </div>
-          <div>
+          <div class="col-3">
             <mat-form-field class="rounded-full" appearance="outline">
               <mat-label>Status</mat-label>
               <mat-select [(ngModel)]="statusValue" (selectionChange)="getTasks()">
