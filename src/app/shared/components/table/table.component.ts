@@ -15,6 +15,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Output() pageChange = new EventEmitter<{ pageNumber: number, pageSize: number }>();
   pageNumber = 1;
   pageSize = 5;
+  totalRecords = 0;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [];
   projectNames: string[] = [];
@@ -47,6 +48,9 @@ export class TableComponent implements OnInit, OnChanges {
         this.displayedColumns.push('actions');
       }
       this.dataSource.data = this.tableData?.data?.data;
+      this.pageNumber = this.tableData?.data?.pageNumber;
+      this.pageSize = this.tableData?.data?.pageSize;
+      this.totalRecords = this.tableData?.data?.totalNumberOfRecords;
       if (this.sort && this.paginator) {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
