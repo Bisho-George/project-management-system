@@ -3,8 +3,8 @@
   <div class="container">
     <div class="row">
       <mat-card class="py-4">
-        <div class="d-flex gap-3">
-          <div >
+        <div class="row">
+          <div class="col-6">
             <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
               <mat-label>Search</mat-label>
               <input [(ngModel)]="searchValue" (keydown.enter)="getTasks()" matInput placeholder="Search fleets">
@@ -12,7 +12,7 @@
               <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
             </mat-form-field>
           </div>
-          <div>
+          <div class="col-3">
             <mat-form-field class="rounded-full" appearance="outline">
               <mat-label>Status</mat-label>
               <mat-select [(ngModel)]="statusValue" (selectionChange)="getTasks()">
