@@ -75,7 +75,7 @@ export class TasksComponent {
       };
       this._ProjectsService.getProjects(myParams).subscribe({
         next: (res: IDataResponse<IProject>) => {
-          console.log( res.data);
+          console.log( res.data,'fff');
           this.projectData = res.data
         },
         error: (err) => {
