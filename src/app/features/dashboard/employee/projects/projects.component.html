@@ -2,14 +2,25 @@
   <div class="container-fluid" >
       <div class="row">
         <mat-card class="py-4">
+          <div class="row">
+
             <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
-              <mat-label>Search</mat-label>
+              <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+              <mat-label>Search Fleets</mat-label>
               <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">
-              <mat-icon matPrefix>search</mat-icon>
+              <mat-icon matPrefix [color]="'accent'" class="">search</mat-icon>
               <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
-          </mat-form-field>
+            </mat-form-field>
+            <!-- <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input [(ngModel)]="searchValue" matInput placeholder="Filter">
+              <mat-icon matPrefix>filter_list</mat-icon>
+              <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
+            </mat-form-field> -->
+          </div>
           <app-table (pageChange)="onPageChange($event)" [tableData]="tableData" *ngIf="tableData.data.data.length >  0"></app-table>
         </mat-card>
+
       </div>
     </div>
   </section>
