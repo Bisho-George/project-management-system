@@ -12,59 +12,62 @@
       </div>
 
     </div>
-     <div class="row gap-5 mb-5">
-      <div class="col-5 content bg-white ">
+     <div class="row  gap-4 mb-5">
+      <div class="col-4 content bg-white ">
         <div class="m-3">
           <h5 class="text-black">Tasks</h5>
           <p>Lorem ipsum dolor sit amet,consecteture</p>
         </div>
 
         <div class="row p-3  ">
-          <div class="col-4 p-2 ">
-              <div class="content-data  bg-color-one">
-                <span><i class="icon fa-solid fa-list-check fs-5 ms-0"></i></span>
-                <p class=" my-2 head-data">Progress</p>
-                <h6 class="text-black fw-bold fs-6">$ 7328.32</h6>
-              </div>
-          </div>
-          <div class="col-4 p-2">
+
+          <div class="col-6 p-2">
             <div class="content-data bg-color-two ">
               <span><i class="icon fa-solid fa-thin fa-clipboard-list fs-5 ms-0"></i></span>
               <p class="  my-2 head-data">Tasks Number</p>
-              <h6 class="text-black fw-bold fs-6">1293</h6>
+              <h6 class="text-black fw-bold fs-6"> {{tasksCount}} </h6>
             </div>
           </div>
-          <div class="col-4 p-2">
+          <div class="col-6 p-2">
             <div class="content-data bg-color-three">
               <span><i class="icon fa-solid fa-building-shield fs-5 ms-0"></i></span>
               <p class="  my-2 head-data">Projects Number</p>
-              <h6 class="text-black fw-bold fs-6">29</h6>
+              <h6 class="text-black fw-bold fs-6"> {{projectsCount}} </h6>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-4 content bg-white ">
+        <div class="m-3">
+          <h5 class="text-black">Users</h5>
+          <p>Lorem ipsum dolor sit amet,consecteture</p>
+        </div>
+        <div class="row p-3  ">
+          <div class="col-6 p-2 ">
+            <div class="content-data bg-color-one ">
+              <span><i class="icon fa-solid fa-chart-simple fs-5 ms-0"></i></span>
+              <p class="  my-2 head-data">active</p>
+              <h6 class="text-black fw-bold fs-6">{{usersCount?.activatedEmployeeCount}}</h6>
+            </div>
+        </div>
+          <div class="col-6 p-2">
+            <div class="content-data bg-color-two ">
+              <span><i class="icon fa-solid fa-thin fa-clipboard-list fs-5 ms-0"></i></span>
+              <p class="  my-2 head-data">inactive</p>
+              <h6 class="text-black fw-bold fs-6">{{usersCount?.deactivatedEmployeeCount}}</h6>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-5 content bg-white">
-        <div class="m-3">
-          <h5 class="text-black ">Users</h5>
-          <p>Lorem ipsum dolor sit amet,consecteture</p>
+
+      <div class="col-3 content bg-white">
+          <h5 class="text-black m-3">Progress</h5>
+        <div class=" mx-auto progress-data">
+           <div class="chart-data w-100 ">
+            <canvas id="canvas">{{chart}}</canvas>
         </div>
-
-        <div class="row p-3  ">
-          <div class="col-4 p-2 ">
-              <div class="content-data bg-color-one ">
-                <span><i class="icon fa-solid fa-chart-simple fs-5 ms-0"></i></span>
-                <p class="  my-2 head-data">active</p>
-                <h6 class="text-black fw-bold fs-6">$ 7328.32</h6>
-              </div>
-          </div>
-          <div class="col-4 p-2">
-            <div class="content-data bg-color-two ">
-              <span><i class="icon fa-solid fa-thin fa-clipboard-list fs-5 ms-0"></i></span>
-              <p class="  my-2 head-data">inactive</p>
-              <h6 class="text-black fw-bold fs-6">1293</h6>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
