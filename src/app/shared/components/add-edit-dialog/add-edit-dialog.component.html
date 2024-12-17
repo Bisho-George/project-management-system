@@ -19,8 +19,6 @@
           <mat-select [formControlName]="field.name">
             <mat-option *ngFor="let option of field.value" [value]="option.title || option.userName">
               {{ option.title || option.userName }}
-            <mat-option *ngFor="let option of field.value" [value]="option.userName || option.title">
-              {{option.userName || option.title}}
             </mat-option>
           </mat-select>
         </mat-form-field>
