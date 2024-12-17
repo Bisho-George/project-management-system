@@ -8,7 +8,7 @@
         <div class="d-flex flex-column">
           <h5>To do</h5>
           <ul id="todo" [cdkDropListConnectedTo]="['inProgress', 'done']" [cdkDropListData]="todo" cdkDropList
-            (cdkDropListDropped)="drop($event, 'Todo')" class="tasks-container">
+            (cdkDropListDropped)="drop($event, 'ToDo')" class="tasks-container">
             <li cdkDrag *ngFor="let task of todo">{{task.title}}</li>
           </ul>
         </div>
