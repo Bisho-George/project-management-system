@@ -90,24 +90,24 @@ $my-theme: mat.define-light-theme(
     density: 0,
   )
 );
-$my-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $my-primary,
-      accent: $my-accent,
-      warn: $my-warn,
-      background: (
-        default: #121212,
-        app-bar: #1e1e1e,
-        card: #1f1f1f,
-        dialog: #232323,
-        hover: #252525,
-      ),
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
+// $my-dark-theme: mat.define-dark-theme(
+//   (
+//     color: (
+//       primary: $my-primary,
+//       accent: $my-accent,
+//       warn: $my-warn,
+//       background: (
+//         default: #121212,
+//         app-bar: #1e1e1e,
+//         card: #1f1f1f,
+//         dialog: #232323,
+//         hover: #252525,
+//       ),
+//     ),
+//     typography: mat.define-typography-config(),
+//     density: 0,
+//   )
+// );
 @include mat.core();
 
 :root {
@@ -115,7 +115,7 @@ $my-dark-theme: mat.define-dark-theme(
 }
 
 // Include dark theme inside a dark-theme class
-.dark-theme {
-  @include mat.all-component-themes($my-dark-theme);
-}
+// .dark-theme {
+//   @include mat.all-component-themes($my-dark-theme);
+// }
 
