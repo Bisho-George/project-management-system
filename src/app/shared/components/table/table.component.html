@@ -18,11 +18,15 @@
       </ng-container>
       <ng-container
         *ngIf="!isArray(element[column.field]) && !(column.field === 'imagePath') && !(column.field === 'creationDate') && !(column.field === 'modificationDate')">
-        <!-- Display scalar values -->
-        <ng-container *ngIf="column.field === 'project'; else elseTemplate">
+        <ng-container *ngIf="column.field === 'project'; else employee">
           {{element[column.field]?.title}}
         </ng-container>
-        <ng-template #elseTemplate>
+        <ng-template #employee>
+          <ng-container *ngIf="column.field === 'employee'; else other">
+            {{element[column.field]?.userName}}
+          </ng-container>
+        </ng-template>
+        <ng-template #other>
           {{element[column.field]}}
         </ng-template>
       </ng-container>
@@ -52,7 +56,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSize]="pageSize" [pageIndex]="pageNumber"
-  [length]="totalRecords" (page)="handlePageEvent($event)" [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons>
+<mat-paginator [pageSize]="pageSize" [pageIndex]="pageNumber" [length]="totalRecords" (page)="handlePageEvent($event)"
+  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
 </mat-paginator>

@@ -39,11 +39,9 @@ export class TasksComponent {
       pageSize: this.tableData?.data.pageSize,
       status: this.statusValue
     };
-    console.log(myParams);
     this._TasksService.getTasks(myParams).subscribe({
       next: (res: any) => {
         this.passDataToTable(res);
-        // console.log(res.data);
         this.resData = res.data
         localStorage.setItem('tasksCount',JSON.stringify(res.totalNumberOfRecords))
       },
@@ -60,7 +58,6 @@ export class TasksComponent {
     this._UsersService.getUsers(myParams).subscribe({
       next: (res: any) => {
         this.userData = res.data
-        console.log(res.data);
       },
       error: (err) => {
        console.log(err)

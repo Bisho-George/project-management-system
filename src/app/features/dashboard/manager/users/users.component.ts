@@ -30,8 +30,7 @@ export class UsersComponent {
       next: (res: any) => {
         this.passDataToTable(res);
         this.resTable = res
-        console.log(res);
-      },
+       },
       error: (err) => {
         this.toast.error(err.error.message);
       }

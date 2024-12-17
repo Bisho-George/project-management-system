@@ -24,7 +24,7 @@ export class AddEditDialogComponent implements OnInit {
       this.disableAllFields();
     }
   }
-  
+
   private disableAllFields(): void {
     Object.keys(this.form.controls).forEach((key) => {
       this.form.controls[key].disable();
@@ -39,6 +39,7 @@ export class AddEditDialogComponent implements OnInit {
         disabled: this.isViewMode
       }, field.validators || []);
     });
+    console.log(fields);
     return this.fb.group(group);
   }
 
