@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
+ 
 
 @Component({
   selector: 'app-users',
@@ -55,6 +56,7 @@ export class UsersComponent {
         {
           type: 'button',
           label: 'View',
+          color:'accent',
           icon: 'visibility',
           callback: (row: any) => console.log('view', row),
         },

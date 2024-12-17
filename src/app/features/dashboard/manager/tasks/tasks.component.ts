@@ -7,6 +7,9 @@ import { Validators } from '@angular/forms';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 import { UsersService } from '../users/services/users.service';
 import { ITask } from './interfaces/task.interface';
+import { ProjectsService } from '../projects/services/projects.service';
+import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IProject } from '../projects/interfaces/project.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -17,13 +20,16 @@ export class TasksComponent {
   tableData!: any;
   resData: any;
   userData: any;
+  projectData:any;
   statusValue: string = '';
   searchValue = '';
   status: string[] = ['ToDo', 'InProgress', 'Done'];
-  constructor(private dialog: MatDialog, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog,private _ProjectsService:ProjectsService, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getTasks();
+    this.getUsers()
+    this.getProjects()
   }
 
   getTasks() {
@@ -37,6 +43,7 @@ export class TasksComponent {
       next: (res: any) => {
         this.passDataToTable(res);
         this.resData = res.data
+        localStorage.setItem('tasksCount',JSON.stringify(res.totalNumberOfRecords))
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -53,10 +60,27 @@ export class TasksComponent {
         this.userData = res.data
       },
       error: (err) => {
-        this.toast.error(err.error.message);
+       console.log(err)
       }
     });
   }
+  getProjects() {
+      console.log(this.tableData);
+      let myParams = {
+        pageNumber: 1,
+        pageSize: 9999,
+      };
+      this._ProjectsService.getProjects(myParams).subscribe({
+        next: (res: IDataResponse<IProject>) => {
+          console.log( res.data,'fff');
+          this.projectData = res.data
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
+        }
+      });
+    }
+
   private openAddEditDialog(title?: string, description?: string, readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
@@ -65,6 +89,7 @@ export class TasksComponent {
           { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
           { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
           { type: 'select', label: 'User', name: 'user', value: this.userData || '', validators: [Validators.required] },
+          { type: 'select', label: 'Project', name: 'project', value: this.projectData || '', validators: [Validators.required] },
         ],
         readOnly
       }
@@ -122,7 +147,7 @@ export class TasksComponent {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: ITask) => this.deleteTask(row.id),
+          callback: (row: any) => this.openDeleteDialog(row),
         },
       ],
     };
@@ -152,23 +177,49 @@ export class TasksComponent {
   editTask(id: number): void {
     console.log('Edit Task:', id);
   }
-  deleteTask(id: number): void {
-    const dialogRef = this.dialog.open(
-      DeleteItemComponent, {
-      data: 'Delete Task'
-    })
-    dialogRef.afterClosed().subscribe(() => {
-      this._TasksService.deleteTask(id).subscribe({
-        next: () => {
-        },
-        error: (err) => {
-          this.toast.error(err.error.message);
-        },
-        complete: () => {
-          this.toast.success('Task deleted')
-          this.getTasks();
-        }
-      })
+  // deleteTask(id: number): void {
+  //   const dialogRef = this.dialog.open(
+  //     DeleteItemComponent, {
+  //       data: { text:'Task'}
+  //   })
+  //   dialogRef.afterClosed().subscribe(() => {
+  //     this._TasksService.deleteTask(id).subscribe({
+  //       next: () => {
+  //       },
+  //       error: (err) => {
+  //         this.toast.error(err.error.message);
+  //       },
+  //       complete: () => {
+  //         this.toast.success('Task deleted')
+  //         this.getTasks();
+  //       }
+  //     })
+  //   })
+  // }
+  openDeleteDialog(item:any): void {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      data:  {text:'Task',id:item.id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result){
+        this.onDeleteUser(result)
+      }
+    });
+  }
+  onDeleteUser(id:number){
+    this._TasksService.deleteTask(id).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.toast.success('Task is deleted')
+      },
+      error(err) {
+        console.log(err);
+      },
+      complete:()=>{
+        this.getTasks();
+      }
     })
   }
 }

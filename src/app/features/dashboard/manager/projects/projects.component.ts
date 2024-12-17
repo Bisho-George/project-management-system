@@ -59,7 +59,7 @@ export class ProjectsComponent implements OnInit {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: IProject) => this.deleteProject(row.id),
+          callback: (row: IProject) => this.openDeleteDialog(row),
         },
       ],
     };
@@ -77,6 +77,9 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
+        localStorage.setItem('projectsCount' , JSON.stringify(res.totalNumberOfRecords))
+        console.log(res);
+
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -109,13 +112,6 @@ export class ProjectsComponent implements OnInit {
         ],
         readOnly
       }
-    })
-    return dialogRef.afterClosed();
-  }
-  private openDeleteDialog(id:number) {
-    const dialogRef = this.dialog.open(DeleteItemComponent, {
-      width: '40%',
-      data: { text:'projectyy'}
     })
     return dialogRef.afterClosed();
   }
@@ -155,21 +151,49 @@ export class ProjectsComponent implements OnInit {
   viewProject(project: IProject): void {
     this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
   }
-  deleteProject(id: number): void {
-    this.openDeleteDialog(id).subscribe((result) => {
-      if (result) {
-        this.projectsService.deleteProject(id).subscribe({
-          next: () => {},
-          error: (err) => {
-            this.toast.error(err.error.message);
-          },
-          complete: () => {
-            this.toast.success('Project deleted')
-            this.getProjects();
-          }
-        })
+  // deleteProject(id: number): void {
+  //   const dialogRef = this.dialog.open(
+  //     DeleteItemComponent, {
+  //       data: { text:'Project'}
+  //   })
+  //   dialogRef.afterClosed().subscribe(() => {
+  //     this.projectsService.deleteProject(id).subscribe({
+  //       next: () => {
+  //       },
+  //       error: (err) => {
+  //         this.toast.error(err.error.message);
+  //       },
+  //       complete: () => {
+  //         this.toast.success('Project deleted')
+  //         this.getProjects();
+  //       }
+  //     })
+  //   })
+  // }
+  openDeleteDialog(item:any): void {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      data:  {text:'Project',id:item.id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result){
+        this.onDeleteUser(result)
       }
     });
   }
-
+  onDeleteUser(id:number){
+    this.projectsService.deleteProject(id).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.toast.success('Project is deleted')
+      },
+      error(err) {
+        console.log(err);
+      },
+      complete:()=>{
+        this.getProjects();
+      }
+    })
+  }
 }

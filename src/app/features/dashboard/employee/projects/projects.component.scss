@@ -1,0 +1,10 @@
+@import '../../../../../assets/scss/layout.scss';
+
+mat-form-field {
+  max-width: 17rem !important;
+  position: relative;
+}
+
+mat-icon {
+  color: $secondary-color;
+}
