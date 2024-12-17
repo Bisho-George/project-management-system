@@ -31,7 +31,6 @@ export class ProjectsComponent implements OnInit {
 
     const excludedFields = ['id'];
     const sampleProject = res.data[0];
-    console.log (res);
     this.tableData = {
       data: res,
       columns: Object.keys(sampleProject)
