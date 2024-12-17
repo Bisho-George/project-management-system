@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 import { UsersService } from '../users/services/users.service';
+import { ITask } from './interfaces/task.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -13,13 +14,13 @@ import { UsersService } from '../users/services/users.service';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent {
-tableData!: any;
-resData:any;
-userData:any;
-statusValue:string = '';
+  tableData!: any;
+  resData: any;
+  userData: any;
+  statusValue: string = '';
   searchValue = '';
-  status:string[]=['ToDo','InProgress','Done'];
-  constructor(private dialog: MatDialog,private _UsersService:UsersService,private _TasksService: TasksService, private toast: ToastrService) { }
+  status: string[] = ['ToDo', 'InProgress', 'Done'];
+  constructor(private dialog: MatDialog, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getTasks();
@@ -30,24 +31,24 @@ statusValue:string = '';
       title: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
-      status:this.statusValue
+      status: this.statusValue
     };
     console.log(myParams);
     this._TasksService.getTasks(myParams).subscribe({
       next: (res: any) => {
         this.passDataToTable(res);
         console.log(res);
-        this.resData =  res.data
+        this.resData = res.data
       },
       error: (err) => {
         this.toast.error(err.error.message);
       }
     });
   }
-  getUsers(){
+  getUsers() {
     let myParams = {
-   pageNumber: 1,
-      pageSize:9999,
+      pageNumber: 1,
+      pageSize: 9999,
     };
     this._UsersService.getUsers(myParams).subscribe({
       next: (res: any) => {
@@ -60,19 +61,19 @@ statusValue:string = '';
     });
   }
   private openAddEditDialog(title?: string, description?: string, readOnly = false) {
-      const dialogRef = this.dialog.open(AddEditDialogComponent, {
-        width: '40%',
-        data: {
-          fields: [
-            { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
-            { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
-            { type: 'select', label: 'User', name: 'user', value: this.userData || '', validators: [Validators.required] },
-          ],
-          readOnly
-        }
-      })
-      return dialogRef.afterClosed();
-    }
+    const dialogRef = this.dialog.open(AddEditDialogComponent, {
+      width: '40%',
+      data: {
+        fields: [
+          { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
+          { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
+          { type: 'select', label: 'User', name: 'user', value: this.userData || '', validators: [Validators.required] },
+        ],
+        readOnly
+      }
+    })
+    return dialogRef.afterClosed();
+  }
   addTask() {
     this.openAddEditDialog().subscribe((result) => {
       if (result) {
@@ -93,7 +94,6 @@ statusValue:string = '';
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
     }
-
     const excludedFields = ['id'];
     const sampleTask = res.data[0];
 
@@ -107,26 +107,26 @@ statusValue:string = '';
         })),
       actions: [
         {
-                  type: 'button',
-                  label: 'View',
-                  color: 'accent',
-                  icon: 'visibility',
-                  callback: (row: any) => this.viewTask(row),
-                },
-                {
-                  type: 'button',
-                  label: 'Edit',
-                  color: 'accent',
-                  icon: 'edit_square',
-                  callback: (row: any) => this.editTask(row),
-                },
-                {
-                  type: 'button',
-                  color: 'warn',
-                  label: 'Delete',
-                  icon: 'delete',
-                  callback: (id: number) => this.deleteTask(id),
-                },
+          type: 'button',
+          label: 'View',
+          color: 'accent',
+          icon: 'visibility',
+          callback: (row: any) => this.viewTask(row.id),
+        },
+        {
+          type: 'button',
+          label: 'Edit',
+          color: 'accent',
+          icon: 'edit_square',
+          callback: (row: any) => this.editTask(row),
+        },
+        {
+          type: 'button',
+          color: 'warn',
+          label: 'Delete',
+          icon: 'delete',
+          callback: (row: ITask) => this.deleteTask(row.id),
+        },
       ],
     };
 
@@ -155,27 +155,23 @@ statusValue:string = '';
   editTask(id: number): void {
     console.log('Edit Task:', id);
   }
-private openDeleteDialog(id:number) {
-    const dialogRef = this.dialog.open(DeleteItemComponent, {
-      width: '40%',
-      data: { text:'projectyy'}
-    })
-    return dialogRef.afterClosed();
-  }
   deleteTask(id: number): void {
-    this.openDeleteDialog(id).subscribe((result) => {
-      if (result) {
-        this._TasksService.deleteTask(id).subscribe({
-          next: () => {},
-          error: (err) => {
-            this.toast.error(err.error.message);
-          },
-          complete: () => {
-            this.toast.success('Task deleted')
-            this.getTasks();
-          }
-        })
-      }
-    });
+    const dialogRef = this.dialog.open(
+      DeleteItemComponent, {
+      data: 'Delete Task'
+    })
+    dialogRef.afterClosed().subscribe(() => {
+      this._TasksService.deleteTask(id).subscribe({
+        next: () => {
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
+        },
+        complete: () => {
+          this.toast.success('Task deleted')
+          this.getTasks();
+        }
+      })
+    })
   }
 }

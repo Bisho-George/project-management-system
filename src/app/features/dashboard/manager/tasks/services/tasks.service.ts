@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class TasksService {
 
-constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
   getTasks(params?: any): Observable<any> {
     return this._http.get('Task/manager', {
@@ -16,15 +16,15 @@ constructor(private _http: HttpClient) { }
         title: params?.title || '',
         pageNumber: params?.pageNumber || 1,
         pageSize: params?.pageSize || 5,
-        status:params?.status 
+        status: params?.status
       }
     });
   }
-  addTask (task: FormGroup) {
-      return this._http.post('Task', task);
-    }
-    deleteTask (id: number) {
-      return this._http.delete(`Task/${id}`);
-    }
+  addTask(task: FormGroup) {
+    return this._http.post('Task', task);
+  }
+  deleteTask(id: number) {
+    return this._http.delete(`Task/${id}`);
+  }
 
 }

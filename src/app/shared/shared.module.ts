@@ -63,7 +63,7 @@ import { DeleteItemComponent } from './components/delete-item/delete-item.compon
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   exports: [
     NgxDropzoneModule,
