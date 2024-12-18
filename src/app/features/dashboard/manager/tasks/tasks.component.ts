@@ -1,3 +1,4 @@
+import { IUser } from 'src/app/features/dashboard/manager/users/interfaces/user.interface';
 import { Component } from '@angular/core';
 import { TasksService } from './services/tasks.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +11,6 @@ import { ITask } from './interfaces/task.interface';
 import { ProjectsService } from '../projects/services/projects.service';
 import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
 import { IProject } from '../projects/interfaces/project.interface';
-import { IUser } from '../users/interfaces/user.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -111,7 +111,12 @@ export class TasksComponent {
   addTask() {
     this.openAddDialog().subscribe((result) => {
       if (result) {
-        this._TasksService.addTask(result).subscribe({
+        this._TasksService.addTask({
+          title: result.title,
+          description: result.description,
+          employeeId: result.user,
+          projectId: result.project
+        }).subscribe({
           next: () => { },
           error: (err) => {
             this.toast.error(err.error.message);
@@ -152,7 +157,7 @@ export class TasksComponent {
           label: 'Edit',
           color: 'accent',
           icon: 'edit_square',
-          callback: (row: ITask) => this.editTask(row.id),
+          callback: (row: ITask) => this.editTask(row, row.employee),
         },
         {
           type: 'button',
@@ -184,22 +189,26 @@ export class TasksComponent {
     this.getTasks();
   }
   viewTask(task: ITask, user: IUser): void {
-    this.openAddEditDialog(task.title, task.description, user, true).subscribe((result) => {
-      if (result) {
-        // this._TasksService.updateTask(task.id, result).subscribe({
-        //   next: () => { },
-        //   error: (err) => {
-        //     this.toast.error(err.error.message);
-        //   }, complete: () => {
-        //     this.toast.success('Task updated successfully');
-        //     this.getTasks();
-        //   }
-        // })
-      }
-    });
+    this.openAddEditDialog(task.title, task.description, user, true).subscribe((result) => {});
   }
-  editTask(id: number): void {
-    this.openAddEditDialog
+  editTask(task: ITask, user: IUser): void {
+    console.log(task);
+    this.openAddEditDialog(task.title, task.description, user ).subscribe((result) => {
+      if (result) {
+        this._TasksService.updateTask(task.id, {
+          title: result.title,
+          description: result.description,
+          employeeId: result.user
+        }).subscribe(({
+          next: () => {},
+          error: (error) => this.toast.error(error.error.message),
+          complete: () => {
+            this.toast.success('Task updated successfully');
+            this.getTasks();
+          }
+        }))
+      }
+    })
   }
   // deleteTask(id: number): void {
   //   const dialogRef = this.dialog.open(
