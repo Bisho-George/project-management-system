@@ -28,6 +28,7 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { DeleteItemComponent } from './components/delete-item/delete-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NotFoundComponent,
     AddEditComponent,
     NoDataComponent,
-    DeleteItemComponent
+    DeleteItemComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -89,7 +91,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     SidebarComponent,
     AddEditComponent,
     NoDataComponent,
-    DragDropModule
+    DragDropModule,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }

@@ -179,11 +179,6 @@ export class TasksComponent {
       .replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
-  onPageChange(event: { pageNumber: number, pageSize: number }): void {
-    this.tableData.data.pageNumber = event.pageNumber;
-    this.tableData.data.pageSize = event.pageSize;
-    this.getTasks();
-  }
   clearFilter(): void {
     this.searchValue = '';
     this.getTasks();

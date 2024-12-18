@@ -91,11 +91,7 @@ export class ProjectsComponent implements OnInit {
       .replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
-  onPageChange(event: { pageNumber: number, pageSize: number }): void {
-    this.tableData.data.pageNumber = event.pageNumber;
-    this.tableData.data.pageSize = event.pageSize;
-    this.getProjects();
-  }
+
   clearFilter(): void {
     this.searchValue = '';
     this.getProjects();
@@ -149,25 +145,6 @@ export class ProjectsComponent implements OnInit {
   viewProject(project: IProject): void {
     this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
   }
-  // deleteProject(id: number): void {
-  //   const dialogRef = this.dialog.open(
-  //     DeleteItemComponent, {
-  //       data: { text:'Project'}
-  //   })
-  //   dialogRef.afterClosed().subscribe(() => {
-  //     this.projectsService.deleteProject(id).subscribe({
-  //       next: () => {
-  //       },
-  //       error: (err) => {
-  //         this.toast.error(err.error.message);
-  //       },
-  //       complete: () => {
-  //         this.toast.success('Project deleted')
-  //         this.getProjects();
-  //       }
-  //     })
-  //   })
-  // }
   openDeleteDialog(item:any): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
       data:  {text:'Project',id:item.id}
