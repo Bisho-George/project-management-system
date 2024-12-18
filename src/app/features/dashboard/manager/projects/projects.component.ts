@@ -17,6 +17,9 @@ import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delet
 export class ProjectsComponent implements OnInit {
   tableData!: ITableData;
   searchValue = '';
+  pageNumber = 1
+  pageSize = 5;
+  totalNumberOfRecords = 0;
 
   constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
 
@@ -70,14 +73,16 @@ export class ProjectsComponent implements OnInit {
   getProjects() {
     let myParams = {
       title: this.searchValue,
-      pageNumber: this.tableData?.data.pageNumber,
-      pageSize: this.tableData?.data.pageSize,
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
     };
     this.projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
-        localStorage.setItem('projectsCount' , JSON.stringify(res.totalNumberOfRecords))
-
+        localStorage.setItem('projectsCount', JSON.stringify(res.totalNumberOfRecords))
+        this.pageNumber = res.pageNumber;
+        this.pageSize = res.pageSize;
+        this.totalNumberOfRecords = res.totalNumberOfRecords;
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -129,7 +134,7 @@ export class ProjectsComponent implements OnInit {
     this.openAddEditDialog(project.title, project.description).subscribe((result) => {
       if (result) {
         this.projectsService.updateProject(project.id, result).subscribe({
-          next: () => {},
+          next: () => { },
           error: (err) => {
             this.toast.error(err.error.message);
           },
@@ -143,28 +148,34 @@ export class ProjectsComponent implements OnInit {
   }
 
   viewProject(project: IProject): void {
-    this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
+    this.openAddEditDialog(project.title, project.description, true).subscribe(() => { });
   }
-  openDeleteDialog(item:any): void {
+  openDeleteDialog(project: IProject): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data:  {text:'Project',id:item.id}
+      data: { text: 'Project', id: project.id }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.onDeleteUser(result)
       }
     });
   }
-  onDeleteUser(id:number){
+  onDeleteUser(id: number) {
     this.projectsService.deleteProject(id).subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.toast.success('Project is deleted')
       },
       error(err) {
       },
-      complete:()=>{
+      complete: () => {
         this.getProjects();
       }
     })
+  }
+  handlePageChange(event: { pageNumber: number; pageSize: number }): void {
+    this.pageNumber = event.pageNumber;
+    this.pageSize = event.pageSize;
+    console.log(this.pageNumber);
+    this.getProjects();
   }
 }

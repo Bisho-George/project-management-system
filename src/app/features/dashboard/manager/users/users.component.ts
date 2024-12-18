@@ -3,6 +3,7 @@ import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
 import { IUser } from './interfaces/user.interface';
+import { ITableData } from 'src/app/shared/interface/table-data.interface';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { IUser } from './interfaces/user.interface';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  tableData!: any;
+  tableData!: ITableData;
   baseUrl = 'https://upskilling-egypt.com:3003/';
   resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
@@ -20,6 +21,7 @@ export class UsersComponent {
 
   ngOnInit(): void {
     this.getUsers();
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   getUsers() {
@@ -37,7 +39,7 @@ export class UsersComponent {
           }
         })
         this.passDataToTable(res);
-        this.tableData = res
+        this.resTable = res;
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -76,7 +78,6 @@ export class UsersComponent {
         },
       ],
     };
-
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
   }
@@ -98,7 +99,8 @@ export class UsersComponent {
   }
   handlePageChange (event: {pageNumber: number, pageSize: number}) {
     this.tableData.data.pageNumber = event.pageNumber;
-    this.tableData.data.pageSize = event.pageSize
+    this.tableData.data.pageSize = event.pageSize;
+    this.getUsers();
   }
 
 

@@ -23,8 +23,11 @@
           </div>
         </div>
         <app-table [tableData]="tableData"></app-table>
+        <app-paginator [pageSize]="resData?.pageSize || 5" [pageNumber]="resData?.pageNumber || 1"
+          [totalRecords]="resData?.totalNumberOfRecords || 0" [pageSizeOptions]="[5, 10, 20]"
+          (pageChange)="handlePageChange($event)"></app-paginator>
       </mat-card>
     </div>
   </div>
 </section>
-<app-no-data *ngIf="resData?.length == 0" header="task"></app-no-data>
+<app-no-data *ngIf="resData?.data?.length === 0" header="task"></app-no-data>
