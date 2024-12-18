@@ -28,6 +28,7 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { DeleteItemComponent } from './components/delete-item/delete-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ViewUserProfileComponent } from './components/view-user-profile/view-user-profile.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NotFoundComponent,
     AddEditComponent,
     NoDataComponent,
-    DeleteItemComponent
+    DeleteItemComponent,
+    ViewUserProfileComponent
   ],
   imports: [
     CommonModule,
