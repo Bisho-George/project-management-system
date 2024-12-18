@@ -170,7 +170,7 @@ export class ProjectsComponent implements OnInit {
   // }
   openDeleteDialog(item:any): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data:  {text:'Project',id:item.id}
+      data:  {text:'Project',id:item.id,type:'delete',image:'assets/images/deleteImg.png',widthImage:'width: 140px;'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result){

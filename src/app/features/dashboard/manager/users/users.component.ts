@@ -3,6 +3,7 @@ import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewUserProfileComponent } from 'src/app/shared/components/view-user-profile/view-user-profile.component';
+import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 
 
 @Component({
@@ -69,7 +70,7 @@ export class UsersComponent {
           type: 'button',
           label: 'Block',
           icon: 'block',
-          callback: (row: any) => console.log('Block', row),
+          callback: (row: any) => this.openBlockDialog(row),
         },
       ],
     };
@@ -103,4 +104,28 @@ export class UsersComponent {
       console.log(result);
     });
   }
+
+
+  openBlockDialog(item:any): void {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      data: { text: 'User', id: item.id ,type :item.isActivated?'Block ':'Unblock ',data: item ,image:'assets/images/blockImage.png',widthImage:'width: 100px; margin-bottom:20px;'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed',result);
+      if(result){
+        this._UsersService.onActivateUser(result).subscribe({
+          next:(res)=>{
+            console.log(res);
+
+          },error:(err)=>{
+            this.toast.error(err.error.message, 'error')
+          },complete:()=>{
+            this.getUsers()
+            this.toast.success( 'User Active now');
+          }
+        })
+      }
+    });
+  }
+
 }

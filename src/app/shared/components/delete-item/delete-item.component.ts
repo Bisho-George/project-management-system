@@ -7,12 +7,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./delete-item.component.scss']
 })
 export class DeleteItemComponent {
+
   constructor(
     public dialogRef: MatDialogRef<DeleteItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
+  showImage:boolean = true;
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+  
 }

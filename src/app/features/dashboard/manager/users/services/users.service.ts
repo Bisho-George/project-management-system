@@ -19,4 +19,7 @@ export class UsersService {
       }
     });
   }
+  onActivateUser(id: number): Observable<any> {
+    return this._http.put(`Users/${id}`, {});
+  }
 }
