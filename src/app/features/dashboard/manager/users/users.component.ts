@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
-import { ViewUserProfileComponent } from 'src/app/shared/components/view-user-profile/view-user-profile.component';
-import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
+import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
+import { IUser } from './interfaces/user.interface';
+import { UsersService } from './services/users.service';
 
 
 @Component({
@@ -12,31 +12,35 @@ import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delet
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  tableData!: any;
-  resTable:any;
+  tableData!: ITableData;
+  baseUrl = 'https://upskilling-egypt.com:3003/';
+  resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
-  roleId:number[]=[1,2];
-
-  constructor(private _UsersService: UsersService, private toast: ToastrService, public dialog : MatDialog ) { }
+  roleId: number[] = [1, 2];
+  constructor(private _UsersService: UsersService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   getUsers() {
-    let myParams = {
+    let userParams = {
       userName: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
-      groups:this.roleId,
+      groups: this.roleId,
     };
-    this._UsersService.getUsers(myParams).subscribe({
-      next: (res: any) => {
+    this._UsersService.getUsers(userParams).subscribe({
+      next: (res: IDataResponse<IUser>) => {
+        res.data.forEach((user) => {
+          if (user.imagePath !== null) {
+            user.imagePath = this.baseUrl + user.imagePath;
+          }
+        })
         this.passDataToTable(res);
-        this.resTable = res
-        console.log(res);
-
-       },
+        this.resTable = res;
+      },
       error: (err) => {
         this.toast.error(err.error.message);
       }
@@ -49,7 +53,6 @@ export class UsersComponent {
     }
     const excludedFields = ['id'];
     const sampleUser = res.data[0];
-
     this.tableData = {
       data: res,
       columns: Object.keys(sampleUser)
@@ -62,7 +65,7 @@ export class UsersComponent {
         {
           type: 'button',
           label: 'View',
-          color:'accent',
+          color: 'accent',
           icon: 'visibility',
           callback: (row: any) => this.openViewDialog(row),
         },
@@ -74,7 +77,6 @@ export class UsersComponent {
         },
       ],
     };
-
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
   }
@@ -94,38 +96,9 @@ export class UsersComponent {
     this.searchValue = '';
     this.getUsers();
   }
-  openViewDialog(item:any): void {
-    const dialogRef = this.dialog.open(ViewUserProfileComponent, {
-      width: '40%',
-      data: {item},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-    });
+  handlePageChange (event: {pageNumber: number, pageSize: number}) {
+    this.tableData.data.pageNumber = event.pageNumber;
+    this.tableData.data.pageSize = event.pageSize;
+    this.getUsers();
   }
-
-
-  openBlockDialog(item:any): void {
-    const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data: { text: 'User', id: item.id ,type :item.isActivated?'Block ':'Unblock ',data: item ,image:'assets/images/blockImage.png',widthImage:'width: 100px; margin-bottom:20px;'}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed',result);
-      if(result){
-        this._UsersService.onActivateUser(result).subscribe({
-          next:(res)=>{
-            console.log(res);
-
-          },error:(err)=>{
-            this.toast.error(err.error.message, 'error')
-          },complete:()=>{
-            this.getUsers()
-            this.toast.success( 'User Active now');
-          }
-        })
-      }
-    });
-  }
-
 }

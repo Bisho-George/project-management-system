@@ -14,7 +14,7 @@
       <ng-container *ngIf="column.field === 'imagePath'">
         <img width="40px" height="40px"
           [src]="element[column.field] === null ? '../../../../assets/images/profile-pic-placeholder.svg' : element[column.field]"
-          alt="Profile Picture" class="table-image" />
+          alt="Profile Picture" class="rounded-circle" />
       </ng-container>
       <ng-container
         *ngIf="!isArray(element[column.field]) && !(column.field === 'imagePath') && !(column.field === 'creationDate') && !(column.field === 'modificationDate')">
@@ -56,6 +56,3 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSize]="pageSize" [pageIndex]="pageNumber" [length]="totalRecords" (page)="handlePageEvent($event)"
-  [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-</mat-paginator>

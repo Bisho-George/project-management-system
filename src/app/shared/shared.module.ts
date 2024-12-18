@@ -22,13 +22,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEditDialogComponent } from './components/add-edit-dialog/add-edit-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { ArrayToStringPipe } from './pipes/array-to-string.pipe';
 import { MatChipsModule } from '@angular/material/chips';
-import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { DeleteItemComponent } from './components/delete-item/delete-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ViewUserProfileComponent } from './components/view-user-profile/view-user-profile.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -40,13 +38,11 @@ import { ViewUserProfileComponent } from './components/view-user-profile/view-us
     NotFoundComponent,
     HeaderSectionComponent,
     AddEditDialogComponent,
-    ArrayToStringPipe,
     HeaderSectionComponent,
     NotFoundComponent,
-    AddEditComponent,
     NoDataComponent,
     DeleteItemComponent,
-    ViewUserProfileComponent
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -89,9 +85,9 @@ import { ViewUserProfileComponent } from './components/view-user-profile/view-us
     MatChipsModule,
     MatSelectModule,
     SidebarComponent,
-    AddEditComponent,
     NoDataComponent,
-    DragDropModule
+    DragDropModule,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }

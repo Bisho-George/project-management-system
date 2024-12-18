@@ -1,15 +1,18 @@
 <section>
   <app-header-section (buttonClick)="addProject()" title="Projects" buttonName="Add new project"></app-header-section>
-<div class="container-fluid" >
+  <div class="container-fluid">
     <div class="row">
-      <mat-card class="py-4">
-          <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
-            <mat-label>Search</mat-label>
-            <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">
-            <mat-icon matPrefix>search</mat-icon>
-            <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
+      <mat-card class="py-4 overflow-x-scroll">
+        <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
+          <mat-label>Search</mat-label>
+          <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">
+          <mat-icon matPrefix>search</mat-icon>
+          <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
         </mat-form-field>
-        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData" ></app-table>
+        <app-table [tableData]="tableData"></app-table>
+        <app-paginator [pageSize]="pageSize" [pageNumber]="pageNumber"
+          [totalRecords]="totalNumberOfRecords" [pageSizeOptions]="[5, 10, 20]"
+          (pageChange)="handlePageChange($event)"></app-paginator>
       </mat-card>
     </div>
   </div>

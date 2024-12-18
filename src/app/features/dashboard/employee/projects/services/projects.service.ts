@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
-import { IProject } from '../interfaces/project.interface';
+import { Observable } from 'rxjs';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { IProjectParams } from '../../../manager/projects/interfaces/projects-params.interface';
+import { IProject } from '../interfaces/project.interface';
 
 @Injectable({
   providedIn: 'root'

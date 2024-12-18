@@ -3,11 +3,11 @@ import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditDialogComponent } from 'src/app/shared/components/add-edit-dialog/add-edit-dialog.component';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
-import { ITableData } from 'src/app/shared/interface/table-data.interface';
+import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
+import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IProject } from './interfaces/project.interface';
 import { ProjectsService } from './services/projects.service';
-import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 
 @Component({
   selector: 'app-projects',
@@ -15,10 +15,19 @@ import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delet
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  tableData!: ITableData;
+  tableData: ITableData;
   searchValue = '';
+  pageNumber = 1
+  pageSize = 5;
+  totalNumberOfRecords = 0;
 
-  constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) {
+    this.tableData = {
+      data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
+      columns: [],
+      actions: []
+    };
+  }
 
   ngOnInit(): void {
     this.getProjects();
@@ -28,7 +37,6 @@ export class ProjectsComponent implements OnInit {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
     }
-
     const excludedFields = ['id'];
     const sampleProject = res.data[0];
     this.tableData = {
@@ -68,16 +76,18 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
-    let myParams = {
+    let projectParams = {
       title: this.searchValue,
-      pageNumber: this.tableData?.data.pageNumber,
-      pageSize: this.tableData?.data.pageSize,
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize,
     };
-    this.projectsService.getProjects(myParams).subscribe({
+    this.projectsService.getProjects(projectParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
-        localStorage.setItem('projectsCount' , JSON.stringify(res.totalNumberOfRecords))
-
+        localStorage.setItem('projectsCount', JSON.stringify(res.totalNumberOfRecords))
+        this.pageNumber = res.pageNumber;
+        this.pageSize = res.pageSize;
+        this.totalNumberOfRecords = res.totalNumberOfRecords;
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -91,15 +101,11 @@ export class ProjectsComponent implements OnInit {
       .replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
-  onPageChange(event: { pageNumber: number, pageSize: number }): void {
-    this.tableData.data.pageNumber = event.pageNumber;
-    this.tableData.data.pageSize = event.pageSize;
-    this.getProjects();
-  }
   clearFilter(): void {
     this.searchValue = '';
     this.getProjects();
   }
+
   private openAddEditDialog(title?: string, description?: string, readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
@@ -113,6 +119,7 @@ export class ProjectsComponent implements OnInit {
     })
     return dialogRef.afterClosed();
   }
+
   addProject() {
     this.openAddEditDialog().subscribe((result) => {
       if (result) {
@@ -133,7 +140,7 @@ export class ProjectsComponent implements OnInit {
     this.openAddEditDialog(project.title, project.description).subscribe((result) => {
       if (result) {
         this.projectsService.updateProject(project.id, result).subscribe({
-          next: () => {},
+          next: () => { },
           error: (err) => {
             this.toast.error(err.error.message);
           },
@@ -147,47 +154,36 @@ export class ProjectsComponent implements OnInit {
   }
 
   viewProject(project: IProject): void {
-    this.openAddEditDialog(project.title, project.description, true).subscribe(() => {});
+    this.openAddEditDialog(project.title, project.description, true).subscribe(() => { });
   }
-  // deleteProject(id: number): void {
-  //   const dialogRef = this.dialog.open(
-  //     DeleteItemComponent, {
-  //       data: { text:'Project'}
-  //   })
-  //   dialogRef.afterClosed().subscribe(() => {
-  //     this.projectsService.deleteProject(id).subscribe({
-  //       next: () => {
-  //       },
-  //       error: (err) => {
-  //         this.toast.error(err.error.message);
-  //       },
-  //       complete: () => {
-  //         this.toast.success('Project deleted')
-  //         this.getProjects();
-  //       }
-  //     })
-  //   })
-  // }
-  openDeleteDialog(item:any): void {
+
+  openDeleteDialog(project: IProject): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data:  {text:'Project',id:item.id,type:'delete',image:'assets/images/deleteImg.png',widthImage:'width: 140px;'}
+      data: { text: 'Project', id: project.id }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.onDeleteUser(result)
       }
     });
   }
-  onDeleteUser(id:number){
+
+  onDeleteUser(id: number) {
     this.projectsService.deleteProject(id).subscribe({
-      next:(res)=>{
+      next: (res) => {
         this.toast.success('Project is deleted')
       },
       error(err) {
       },
-      complete:()=>{
+      complete: () => {
         this.getProjects();
       }
     })
+  }
+
+  handlePageChange(event: { pageNumber: number; pageSize: number }): void {
+    this.pageNumber = event.pageNumber;
+    this.pageSize = event.pageSize;
+    this.getProjects();
   }
 }

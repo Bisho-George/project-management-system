@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ITaskParams } from '../interfaces/task-params';
+import { IAddTask } from '../interfaces/add-task.interface';
+import { IEditTask } from '../interfaces/edit-task.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,11 @@ export class TasksService {
       }
     });
   }
-  addTask(task: FormGroup) {
+  addTask(task: IAddTask) {
     return this._http.post('Task', task);
+  }
+  updateTask(id: number, task: IEditTask) {
+    return this._http.put(`Task/${id}`, task);
   }
   deleteTask(id: number) {
     return this._http.delete(`Task/${id}`);

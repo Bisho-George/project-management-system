@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManagerComponent } from './manager.component';
+import { PaginatorComponent } from './paginator.component';
 
-describe('ManagerComponent', () => {
-  let component: ManagerComponent;
-  let fixture: ComponentFixture<ManagerComponent>;
+describe('PaginatorComponent', () => {
+  let component: PaginatorComponent;
+  let fixture: ComponentFixture<PaginatorComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ManagerComponent]
+      declarations: [PaginatorComponent]
     });
-    fixture = TestBed.createComponent(ManagerComponent);
+    fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,8 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ITableData } from '../../interface/table-data.interface';
-import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { ITableData } from '../../interface/table/table-data.interface';
 
 @Component({
   selector: 'app-table',
@@ -12,16 +11,11 @@ import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/pag
 })
 export class TableComponent implements OnInit, OnChanges {
   @Input() tableData!: ITableData;
-  @Output() pageChange = new EventEmitter<{ pageNumber: number, pageSize: number }>();
-  pageNumber = 1;
-  pageSize = 5;
-  totalRecords = 0;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [];
   projectNames: string[] = [];
 
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {  }
 
@@ -48,11 +42,7 @@ export class TableComponent implements OnInit, OnChanges {
         this.displayedColumns.push('actions');
       }
       this.dataSource.data = this.tableData?.data?.data;
-      this.pageNumber = this.tableData?.data?.pageNumber;
-      this.pageSize = this.tableData?.data?.pageSize;
-      this.totalRecords = this.tableData?.data?.totalNumberOfRecords;
-      if (this.sort && this.paginator) {
-        this.dataSource.paginator = this.paginator;
+      if (this.sort ) {
         this.dataSource.sort = this.sort;
       }
     }
@@ -71,17 +61,6 @@ export class TableComponent implements OnInit, OnChanges {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  updatePagination(): void {
-    if (this.paginator) {
-      this.paginator.pageIndex = this.tableData.data.pageNumber;
-      this.paginator.pageSize = this.tableData.data.pageSize;
-      this.paginator.length = this.tableData.data.totalNumberOfRecords;
-    }
-  }
-
-  handlePageEvent(event: PageEvent): void {
-    this.pageChange.emit({ pageNumber: event.pageIndex, pageSize: event.pageSize });
-  }
   isArray(value: any): boolean {
     return Array.isArray(value);
   }
