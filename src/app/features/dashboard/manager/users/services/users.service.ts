@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IUsersParams } from '../interfaces/users-params';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class UsersService {
 
  constructor(private _http: HttpClient) { }
 
-  getUsers(params?: any): Observable<any> {
+  getUsers(params?: IUsersParams): Observable<any> {
     return this._http.get('Users/', {
       params: {
         userName: params?.userName || '',
