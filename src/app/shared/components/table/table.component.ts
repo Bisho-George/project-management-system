@@ -16,7 +16,6 @@ export class TableComponent implements OnInit, OnChanges {
   projectNames: string[] = [];
 
   @ViewChild(MatSort) sort!: MatSort;
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {  }
 

@@ -19,7 +19,7 @@ import { IProject } from '../projects/interfaces/project.interface';
 })
 export class TasksComponent {
   tableData!: any;
-  resData: any;
+  resData: IDataResponse<ITask> | undefined;
   userData: any;
   projectData: any;
   statusValue: string = '';
@@ -41,9 +41,9 @@ export class TasksComponent {
       status: this.statusValue
     };
     this._TasksService.getTasks(myParams).subscribe({
-      next: (res: any) => {
+      next: (res: IDataResponse<ITask>) => {
         this.passDataToTable(res);
-        this.resData = res.data
+        this.resData = res
         localStorage.setItem('tasksCount', JSON.stringify(res.totalNumberOfRecords))
       },
       error: (err) => {
@@ -225,6 +225,11 @@ export class TasksComponent {
         this.getTasks();
       }
     })
+  }
+  handlePageChange(event: { pageNumber: number; pageSize: number }): void {
+    this.tableData.data.pageNumber = event.pageNumber;
+    this.tableData.data.pageSize = event.pageSize;
+    this.getTasks();
   }
 
 }

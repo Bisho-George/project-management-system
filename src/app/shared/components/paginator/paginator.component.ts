@@ -8,12 +8,13 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class PaginatorComponent {
   @Input() pageSize = 5;
-  @Input() pageNumber = 0;
+  @Input() pageNumber = 1;
   @Input() totalRecords = 0;
   @Input() pageSizeOptions: number[] = [5, 10, 20];
   @Output() pageChange = new EventEmitter<{ pageNumber: number; pageSize: number }>();
-
+  constructor() {
+  }
   onPageChange(event: PageEvent): void {
-    this.pageChange.emit({ pageNumber: event.pageIndex, pageSize: event.pageSize });
+    this.pageChange.emit({ pageNumber: event.pageIndex + 1, pageSize: event.pageSize });
   }
 }
