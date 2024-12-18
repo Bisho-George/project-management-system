@@ -159,7 +159,7 @@ export class TasksComponent {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: any) => this.openAddEditDialog(row),
+          callback: (row: any) => this.openDeleteDialog(row),
         },
       ],
     };
