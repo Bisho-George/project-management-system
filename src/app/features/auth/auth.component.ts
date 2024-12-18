@@ -28,10 +28,8 @@ export class AuthComponent {
 
 
   onLogin() {
-    console.log(this.loginForm.value);
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        console.log(res);
         localStorage.setItem('userToken', res.token);
       },
       error: (err) => {

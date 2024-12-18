@@ -10,6 +10,7 @@ import { ITask } from './interfaces/task.interface';
 import { ProjectsService } from '../projects/services/projects.service';
 import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
 import { IProject } from '../projects/interfaces/project.interface';
+import { IUser } from '../users/interfaces/user.interface';
 
 @Component({
   selector: 'app-tasks',
@@ -20,11 +21,11 @@ export class TasksComponent {
   tableData!: any;
   resData: any;
   userData: any;
-  projectData:any;
+  projectData: any;
   statusValue: string = '';
   searchValue = '';
   status: string[] = ['ToDo', 'InProgress', 'Done'];
-  constructor(private dialog: MatDialog,private _ProjectsService:ProjectsService, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog, private _ProjectsService: ProjectsService, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getTasks();
@@ -43,7 +44,7 @@ export class TasksComponent {
       next: (res: any) => {
         this.passDataToTable(res);
         this.resData = res.data
-        localStorage.setItem('tasksCount',JSON.stringify(res.totalNumberOfRecords))
+        localStorage.setItem('tasksCount', JSON.stringify(res.totalNumberOfRecords))
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -60,36 +61,47 @@ export class TasksComponent {
         this.userData = res.data
       },
       error: (err) => {
-       console.log(err)
+        this.toast.error(err.error.message);
       }
     });
   }
   getProjects() {
-      console.log(this.tableData);
-      let myParams = {
-        pageNumber: 1,
-        pageSize: 9999,
-      };
-      this._ProjectsService.getProjects(myParams).subscribe({
-        next: (res: IDataResponse<IProject>) => {
-          console.log( res.data,'fff');
-          this.projectData = res.data
-        },
-        error: (err) => {
-          this.toast.error(err.error.message);
-        }
-      });
-    }
+    let myParams = {
+      pageNumber: 1,
+      pageSize: 9999,
+    };
+    this._ProjectsService.getProjects(myParams).subscribe({
+      next: (res: IDataResponse<IProject>) => {
+        this.projectData = res.data
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      }
+    });
+  }
 
-  private openAddEditDialog(title?: string, description?: string, readOnly = false) {
+  private openAddDialog(title?: string, description?: string,  readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
       data: {
         fields: [
           { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
           { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
-          { type: 'select', label: 'User', name: 'user', value: this.userData || '', validators: [Validators.required] },
-          { type: 'select', label: 'Project', name: 'project', value: this.projectData || '', validators: [Validators.required] },
+          { type: 'select', label: 'User', name: 'user', value: this.userData, validators: [Validators.required] },
+          { type: 'select', label: 'Project', name: 'project', value: this.projectData, validators: [Validators.required] },
+        ],
+        readOnly
+      }
+    })
+    return dialogRef.afterClosed();
+  }  private openAddEditDialog(title?: string, description?: string, employee?: IUser, readOnly = false) {
+    const dialogRef = this.dialog.open(AddEditDialogComponent, {
+      width: '40%',
+      data: {
+        fields: [
+          { type: 'text', label: 'Title', name: 'title', value: title || '', validators: [Validators.required] },
+          { type: 'description', label: 'Description', name: 'description', value: description || '', validators: [Validators.required] },
+          { type: 'select', label: 'User', name: 'user', value: this.userData, employee, validators: [Validators.required] },
         ],
         readOnly
       }
@@ -97,7 +109,7 @@ export class TasksComponent {
     return dialogRef.afterClosed();
   }
   addTask() {
-    this.openAddEditDialog().subscribe((result) => {
+    this.openAddDialog().subscribe((result) => {
       if (result) {
         this._TasksService.addTask(result).subscribe({
           next: () => { },
@@ -133,21 +145,21 @@ export class TasksComponent {
           label: 'View',
           color: 'accent',
           icon: 'visibility',
-          callback: (row: any) => this.viewTask(row.id),
+          callback: (row: ITask) => this.viewTask(row, row.employee),
         },
         {
           type: 'button',
           label: 'Edit',
           color: 'accent',
           icon: 'edit_square',
-          callback: (row: any) => this.editTask(row),
+          callback: (row: ITask) => this.editTask(row.id),
         },
         {
           type: 'button',
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: any) => this.openDeleteDialog(row),
+          callback: (row: any) => this.openAddEditDialog(row),
         },
       ],
     };
@@ -171,11 +183,23 @@ export class TasksComponent {
     this.searchValue = '';
     this.getTasks();
   }
-  viewTask(id: number): void {
-    console.log('Edit Task:', id);
+  viewTask(task: ITask, user: IUser): void {
+    this.openAddEditDialog(task.title, task.description, user, true).subscribe((result) => {
+      if (result) {
+        // this._TasksService.updateTask(task.id, result).subscribe({
+        //   next: () => { },
+        //   error: (err) => {
+        //     this.toast.error(err.error.message);
+        //   }, complete: () => {
+        //     this.toast.success('Task updated successfully');
+        //     this.getTasks();
+        //   }
+        // })
+      }
+    });
   }
   editTask(id: number): void {
-    console.log('Edit Task:', id);
+    this.openAddEditDialog
   }
   // deleteTask(id: number): void {
   //   const dialogRef = this.dialog.open(
@@ -196,28 +220,24 @@ export class TasksComponent {
   //     })
   //   })
   // }
-  openDeleteDialog(item:any): void {
+  openDeleteDialog(item: ITask): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data:  {text:'Task',id:item.id}
+      data: { text: 'Task', id: item.id }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      if(result){
+      if (result) {
         this.onDeleteUser(result)
       }
     });
   }
-  onDeleteUser(id:number){
+  onDeleteUser(id: number) {
     this._TasksService.deleteTask(id).subscribe({
-      next:(res)=>{
-        console.log(res);
+      next: (res) => {
         this.toast.success('Task is deleted')
       },
       error(err) {
-        console.log(err);
       },
-      complete:()=>{
+      complete: () => {
         this.getTasks();
       }
     })

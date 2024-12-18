@@ -24,13 +24,11 @@ export class VerifyAccountComponent {
     this.verifyForm.patchValue({ email })
   }
   onVerify() {
-    console.log(this.verifyForm.value);
     this.authService.verifyAccount(this.verifyForm.value).subscribe({
       next: (res: any) => {
         this.resMessage = res.message;
       },
       error: (err) => {
-        console.log(err);
         this.toast.error(err.error.message);
       },
       complete: () => {

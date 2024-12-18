@@ -33,7 +33,6 @@ export class RegisterComponent implements OnInit {
 
   imageSource = computed(() => {
     if (this.croppedImage()) {
-      console.log(this.croppedImage());
       return this.croppedImage()?.imageUrl;
     }
     return this.placeholder();
