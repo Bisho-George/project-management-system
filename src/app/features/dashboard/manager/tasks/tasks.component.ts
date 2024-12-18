@@ -80,7 +80,7 @@ export class TasksComponent {
     });
   }
 
-  private openAddDialog(title?: string, description?: string,  readOnly = false) {
+  private openAddDialog(title?: string, description?: string, readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
       data: {
@@ -94,7 +94,7 @@ export class TasksComponent {
       }
     })
     return dialogRef.afterClosed();
-  }  private openAddEditDialog(title?: string, description?: string, employee?: IUser, readOnly = false) {
+  } private openAddEditDialog(title?: string, description?: string, employee?: IUser, readOnly = false) {
     const dialogRef = this.dialog.open(AddEditDialogComponent, {
       width: '40%',
       data: {
@@ -164,7 +164,7 @@ export class TasksComponent {
           color: 'warn',
           label: 'Delete',
           icon: 'delete',
-          callback: (row: any) => this.openAddEditDialog(row),
+          callback: (row: any) => this.openDeleteDialog(row),
         },
       ],
     };
@@ -189,18 +189,17 @@ export class TasksComponent {
     this.getTasks();
   }
   viewTask(task: ITask, user: IUser): void {
-    this.openAddEditDialog(task.title, task.description, user, true).subscribe((result) => {});
+    this.openAddEditDialog(task.title, task.description, user, true).subscribe((result) => { });
   }
   editTask(task: ITask, user: IUser): void {
-    console.log(task);
-    this.openAddEditDialog(task.title, task.description, user ).subscribe((result) => {
+    this.openAddEditDialog(task.title, task.description, user).subscribe((result) => {
       if (result) {
         this._TasksService.updateTask(task.id, {
           title: result.title,
           description: result.description,
           employeeId: result.user
         }).subscribe(({
-          next: () => {},
+          next: () => { },
           error: (error) => this.toast.error(error.error.message),
           complete: () => {
             this.toast.success('Task updated successfully');
@@ -210,45 +209,27 @@ export class TasksComponent {
       }
     })
   }
-  // deleteTask(id: number): void {
-  //   const dialogRef = this.dialog.open(
-  //     DeleteItemComponent, {
-  //       data: { text:'Task'}
-  //   })
-  //   dialogRef.afterClosed().subscribe(() => {
-  //     this._TasksService.deleteTask(id).subscribe({
-  //       next: () => {
-  //       },
-  //       error: (err) => {
-  //         this.toast.error(err.error.message);
-  //       },
-  //       complete: () => {
-  //         this.toast.success('Task deleted')
-  //         this.getTasks();
-  //       }
-  //     })
-  //   })
-  // }
+
   openDeleteDialog(item: ITask): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
       data: { text: 'Task', id: item.id }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.onDeleteUser(result)
+        this.deleteTask(result)
       }
     });
   }
-  onDeleteUser(id: number) {
+  private deleteTask(id: number) {
     this._TasksService.deleteTask(id).subscribe({
-      next: (res) => {
-        this.toast.success('Task is deleted')
-      },
-      error(err) {
-      },
-      complete: () => {
+      next: () => { },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      }, complete: () => {
+        this.toast.success('Task deleted successfully');
         this.getTasks();
       }
     })
   }
+
 }
