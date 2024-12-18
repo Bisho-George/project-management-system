@@ -2,7 +2,7 @@
   <app-header-section (buttonClick)="addProject()" title="Projects" buttonName="Add new project"></app-header-section>
   <div class="container-fluid">
     <div class="row">
-      <mat-card class="py-4">
+      <mat-card class="py-4 overflow-x-scroll">
         <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
           <mat-label>Search</mat-label>
           <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">

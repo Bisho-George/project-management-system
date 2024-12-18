@@ -4,10 +4,10 @@ import {
   transferArrayItem
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { ToastrService } from 'ngx-toastr';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { IUserTask } from './interfaces/user-task.interface';
 import { TasksService } from './services/tasks.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tasks',

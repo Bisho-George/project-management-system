@@ -1,8 +1,7 @@
 import { Component, effect, EventEmitter, Inject, Output, signal } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SafeUrl } from '@angular/platform-browser';
-import { ICropperDialogResult } from '../../interface/cropper-dialog.interface';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ICropperDialogResult } from '../../interface/crop-dialog/cropper-dialog.interface';
 
 @Component({
   selector: 'app-crop-dialog',

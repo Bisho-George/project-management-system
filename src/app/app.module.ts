@@ -7,8 +7,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GlobalInterceptor } from './core/interceptors/global.interceptor';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { GlobalInterceptor } from './core/interceptors/global/global.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DashboardRoutingModule } from './features/dashboard/dashboard-routing.module';
 

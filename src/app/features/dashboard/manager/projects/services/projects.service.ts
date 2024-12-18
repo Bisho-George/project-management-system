@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { IProject } from '../interfaces/project.interface';
 import { IProjectParams } from '../interfaces/projects-params.interface';
 

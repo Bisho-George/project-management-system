@@ -1,16 +1,17 @@
-import { IUser } from 'src/app/features/dashboard/manager/users/interfaces/user.interface';
 import { Component } from '@angular/core';
-import { TasksService } from './services/tasks.service';
-import { ToastrService } from 'ngx-toastr';
-import { AddEditDialogComponent } from 'src/app/shared/components/add-edit-dialog/add-edit-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { IUser } from 'src/app/features/dashboard/manager/users/interfaces/user.interface';
+import { AddEditDialogComponent } from 'src/app/shared/components/add-edit-dialog/add-edit-dialog.component';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
+import { ITableAction, ITableData } from 'src/app/shared/interface/table/table-data.interface';
+import { IProject } from '../projects/interfaces/project.interface';
+import { ProjectsService } from '../projects/services/projects.service';
 import { UsersService } from '../users/services/users.service';
 import { ITask } from './interfaces/task.interface';
-import { ProjectsService } from '../projects/services/projects.service';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
-import { IProject } from '../projects/interfaces/project.interface';
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -18,14 +19,44 @@ import { IProject } from '../projects/interfaces/project.interface';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent {
-  tableData!: any;
+  tableData: ITableData;
   resData: IDataResponse<ITask> | undefined;
-  userData: any;
-  projectData: any;
-  statusValue: string = '';
+  userData: IDataResponse<IUser> | undefined;
+  projectData: IProject[] = [];
+  statusValue = '';
   searchValue = '';
-  status: string[] = ['ToDo', 'InProgress', 'Done'];
-  constructor(private dialog: MatDialog, private _ProjectsService: ProjectsService, private _UsersService: UsersService, private _TasksService: TasksService, private toast: ToastrService) { }
+  status = ['ToDo', 'InProgress', 'Done'];
+  actions: ITableAction[] = [];
+  constructor(private dialog: MatDialog, private _projectsService: ProjectsService, private _UsersService: UsersService, private _tasksService: TasksService, private toast: ToastrService) {
+    this.actions = [
+      {
+        type: 'button',
+        label: 'View',
+        color: 'accent',
+        icon: 'visibility',
+        callback: (row: ITask) => this.viewTask(row, row.employee),
+      },
+      {
+        type: 'button',
+        label: 'Edit',
+        color: 'accent',
+        icon: 'edit_square',
+        callback: (row: ITask) => this.editTask(row, row.employee),
+      },
+      {
+        type: 'button',
+        color: 'warn',
+        label: 'Delete',
+        icon: 'delete',
+        callback: (row: any) => this.openDeleteDialog(row),
+      },
+    ],
+      this.tableData = {
+        data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
+        columns: [],
+        actions: this.actions
+      }
+  }
 
   ngOnInit(): void {
     this.getTasks();
@@ -34,13 +65,13 @@ export class TasksComponent {
   }
 
   getTasks() {
-    let myParams = {
+    let taskParams = {
       title: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
       status: this.statusValue
     };
-    this._TasksService.getTasks(myParams).subscribe({
+    this._tasksService.getTasks(taskParams).subscribe({
       next: (res: IDataResponse<ITask>) => {
         this.passDataToTable(res);
         this.resData = res
@@ -70,7 +101,7 @@ export class TasksComponent {
       pageNumber: 1,
       pageSize: 9999,
     };
-    this._ProjectsService.getProjects(myParams).subscribe({
+    this._projectsService.getProjects(myParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.projectData = res.data
       },
@@ -111,7 +142,7 @@ export class TasksComponent {
   addTask() {
     this.openAddDialog().subscribe((result) => {
       if (result) {
-        this._TasksService.addTask({
+        this._tasksService.addTask({
           title: result.title,
           description: result.description,
           employeeId: result.user,
@@ -135,7 +166,6 @@ export class TasksComponent {
     }
     const excludedFields = ['id'];
     const sampleTask = res.data[0];
-
     this.tableData = {
       data: res,
       columns: Object.keys(sampleTask)
@@ -144,31 +174,8 @@ export class TasksComponent {
           field: key,
           header: this.formatHeader(key),
         })),
-      actions: [
-        {
-          type: 'button',
-          label: 'View',
-          color: 'accent',
-          icon: 'visibility',
-          callback: (row: ITask) => this.viewTask(row, row.employee),
-        },
-        {
-          type: 'button',
-          label: 'Edit',
-          color: 'accent',
-          icon: 'edit_square',
-          callback: (row: ITask) => this.editTask(row, row.employee),
-        },
-        {
-          type: 'button',
-          color: 'warn',
-          label: 'Delete',
-          icon: 'delete',
-          callback: (row: any) => this.openDeleteDialog(row),
-        },
-      ],
+      actions: this.actions
     };
-
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
   }
@@ -189,7 +196,7 @@ export class TasksComponent {
   editTask(task: ITask, user: IUser): void {
     this.openAddEditDialog(task.title, task.description, user).subscribe((result) => {
       if (result) {
-        this._TasksService.updateTask(task.id, {
+        this._tasksService.updateTask(task.id, {
           title: result.title,
           description: result.description,
           employeeId: result.user
@@ -216,7 +223,7 @@ export class TasksComponent {
     });
   }
   private deleteTask(id: number) {
-    this._TasksService.deleteTask(id).subscribe({
+    this._tasksService.deleteTask(id).subscribe({
       next: () => { },
       error: (err) => {
         this.toast.error(err.error.message);
