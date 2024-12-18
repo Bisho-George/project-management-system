@@ -28,7 +28,7 @@ export class SidebarComponent {
     {link:'/dashboard/manager/users',icon:'fa-user-group',text:'Users',isActive:this.isManager()},
     {link:'/dashboard/manager/tasks',icon:'fa-list',text:'Tasks',isActive:this.isManager()},
     {link:'/dashboard/manager/projects',icon:'fa-table-list',text:'Projects',isActive:this.isManager()},
-    {link:'/dashboard/employee/employee-projects',icon:'fa-table-list',text:'Projects',isActive:this.isEmployee()},
+    {link:'/dashboard/employee/projects',icon:'fa-table-list',text:'Projects',isActive:this.isEmployee()},
     {link:'/dashboard/employee/tasks',icon:'fa-list-check',text:'Tasks',isActive:this.isEmployee()},
   ];
   onClicked() {
