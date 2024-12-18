@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
- 
+import { MatDialog } from '@angular/material/dialog';
+import { ViewUserProfileComponent } from 'src/app/shared/components/view-user-profile/view-user-profile.component';
+
 
 @Component({
   selector: 'app-users',
@@ -13,7 +15,8 @@ export class UsersComponent {
   resTable:any;
   searchValue = '';
   roleId:number[]=[1,2];
-  constructor(private _UsersService: UsersService, private toast: ToastrService) { }
+
+  constructor(private _UsersService: UsersService, private toast: ToastrService, public dialog : MatDialog ) { }
 
   ngOnInit(): void {
     this.getUsers();
@@ -30,6 +33,8 @@ export class UsersComponent {
       next: (res: any) => {
         this.passDataToTable(res);
         this.resTable = res
+        console.log(res);
+
        },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -58,7 +63,7 @@ export class UsersComponent {
           label: 'View',
           color:'accent',
           icon: 'visibility',
-          callback: (row: any) => console.log('view', row),
+          callback: (row: any) => this.openViewDialog(row),
         },
         {
           type: 'button',
@@ -88,6 +93,14 @@ export class UsersComponent {
     this.searchValue = '';
     this.getUsers();
   }
-
-
+  openViewDialog(item:any): void {
+    const dialogRef = this.dialog.open(ViewUserProfileComponent, {
+      width: '40%',
+      data: {item},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
+  }
 }
