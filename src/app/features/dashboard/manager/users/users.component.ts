@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
- 
+import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IUser } from './interfaces/user.interface';
+
 
 @Component({
   selector: 'app-users',
@@ -10,9 +12,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UsersComponent {
   tableData!: any;
-  resTable:any;
+  baseUrl = 'https://upskilling-egypt.com:3003/';
+  resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
-  roleId:number[]=[1,2];
+  roleId: number[] = [1, 2];
   constructor(private _UsersService: UsersService, private toast: ToastrService) { }
 
   ngOnInit(): void {
@@ -24,13 +27,18 @@ export class UsersComponent {
       userName: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
-      groups:this.roleId,
+      groups: this.roleId,
     };
     this._UsersService.getUsers(myParams).subscribe({
-      next: (res: any) => {
+      next: (res: IDataResponse<IUser>) => {
+        res.data.forEach((user) => {
+          if (user.imagePath !== null) {
+            user.imagePath = this.baseUrl + user.imagePath;
+          }
+        })
         this.passDataToTable(res);
-        this.resTable = res
-       },
+        this.tableData = res
+      },
       error: (err) => {
         this.toast.error(err.error.message);
       }
@@ -56,7 +64,7 @@ export class UsersComponent {
         {
           type: 'button',
           label: 'View',
-          color:'accent',
+          color: 'accent',
           icon: 'visibility',
           callback: (row: any) => console.log('view', row),
         },
@@ -87,6 +95,10 @@ export class UsersComponent {
   clearFilter(): void {
     this.searchValue = '';
     this.getUsers();
+  }
+  handlePageChange (event: {pageNumber: number, pageSize: number}) {
+    this.tableData.data.pageNumber = event.pageNumber;
+    this.tableData.data.pageSize = event.pageSize
   }
 
 

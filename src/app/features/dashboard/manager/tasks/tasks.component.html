@@ -22,7 +22,7 @@
             </mat-form-field>
           </div>
         </div>
-        <app-table (pageChange)="onPageChange($event)" *ngIf="resData?.length > 0" [tableData]="tableData"></app-table>
+        <app-table [tableData]="tableData"></app-table>
       </mat-card>
     </div>
   </div>

@@ -9,7 +9,7 @@
             <mat-icon matPrefix>search</mat-icon>
             <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
         </mat-form-field>
-        <app-table (pageChange)="onPageChange($event)" [tableData]="tableData" ></app-table>
+        <app-table  [tableData]="tableData" ></app-table>
       </mat-card>
     </div>
   </div>
