@@ -68,7 +68,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
-    console.log(this.tableData);
     let myParams = {
       title: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
@@ -78,7 +77,6 @@ export class ProjectsComponent implements OnInit {
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
         localStorage.setItem('projectsCount' , JSON.stringify(res.totalNumberOfRecords))
-        console.log(res);
 
       },
       error: (err) => {
@@ -175,8 +173,6 @@ export class ProjectsComponent implements OnInit {
       data:  {text:'Project',id:item.id}
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
       if(result){
         this.onDeleteUser(result)
       }
@@ -185,11 +181,9 @@ export class ProjectsComponent implements OnInit {
   onDeleteUser(id:number){
     this.projectsService.deleteProject(id).subscribe({
       next:(res)=>{
-        console.log(res);
         this.toast.success('Project is deleted')
       },
       error(err) {
-        console.log(err);
       },
       complete:()=>{
         this.getProjects();

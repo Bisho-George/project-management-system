@@ -73,7 +73,6 @@ export class TableComponent implements OnInit, OnChanges {
 
   updatePagination(): void {
     if (this.paginator) {
-      console.log(this.tableData);
       this.paginator.pageIndex = this.tableData.data.pageNumber;
       this.paginator.pageSize = this.tableData.data.pageSize;
       this.paginator.length = this.tableData.data.totalNumberOfRecords;

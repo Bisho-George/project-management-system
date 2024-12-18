@@ -49,8 +49,6 @@ export class ProjectsComponent implements OnInit {
       this.projectsService.getProjects(myParams).subscribe({
         next: (res: IDataResponse<IProject>) => {
           this.passDataToTable(res);
-          console.log(res);
-
         },
         error: (err) => {
           this.toast.error(err.error.message);
