@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UsersService } from './services/users.service';
 import { ToastrService } from 'ngx-toastr';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
+import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IUser } from './interfaces/user.interface';
-import { ITableData } from 'src/app/shared/interface/table-data.interface';
+import { UsersService } from './services/users.service';
 
 
 @Component({
@@ -25,13 +25,13 @@ export class UsersComponent {
   }
 
   getUsers() {
-    let myParams = {
+    let userParams = {
       userName: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
       groups: this.roleId,
     };
-    this._UsersService.getUsers(myParams).subscribe({
+    this._UsersService.getUsers(userParams).subscribe({
       next: (res: IDataResponse<IUser>) => {
         res.data.forEach((user) => {
           if (user.imagePath !== null) {
@@ -53,7 +53,6 @@ export class UsersComponent {
     }
     const excludedFields = ['id'];
     const sampleUser = res.data[0];
-
     this.tableData = {
       data: res,
       columns: Object.keys(sampleUser)
@@ -102,6 +101,4 @@ export class UsersComponent {
     this.tableData.data.pageSize = event.pageSize;
     this.getUsers();
   }
-
-
 }

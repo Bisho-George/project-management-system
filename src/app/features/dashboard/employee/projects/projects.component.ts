@@ -1,10 +1,10 @@
-import { ITableData } from 'src/app/shared/interface/table-data.interface';
-import { ProjectsService } from './services/projects.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
+import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IProject } from './interfaces/project.interface';
+import { ProjectsService } from './services/projects.service';
 
 @Component({
   selector: 'app-projects',
@@ -17,6 +17,7 @@ export class ProjectsComponent implements OnInit {
   pageSize = 5;
   totalNumberOfRecords = 0;
   searchValue = '';
+
   constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
 
   ngOnInit(): void {
@@ -24,12 +25,12 @@ export class ProjectsComponent implements OnInit {
   }
 
   getProjects() {
-    let myParams = {
+    let employeeParams = {
       title: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
     };
-    this.projectsService.getProjects(myParams).subscribe({
+    this.projectsService.getProjects(employeeParams).subscribe({
       next: (res: IDataResponse<IProject>) => {
         this.passDataToTable(res);
         this.pageNumber = res.pageNumber;
@@ -82,7 +83,6 @@ export class ProjectsComponent implements OnInit {
   handlePageChange(event: { pageNumber: number; pageSize: number }): void {
     this.pageNumber = event.pageNumber;
     this.pageSize = event.pageSize;
-    console.log(this.pageNumber);
     this.getProjects();
   }
 }

@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard.component';
+import { authGuard } from 'src/app/core/guards/auth/auth.guard';
+import { employeeGuard } from 'src/app/core/guards/employee/employee.guard';
+import { managerGuard } from 'src/app/core/guards/manager/manager.guard';
 import { HomeComponent } from 'src/app/shared/components/home/home.component';
-import { employeeGuard } from 'src/app/core/guards/employee.guard';
-import { managerGuard } from 'src/app/core/guards/manager.guard';
-import { authGuard } from 'src/app/core/guards/auth.guard';
+import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
   {

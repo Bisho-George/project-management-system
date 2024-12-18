@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
 import { ToastrService } from 'ngx-toastr';
-import { IUserProfile } from '../../interface/user-profile-interface';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
+import { IUserProfile } from '../../interface/user-profile/user-profile-interface';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-navbar',

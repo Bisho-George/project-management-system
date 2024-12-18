@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IDataResponse } from 'src/app/shared/interface/data-response.interface';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { IUserTask } from '../interfaces/user-task.interface';
 import { IUserTasksParams } from '../interfaces/user-tasks-params.interface';
 

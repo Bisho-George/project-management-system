@@ -1,13 +1,13 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { filter } from 'rxjs';
+import { CropDialogComponent } from 'src/app/shared/components/crop-dialog/crop-dialog.component';
+import { ICropperDialogResult } from 'src/app/shared/interface/crop-dialog/cropper-dialog.interface';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
-import { MatDialog } from '@angular/material/dialog';
-import { CropDialogComponent } from 'src/app/shared/components/crop-dialog/crop-dialog.component';
-import { ICropperDialogResult } from 'src/app/shared/interface/cropper-dialog.interface';
-import { filter } from 'rxjs';
 
 
 @Component({
