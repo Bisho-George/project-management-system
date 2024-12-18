@@ -18,6 +18,7 @@ export class HomeComponent {
   userName = localStorage.getItem('userName')
   projectsCount = localStorage.getItem('projectsCount')
   tasksCount = localStorage.getItem('tasksCount')
+  role = localStorage.getItem('userGroup')
   getUsersCount() {
     this._HomeService.getUsresCount().subscribe({
       next: (res) => {
