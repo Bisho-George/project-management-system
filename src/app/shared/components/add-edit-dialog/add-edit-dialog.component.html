@@ -17,7 +17,7 @@
         <mat-form-field *ngSwitchCase="'select'" appearance="outline" class="w-100">
           <mat-label>{{ field.label }}</mat-label>
           <mat-select [formControlName]="field.name">
-            <mat-option *ngFor="let option of field.value" [value]="option.title || option.userName">
+            <mat-option *ngFor="let option of field.value" [value]="option.id">
               {{ option.title || option.userName }}
             </mat-option>
           </mat-select>

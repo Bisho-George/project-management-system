@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IUser } from 'src/app/features/dashboard/manager/users/interfaces/user.interface';
 
 @Component({
   selector: 'app-add-edit-dialog',
@@ -10,6 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddEditDialogComponent implements OnInit {
   isViewMode = false;
   form: FormGroup;
+  employee: IUser | undefined;
 
   constructor(
     public dialogRef: MatDialogRef<AddEditDialogComponent>,
@@ -35,11 +37,12 @@ export class AddEditDialogComponent implements OnInit {
     const group: any = {};
     fields.forEach((field) => {
       group[field.name] = this.fb.control({
-        value: field.value || '',
+      value: field.name === 'user' && field.employee ? field.employee.id : field.value || '',
         disabled: this.isViewMode
       }, field.validators || []);
+      this.employee = field.employee;
     });
-    console.log(fields);
+
     return this.fb.group(group);
   }
 

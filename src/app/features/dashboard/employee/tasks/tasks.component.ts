@@ -69,7 +69,6 @@ export class TasksComponent implements OnInit {
     this.userTasksService.updateTaskStatus(task.id, status).subscribe({
       next: (res) => {},
       error: (err) => {
-        console.log(err);
       },
     });
   }
