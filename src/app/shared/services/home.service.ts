@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { IHomeRole } from '../interface/home/home-role.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,15 @@ getTasksCount():Observable<any>
   {
     return this._HttpClient.get('Task/count')
   }
-  getUsresCount():Observable<any>
+  getUsresCount():Observable<IHomeRole>
   {
-    return this._HttpClient.get('Users/count')
+    return this._HttpClient.get<IHomeRole>('Users/count')
   }
   getTasksData():Observable<any>
   {
-    return this._HttpClient.get('Task/count')
+    return this._HttpClient.get('Task/Manager')
   }
+   getProjects(): Observable<any> {
+      return this._HttpClient.get('Project/manager' )
+    }
 }
