@@ -96,7 +96,7 @@ export class UsersComponent {
         },
         {
           type: 'button',
-          label: 'Block',
+          label:  'Block',
           icon: 'block',
           callback: (row: any) => this.openBlockDialog(row),
         },
@@ -138,10 +138,9 @@ export class UsersComponent {
     });
   }
 
-
   openBlockDialog(item: any): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/blockImage.png', widthImage: 'width: 100px; margin-bottom:20px;' }
+      data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/png/block-dialog-picture.png', widthImage: 'width: 100px; margin-bottom:20px;' }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
@@ -149,7 +148,6 @@ export class UsersComponent {
         this._UsersService.onActivateUser(result).subscribe({
           next: (res) => {
             console.log(res);
-
           }, error: (err) => {
             this.toast.error(err.error.message, 'error')
           }, complete: () => {
