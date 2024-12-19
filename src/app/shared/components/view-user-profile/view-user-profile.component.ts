@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { IUser } from 'src/app/features/dashboard/manager/users/interfaces/user.interface';
 
 @Component({
   selector: 'app-view-user-profile',

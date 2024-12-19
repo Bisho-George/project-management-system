@@ -1,9 +1,12 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IUser } from './interfaces/user.interface';
 import { UsersService } from './services/users.service';
+import { ViewUserProfileComponent } from 'src/app/shared/components/view-user-profile/view-user-profile.component';
+import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
 
 
 @Component({
@@ -17,7 +20,7 @@ export class UsersComponent {
   resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
   roleId: number[] = [1, 2];
-  constructor(private _UsersService: UsersService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog,private _UsersService: UsersService, private toast: ToastrService) { }
 
   ngOnInit(): void {
     this.getUsers();
@@ -96,9 +99,43 @@ export class UsersComponent {
     this.searchValue = '';
     this.getUsers();
   }
-  handlePageChange (event: {pageNumber: number, pageSize: number}) {
+  handlePageChange(event: { pageNumber: number, pageSize: number }) {
     this.tableData.data.pageNumber = event.pageNumber;
     this.tableData.data.pageSize = event.pageSize;
     this.getUsers();
+  }
+
+  openViewDialog(item: any): void {
+    const dialogRef = this.dialog.open(ViewUserProfileComponent, {
+      width: '40%',
+      data: { item },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
+  }
+
+
+  openBlockDialog(item: any): void {
+    const dialogRef = this.dialog.open(DeleteItemComponent, {
+      data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/blockImage.png', widthImage: 'width: 100px; margin-bottom:20px;' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this._UsersService.onActivateUser(result).subscribe({
+          next: (res) => {
+            console.log(res);
+
+          }, error: (err) => {
+            this.toast.error(err.error.message, 'error')
+          }, complete: () => {
+            this.getUsers()
+            this.toast.success('User Active now');
+          }
+        })
+      }
+    });
   }
 }

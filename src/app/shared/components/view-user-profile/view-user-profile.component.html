@@ -8,13 +8,12 @@
     <div class="col-md-7 d-flex align-items-center ">
       <div class="w-100">
         <ul class="ps-0  ">
-          <li><span class="fs-5">Name :</span>  {{data.item.userName}}</li>
-          <li> <span class="fs-5">Phone :</span>   {{data.item.phoneNumber}}</li>
-          <li> <span class="fs-5">Country :</span>   {{data.item.country}}</li>
-          <li> <span class="fs-5">activity :</span>  {{data.item.isActivated?'Active':'Not Active'}}</li>
-          <li> <span class="fs-5">Creation Date :</span>  {{ data.item.creationDate | date : "dd/MM/YYYY"}}</li>
-          <li > <span class="fs-5">Email :</span>{{data.item.email}}</li>
-
+          <li><span class="fs-5">Name :</span>  {{data.userName}}</li>
+          <li> <span class="fs-5">Phone :</span>   {{data.phoneNumber}}</li>
+          <li> <span class="fs-5">Country :</span>   {{data.country}}</li>
+          <li> <span class="fs-5">activity :</span>  {{data.isActivated?'Active':'Not Active'}}</li>
+          <li> <span class="fs-5">Creation Date :</span>  {{ data.creationDate | date: "dd/MM/yyyy"}}</li>
+          <li > <span class="fs-5">Email :</span>{{data.email}}</li>
         </ul>
       </div>
     </div>

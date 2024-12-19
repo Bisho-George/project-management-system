@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IAddTask } from '../interfaces/add-task.interface';
 import { IEditTask } from '../interfaces/edit-task.interface';
+import { ITaskParams } from '../interfaces/task-params';
 
 @Injectable({
   providedIn: 'root'
