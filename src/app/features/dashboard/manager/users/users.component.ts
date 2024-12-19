@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
-import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
+import { ITableAction, ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IUser } from './interfaces/user.interface';
 import { UsersService } from './services/users.service';
 
@@ -12,12 +12,34 @@ import { UsersService } from './services/users.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  tableData!: ITableData;
+  tableData: ITableData;
   baseUrl = 'https://upskilling-egypt.com:3003/';
   resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
   roleId: number[] = [1, 2];
-  constructor(private _UsersService: UsersService, private toast: ToastrService) { }
+  actions: ITableAction[] = [];
+  constructor(private _UsersService: UsersService, private toast: ToastrService) {
+    this.actions = [
+        {
+          type: 'button',
+          label: 'View',
+          color: 'accent',
+          icon: 'visibility',
+          callback: (row: any) => console.log('view', row),
+        },
+        {
+          type: 'button',
+          label: 'Block',
+          icon: 'block',
+          callback: (row: any) => console.log('Block', row),
+        },
+      ]
+    this.tableData = {
+      data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
+      columns: [],
+      actions: this.actions
+    };
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -61,21 +83,7 @@ export class UsersComponent {
           field: key,
           header: this.formatHeader(key),
         })),
-      actions: [
-        {
-          type: 'button',
-          label: 'View',
-          color: 'accent',
-          icon: 'visibility',
-          callback: (row: any) => console.log('view', row),
-        },
-        {
-          type: 'button',
-          label: 'Block',
-          icon: 'block',
-          callback: (row: any) => console.log('Block', row),
-        },
-      ],
+      actions: this.actions
     };
     // Trigger change detection explicitly if needed
     this.tableData = { ...this.tableData };
@@ -96,7 +104,7 @@ export class UsersComponent {
     this.searchValue = '';
     this.getUsers();
   }
-  handlePageChange (event: {pageNumber: number, pageSize: number}) {
+  handlePageChange(event: { pageNumber: number, pageSize: number }) {
     this.tableData.data.pageNumber = event.pageNumber;
     this.tableData.data.pageSize = event.pageSize;
     this.getUsers();
