@@ -214,7 +214,7 @@ export class TasksComponent {
 
   openDeleteDialog(item: ITask): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
-      data: { text: 'Task', id: item.id }
+      data: { text: 'Task', id: item.id ,type:'delete',image:'assets/images/png/delete-dialog-picture.png',widthImage:'width: 140px;'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +27,7 @@ import { NoDataComponent } from './components/no-data/no-data.component';
 import { DeleteItemComponent } from './components/delete-item/delete-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ViewUserProfileComponent } from './components/view-user-profile/view-user-profile.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     NotFoundComponent,
     NoDataComponent,
     DeleteItemComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ViewUserProfileComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatChipsModule,
-    DragDropModule
+    DragDropModule,
   ],
   exports: [
     NgxDropzoneModule,
@@ -87,7 +89,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     SidebarComponent,
     NoDataComponent,
     DragDropModule,
-    PaginatorComponent
+    PaginatorComponent,
+    ViewUserProfileComponent
   ]
 })
 export class SharedModule { }

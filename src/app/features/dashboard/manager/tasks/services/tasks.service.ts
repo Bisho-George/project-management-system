@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IAddTask } from '../interfaces/add-task.interface';
 import { IEditTask } from '../interfaces/edit-task.interface';
+import { ITaskParams } from '../interfaces/task-params';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class TasksService {
 
   constructor(private _http: HttpClient) { }
 
-  getTasks(params?: any): Observable<any> {
+  getTasks(params?: ITaskParams): Observable<any> {
     return this._http.get('Task/manager', {
       params: {
         title: params?.title || '',
         pageNumber: params?.pageNumber || 1,
         pageSize: params?.pageSize || 5,
-        status: params?.status
+        status: params?.status || 'ToDo'
       }
     });
   }
