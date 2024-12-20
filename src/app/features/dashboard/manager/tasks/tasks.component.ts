@@ -48,7 +48,7 @@ export class TasksComponent {
         color: 'warn',
         label: 'Delete',
         icon: 'delete',
-        callback: (row: any) => this.openDeleteDialog(row),
+        callback: (row: ITask) => this.openDeleteDialog(row),
       },
     ],
       this.tableData = {
