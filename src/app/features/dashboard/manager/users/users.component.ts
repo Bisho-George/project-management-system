@@ -150,9 +150,9 @@ export class UsersComponent {
             console.log(res);
           }, error: (err) => {
             this.toast.error(err.error.message, 'error')
-          }, complete: () => {
+          }, complete: ( ) => {
             this.getUsers()
-            this.toast.success('User Active now');
+            this.toast.success('Activity updated successfully');
           }
         })
       }
