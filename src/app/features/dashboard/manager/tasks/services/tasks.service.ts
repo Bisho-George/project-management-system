@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { IAddTask } from '../interfaces/add-task.interface';
 import { IEditTask } from '../interfaces/edit-task.interface';
 import { ITaskParams } from '../interfaces/task-params';
+import { ITask } from '../interfaces/task.interface';
+import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,8 @@ export class TasksService {
 
   constructor(private _http: HttpClient) { }
 
-  getTasks(params?: ITaskParams): Observable<any> {
-    return this._http.get('Task/manager', {
+  getTasks(params?: ITaskParams): Observable<IDataResponse<ITask>> {
+    return this._http.get<IDataResponse<ITask>>('Task/manager', {
       params: {
         title: params?.title || '',
         pageNumber: params?.pageNumber || 1,

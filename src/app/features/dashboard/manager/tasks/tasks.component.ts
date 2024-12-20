@@ -21,7 +21,7 @@ import { TasksService } from './services/tasks.service';
 export class TasksComponent {
   tableData: ITableData;
   resData: IDataResponse<ITask> | undefined;
-  userData: IDataResponse<IUser> | undefined;
+  userData: IUser[] | undefined;
   projectData: IProject[] = [];
   statusValue = '';
   searchValue = '';
@@ -88,7 +88,7 @@ export class TasksComponent {
       pageSize: 9999,
     };
     this._UsersService.getUsers(myParams).subscribe({
-      next: (res: any) => {
+      next: (res: IDataResponse<IUser>) => {
         this.userData = res.data
       },
       error: (err) => {
@@ -159,7 +159,7 @@ export class TasksComponent {
       }
     })
   }
-  passDataToTable(res: any) {
+  passDataToTable(res: IDataResponse<ITask>) {
     if (!res.data || res.data.length === 0) {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
