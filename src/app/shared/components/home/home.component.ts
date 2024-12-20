@@ -43,7 +43,6 @@ export class HomeComponent {
   getTasks() {
     this._HomeService.getTasksData().subscribe({
       next: (res) => {
-        console.log(res, 'sss');
         this.tasksCount = res.totalNumberOfRecords;
       },
       error: (err) => {},
@@ -85,7 +84,6 @@ export class HomeComponent {
   getProjects() {
     this._HomeService.getProjects().subscribe({
       next: (res) => {
-        console.log(res, 'ppp');
         this.projectsCount = res.totalNumberOfRecords;
       },
       error: (err) => {},

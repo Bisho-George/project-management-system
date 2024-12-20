@@ -34,7 +34,6 @@ export class ViewUserProfileComponent {
   openBlockDialog(id: number): void {
     this._UsersService.onActivateUser(id).subscribe({
       next: (res) => {
-        console.log(res);
       },
       error: (err) => {
         this.toast.error(err.error.message, 'error');

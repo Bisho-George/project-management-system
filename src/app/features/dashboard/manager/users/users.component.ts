@@ -132,10 +132,7 @@ export class UsersComponent {
       width: '40%',
       data: { item },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
   openBlockDialog(item: IUser): void {
@@ -143,12 +140,10 @@ export class UsersComponent {
       data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/png/block-dialog-picture.png', widthImage: 'width: 100px; margin-bottom:20px;' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result) {
         this._UsersService.onActivateUser(result).subscribe({
-          next: (res) => {
-            console.log(res);
-          }, error: (err) => {
+          next: (res) => {},
+           error: (err) => {
             this.toast.error(err.error.message, 'error')
           }, complete: ( ) => {
             this.getUsers()
