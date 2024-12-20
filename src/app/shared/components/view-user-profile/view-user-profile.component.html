@@ -1,21 +1,22 @@
-<div class="card mb-3 border-0 col-9  w-100 " >
+<div class="card mb-1 border-0 col-9  w-100 " >
   <div class="row  py-5 p-2 w-100">
-    <div class="col-md-5  mx-auto"  >
-      <div class="w-75 m-auto align-items-center">
-        <img [src]="data.url+data.item.imagePath" height="170px" onerror="this.src='assets/images/svg/profile-picture-placeholder.svg'" class="w-100 rounded-3" alt="...">
+    <div class="col-md-6  mx-auto"  >
+      <div class="w-75 m-auto align-items-center ">
+        <img [src]="data.item.imagePath" height="220px" onerror="this.src='assets/images/svg/profile-picture-placeholder.svg'" class="w-100 rounded-3" alt="...">
       </div>
     </div>
-    <div class="col-md-7 d-flex align-items-center ">
+    <div class="col-md-6 d-flex align-items-center ">
       <div class="w-100">
         <ul class="ps-0  ">
-          <li><span class="fs-5">Name :</span>  {{data.userName}}</li>
-          <li> <span class="fs-5">Phone :</span>   {{data.phoneNumber}}</li>
-          <li> <span class="fs-5">Country :</span>   {{data.country}}</li>
-          <li> <span class="fs-5">activity :</span>  {{data.isActivated?'Active':'Not Active'}}</li>
-          <li> <span class="fs-5">Creation Date :</span>  {{ data.creationDate | date: "dd/MM/yyyy"}}</li>
-          <li > <span class="fs-5">Email :</span>{{data.email}}</li>
+          <li><span class="fs-5">Name :</span>  {{data.item.userName}}</li>
+          <li> <span class="fs-5">Phone :</span>   {{data.item.phoneNumber}}</li>
+          <li> <span class="fs-5">Country :</span>   {{data.item.country}}</li>
+          <li> <span class="fs-5">activity :</span>  {{data.item.isActivated?'Active':'Not Active'}}</li>
+          <li> <span class="fs-5">Creation Date :</span>  {{ data.item.creationDate | date: "dd/MM/yyyy"}}</li>
+          <li > <span class="fs-5">Email :</span>{{data.item.email}}</li>
         </ul>
       </div>
     </div>
+      <button  mat-button class="button bg-danger w-25 ms-auto  m-0" (click)="onNoClick()" (click)="openBlockDialog(data.item.id)">{{data.item.isActivated?'Block':'Unblock'}}</button>
   </div>
 </div>
