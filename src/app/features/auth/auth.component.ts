@@ -38,12 +38,7 @@ export class AuthComponent {
       complete: () => {
         this.toast.success('User logged in successfully')
         this.authService.getProfile();
-        if (this.authService.role === 'Employee') {
-          this.router.navigateByUrl('/dashboard/employee');
-        }
-        else if (this.authService.role === 'Manager') {
-          this.router.navigateByUrl('/dashboard/manager');
-        }
+        this.router.navigateByUrl('/dashboard/home');
       }
     });
   }
