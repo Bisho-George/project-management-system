@@ -7,7 +7,7 @@ section{
   position: sticky;
   top: 0;
   z-index: 1071;
-  transition: height 0.3s ease;
+  height: 100%;
   ul{
     list-style: none;
     padding: 0px;
@@ -56,16 +56,4 @@ section{
     color: #fff;
     cursor: pointer;
   }
-  @media (max-width: 425px) {
-    .iconAnimation {
-      display: none;
-    }
-  }
-  .max-height{
-
-    height: calc(100vh - 64px );
-  }
-  .v-height{
-  height: 100vh;
-
-  }
+   
