@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { IResLogin } from './interfaces/ILogin.interface';
 
 @Component({
   selector: 'app-auth',
@@ -29,7 +30,7 @@ export class AuthComponent {
 
   onLogin() {
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IResLogin) => {
         localStorage.setItem('userToken', res.token);
       },
       error: (err) => {
