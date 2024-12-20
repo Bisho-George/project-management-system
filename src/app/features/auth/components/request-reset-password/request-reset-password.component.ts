@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { IRes } from '../../interfaces/res.interface';
 
 @Component({
   selector: 'app-request-reset-password',
@@ -28,7 +29,7 @@ export class RequestResetPasswordComponent {
 
   onRequest() {
     this.authService.requestResetPassword(this.requestForm.get('email')?.value).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
         this.resMessage = res.message;
       },
       error: (err) => {

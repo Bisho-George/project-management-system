@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { IRes } from '../../interfaces/res.interface';
 
 @Component({
   selector: 'app-change-password',
@@ -30,7 +31,7 @@ export class ChangePasswordComponent {
   }
   changePassword() {
     this.authService.changePassword(this.changePasswordForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
         console.log(res,'change');
 
         this.resMessage = res.message;

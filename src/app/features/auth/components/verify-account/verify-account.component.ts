@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { IRes } from '../../interfaces/res.interface';
 
 @Component({
   selector: 'app-verify-account',
@@ -25,7 +26,7 @@ export class VerifyAccountComponent {
   }
   onVerify() {
     this.authService.verifyAccount(this.verifyForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
         this.resMessage = res.message;
       },
       error: (err) => {

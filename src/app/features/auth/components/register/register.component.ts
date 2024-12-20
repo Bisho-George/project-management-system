@@ -8,6 +8,7 @@ import { CropDialogComponent } from 'src/app/shared/components/crop-dialog/crop-
 import { ICropperDialogResult } from 'src/app/shared/interface/crop-dialog/cropper-dialog.interface';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { IRes } from '../../interfaces/res.interface';
 
 
 @Component({
@@ -124,7 +125,7 @@ export class RegisterComponent implements OnInit {
 
   register(data: FormData) {
     this.authService.register(data).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
         this.resMessage = res.message;
       },
       error: (err) => {
