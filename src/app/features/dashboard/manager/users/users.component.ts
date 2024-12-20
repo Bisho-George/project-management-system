@@ -28,13 +28,13 @@ export class UsersComponent {
           label: 'View',
           color: 'accent',
           icon: 'visibility',
-          callback: (row: any) => console.log('view', row),
+          callback: (row: IUser) => console.log('view', row),
         },
         {
           type: 'button',
           label: 'Block',
           icon: 'block',
-          callback: (row: any) => console.log('Block', row),
+          callback: (row: IUser) => console.log('Block', row),
         },
       ]
     this.tableData = {
@@ -71,7 +71,7 @@ export class UsersComponent {
       }
     });
   }
-  passDataToTable(res: any) {
+  passDataToTable(res: IDataResponse<IUser>) {
     if (!res.data || res.data.length === 0) {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
@@ -92,13 +92,13 @@ export class UsersComponent {
           label: 'View',
           color: 'accent',
           icon: 'visibility',
-          callback: (row: any) => this.openViewDialog(row),
+          callback: (row: IUser) => this.openViewDialog(row),
         },
         {
           type: 'button',
           label:  'Block',
           icon: 'block',
-          callback: (row: any) => this.openBlockDialog(row),
+          callback: (row: IUser) => this.openBlockDialog(row),
         },
       ],
     };
@@ -127,7 +127,7 @@ export class UsersComponent {
     this.getUsers();
   }
 
-  openViewDialog(item: any): void {
+  openViewDialog(item: IUser): void {
     const dialogRef = this.dialog.open(ViewUserProfileComponent, {
       width: '40%',
       data: { item },
@@ -138,7 +138,7 @@ export class UsersComponent {
     });
   }
 
-  openBlockDialog(item: any): void {
+  openBlockDialog(item: IUser): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
       data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/png/block-dialog-picture.png', widthImage: 'width: 100px; margin-bottom:20px;' }
     });
