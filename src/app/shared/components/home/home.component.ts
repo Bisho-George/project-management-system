@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HomeService } from '../../services/home.service';
-import Chart from 'chart.js/auto';
 import { IHomeRole } from '../../interface/home/home-role.interface';
+import { Chart } from 'chart.js/auto';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

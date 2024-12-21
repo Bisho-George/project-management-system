@@ -4,7 +4,6 @@
         <mat-card class="py-4 overflow-x-scroll">
           <div class="row">
             <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
-              <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
               <mat-label>Search Fleets</mat-label>
               <input [(ngModel)]="searchValue" (keydown.enter)="getProjects()" matInput placeholder="Search fleets">
               <mat-icon matPrefix [color]="'accent'" class="">search</mat-icon>
