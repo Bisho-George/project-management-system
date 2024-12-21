@@ -129,7 +129,7 @@ export class UsersComponent {
 
   openViewDialog(item: IUser): void {
     const dialogRef = this.dialog.open(ViewUserProfileComponent, {
-      width: '40%',
+      width: '45%',
       data: { item },
     });
     dialogRef.afterClosed().subscribe();
