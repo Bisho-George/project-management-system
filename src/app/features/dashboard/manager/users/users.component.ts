@@ -45,20 +45,6 @@ export class UsersComponent {
           callback: (row: IUser) => console.log('Block', row),
         },
       ]
-      {
-        type: 'button',
-        label: 'View',
-        color: 'accent',
-        icon: 'visibility',
-        callback: (row: any) => console.log('view', row),
-      },
-      {
-        type: 'button',
-        label: 'Block',
-        icon: 'block',
-        callback: (row: any) => console.log('Block', row),
-      },
-    ]
     this.tableData = {
       data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
       columns: [],
