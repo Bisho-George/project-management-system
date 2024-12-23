@@ -44,7 +44,7 @@ import { ViewUserProfileComponent } from './components/view-user-profile/view-us
     NoDataComponent,
     DeleteItemComponent,
     PaginatorComponent,
-    ViewUserProfileComponent
+    ViewUserProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -90,7 +90,8 @@ import { ViewUserProfileComponent } from './components/view-user-profile/view-us
     NoDataComponent,
     DragDropModule,
     PaginatorComponent,
-    ViewUserProfileComponent
+    ViewUserProfileComponent,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

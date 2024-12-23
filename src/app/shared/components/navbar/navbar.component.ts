@@ -10,13 +10,20 @@ import { ProfileService } from '../../services/profile.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  profileLink = '/dashboard/profile';
   darkMode = false;
-  baseUrl = 'https://upskilling-egypt.com:3003/'
   user: IUserProfile | null = null;
+  baseUrl = 'https://upskilling-egypt.com:3003/';
   constructor(private authService: AuthService, private profile: ProfileService, private toast: ToastrService) {
-    const savedTheme = localStorage.getItem('theme');
-    this.darkMode = savedTheme === 'dark';
-    this.applyTheme();
+    this.profile.user.subscribe((user) => {
+      if (user?.imagePath) {
+        user.imagePath = this.baseUrl + user.imagePath;
+      }
+      this.user = user;
+    });
+    // const savedTheme = localStorage.getItem('theme');
+    // this.darkMode = savedTheme === 'dark';
+    // this.applyTheme();
   }
 
   ngOnInit(): void {
@@ -48,7 +55,7 @@ export class NavbarComponent implements OnInit {
       }
     });
   }
-  logout () {
+  logout() {
     this.authService.logout();
   }
 
