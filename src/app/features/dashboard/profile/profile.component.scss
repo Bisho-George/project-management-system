@@ -1,0 +1,98 @@
+@import "../../../../assets/scss/layout.scss";
+
+section {
+  margin-top: 3rem;
+  overflow: hidden;
+}
+
+.auth-form {
+  @include register-form;
+}
+mat-form-field {
+  min-width: 100%;
+}
+
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  mat-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    color: white;
+    &:hover {
+      transform: scale(1.2);
+      color: red;
+    }
+  }
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.camera-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $primary-color;
+  font-size: larger;
+  cursor: pointer;
+  i {
+    transition: all 0.3s;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+image-cropper {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.image-input {
+  background-color: #F1FFF0;
+  width: 100%;
+  text-align: center;
+  height: 14vh;
+  margin: 0 auto;
+  border: 1px dashed #009247;
+  border-radius: 8px;
+  padding: 1.4rem;
+  position: relative;
+  transition: opacity 0.3s, background-color 0.3s;
+  i {
+    margin-bottom: 0.7rem;
+    font-size: 1.7rem;
+    color: #4F4F4F;
+  }
+  p {
+    margin: 0;
+    color: #4F4F4F;
+    cursor: pointer;
+  }
+
+  &.dragging {
+    opacity: 0.5;
+  }
+
+  input[type='file'] {
+    display: none;
+  }
+}

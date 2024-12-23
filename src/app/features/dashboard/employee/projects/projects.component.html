@@ -10,7 +10,7 @@
               <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
             </mat-form-field>
           </div>
-          <app-table [tableData]="tableData" *ngIf="tableData?.data?.data!.length >  0"></app-table>
+          <app-table [type]="tableType" [tableData]="tableData" *ngIf="tableData?.data?.data!.length >  0"></app-table>
           <app-paginator [pageNumber]="pageNumber" [pageSize]="pageSize" [totalRecords]="totalNumberOfRecords" (pageChange)="handlePageChange($event)" [pageSizeOptions]="[5, 10, 20]"></app-paginator>
         </mat-card>
       </div>

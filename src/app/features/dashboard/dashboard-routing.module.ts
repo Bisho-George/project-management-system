@@ -10,9 +10,10 @@ const routes: Routes = [
   {
     path: '', component: DashboardComponent, children: [
       { path: '', redirectTo: 'manager', pathMatch: 'full' },
-      { path: 'home',canActivate: [authGuard], component: HomeComponent },
+      { path: 'home', canActivate: [authGuard], component: HomeComponent },
       { path: 'employee', canActivate: [employeeGuard], loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule) },
-      { path: 'manager', canActivate: [managerGuard], loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule) }
+      { path: 'manager', canActivate: [managerGuard], loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule) },
+      { path: 'profile', canActivate: [authGuard], loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent) },
     ]
   },
 ]

@@ -5,6 +5,8 @@ import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-r
 import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IProject } from './interfaces/project.interface';
 import { ProjectsService } from './services/projects.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TableTypeEnum } from 'src/app/shared/enums/table-type-enum';
 
 @Component({
   selector: 'app-projects',
@@ -12,13 +14,20 @@ import { ProjectsService } from './services/projects.service';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-  tableData!: ITableData;
+  tableData: ITableData;
+  tableType = TableTypeEnum.Projects;
   pageNumber = 1;
   pageSize = 5;
   totalNumberOfRecords = 0;
   searchValue = '';
 
-  constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) { }
+  constructor(private dialog: MatDialog, private projectsService: ProjectsService, private toast: ToastrService) {
+    this.tableData = {
+      data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
+      columns: [],
+      actions: []
+    };
+  }
 
   ngOnInit(): void {
     this.getProjects();
@@ -60,7 +69,6 @@ export class ProjectsComponent implements OnInit {
         })),
         actions: []
     };
-    this.tableData = { ...this.tableData };
   }
 
   private formatHeader(key: string): string {

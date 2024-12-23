@@ -1,55 +1,56 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProfileService } from './../../../shared/services/profile.service';
+import { Component, computed, Signal, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs';
 import { CropDialogComponent } from 'src/app/shared/components/crop-dialog/crop-dialog.component';
 import { ICropperDialogResult } from 'src/app/shared/interface/crop-dialog/cropper-dialog.interface';
-import { AuthService } from '../../services/auth.service';
-import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
-
+import { SharedModule } from 'src/app/shared/shared.module';
+import { IUserProfile } from 'src/app/shared/interface/user-profile/user-profile-interface';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'app-profile',
+  standalone: true,
+  imports: [CommonModule, SharedModule,],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
-export class RegisterComponent implements OnInit {
-  registerForm: FormGroup;
+export class ProfileComponent {
+  profileForm: FormGroup;
+  baseUrl = 'https://upskilling-egypt.com:3003/';
   croppedImage = signal<ICropperDialogResult | undefined>(undefined);
-  resMessage = '';
+  user = signal<IUserProfile | null>(null);
   isDragging = false;
   isPasswordVisible: { [key: string]: boolean } = {
-    password: false,
     confirmPassword: false,
   };
-
-  error!: string;
   files: File[] = [];
   placeholder = computed(
-    () => '../../../../../assets/images/profile-picture.svg'
+    () => '../../../../assets/images/svg/profile-picture.svg'
   );
-
   imageSource = computed(() => {
     if (this.croppedImage()) {
       return this.croppedImage()?.imageUrl;
     }
-    return this.placeholder();
+    return this.user()?.imagePath || this.placeholder();
   });
 
-  constructor(private dialog: MatDialog, private router: Router, private fb: FormBuilder, private authService: AuthService, private toast: ToastrService) {
-    this.registerForm = this.fb.group({
+  constructor(private dialog: MatDialog, private router: Router, private fb: FormBuilder, private profileService: ProfileService, private toast: ToastrService) {
+    this.profileForm = this.fb.group({
       userName: [null, [Validators.required, Validators.pattern(/^(?=.*\d)[A-Za-z\d]{1,8}$/)]],
       phoneNumber: [null, [Validators.required]],
       country: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/)]],
-      confirmPassword: [null, [Validators.required]],
-    }, { validators: confirmPasswordValidator });
+      confirmPassword: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/)]],
+    });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getUser();
+  }
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -66,7 +67,7 @@ export class RegisterComponent implements OnInit {
     this.isDragging = false;
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
-      const fileEvent = { target: { files: [file] } }; // Mimic file input event
+      const fileEvent = { target: { files: [file] } };
       this.fileSelected(fileEvent);
     }
   }
@@ -81,16 +82,30 @@ export class RegisterComponent implements OnInit {
     this.isPasswordVisible[field] = !this.isPasswordVisible[field];
   }
 
+  getUser() {
+    this.profileService.getCurrentUser().subscribe({
+      next: (user) => {
+        if (user.imagePath) {
+          user.imagePath = this.baseUrl + user.imagePath;
+          this.croppedImage.set({ imageUrl: user.imagePath, blob: undefined });
+        }
+        this.user.set(user);
+        this.profileForm.patchValue(user);
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      }
+    });
+  }
+
   private buildFormData(formGroup: FormGroup, fileFields: { [key: string]: Blob | undefined }): FormData {
     const formData = new FormData();
-    // Add all form control values
     Object.keys(formGroup.controls).forEach((key) => {
       const value = formGroup.get(key)?.value;
       if (value !== null && value !== undefined) {
         formData.append(key, value);
       }
     });
-    // Add file if provided
     Object.keys(fileFields).forEach((key) => {
       const file = fileFields[key];
       if (file) {
@@ -101,8 +116,8 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = this.buildFormData(this.registerForm, { profileImage: this.croppedImage()?.blob });
-    this.register(formData);
+    const formData = this.buildFormData(this.profileForm, { profileImage: this.croppedImage()?.blob });
+    this.saveProfile(formData);
   }
 
   fileSelected(event: any) {
@@ -122,42 +137,37 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  register(data: FormData) {
-    this.authService.register(data).subscribe({
-      next: (res: any) => {
-        this.resMessage = res.message;
+  saveProfile(data: FormData) {
+    this.profileService.updateUserProfile(data).subscribe({
+      next: (updateUser: IUserProfile) => {
+        this.profileService.user.next(updateUser);
       },
       error: (err) => {
         this.toast.error(err.error.message);
       }, complete: () => {
-        this.toast.success(this.resMessage);
-        localStorage.setItem('userEmail', this.registerForm.get('email')?.value);
-        this.router.navigateByUrl('auth/verify-email');
+        this.toast.success('Profile updated successfully');
+        localStorage.setItem('userEmail', this.profileForm.get('email')?.value);
+        this.router.navigate(['/dashboard']);
       }
     });
   }
   get email() {
-    return this.registerForm.get('email');
-  }
-
-  get password() {
-    return this.registerForm.get('password');
+    return this.profileForm.get('email');
   }
 
   get userName() {
-    return this.registerForm.get('userName');
+    return this.profileForm.get('userName');
   }
 
   get phoneNumber() {
-    return this.registerForm.get('phoneNumber');
+    return this.profileForm.get('phoneNumber');
   }
 
   get country() {
-    return this.registerForm.get('country');
+    return this.profileForm.get('country');
   }
 
   get confirmPassword() {
-    return this.registerForm.get('confirmPassword');
+    return this.profileForm.get('confirmPassword');
   }
-
 }
