@@ -1,26 +1,33 @@
+import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ITableData } from '../../interface/table/table-data.interface';
+import { TableTypeEnum } from '../../enums/table-type-enum';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, OnChanges {
-  @Input() tableData!: ITableData;
+export class TableComponent implements OnInit {
+  data: ITableData | null = null;
+  @Input() type: TableTypeEnum = TableTypeEnum.Users;
+  @Input() set tableData(data: ITableData) {
+    this.data = data;
+    console.log('tableData', data);
+    this.initializeTable(data);
+  }
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[] = [];
   projectNames: string[] = [];
+  defaultImage = '../../../../assets/images/svg/profile-picture-placeholder.svg';
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {  }
+  constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
   ngOnInit(): void {
-    this.initializeTable();
     this.dataSource.sortingDataAccessor = (item, property) => {
       if (property === 'creationDate') {
         return new Date(item.creationDate);
@@ -29,24 +36,20 @@ export class TableComponent implements OnInit, OnChanges {
     };
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['tableData'] && changes['tableData'].currentValue) {
-      this.initializeTable();
+  initializeTable(tableData: ITableData): void {
+    if (!tableData || !tableData.data?.data) {
+      return;
+    }
+    this.displayedColumns = tableData.columns.map((c) => c.field);
+    if (tableData.actions?.length) {
+      this.displayedColumns.push('actions');
+    }
+    this.dataSource.data = tableData.data.data;
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
     }
   }
 
-  initializeTable(): void {
-    if (this.tableData) {
-      this.displayedColumns = this.tableData.columns.map((c) => c.field);
-      if (this.tableData.actions?.length) {
-        this.displayedColumns.push('actions');
-      }
-      this.dataSource.data = this.tableData?.data?.data;
-      if (this.sort ) {
-        this.dataSource.sort = this.sort;
-      }
-    }
-  }
 
   announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
@@ -61,8 +64,23 @@ export class TableComponent implements OnInit, OnChanges {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  isArray(value: any): boolean {
-    return Array.isArray(value);
+  isArray(element: any) {
+    return Array.isArray(element);
   }
+
+  getTemplate(field: string): any {
+    console.log(field);
+    switch (field) {
+      case 'task': return 'arrayTemplate';
+      case 'creationDate': return 'dateTemplate';
+      case 'modificationDate': return 'dateTemplate';
+      case 'imagePath': return 'imageTemplate';
+      case 'isActive': return 'booleanTemplate';
+      case 'project': return 'projectTemplate';
+      case 'employee': return 'employeeTemplate';
+      default: return 'defaultTemplate';
+    }
+  }
+
 }
 

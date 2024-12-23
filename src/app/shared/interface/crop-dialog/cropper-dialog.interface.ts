@@ -1,4 +1,4 @@
 export interface ICropperDialogResult {
-  blob: Blob;
+  blob: Blob | undefined;
   imageUrl: string;
 }
