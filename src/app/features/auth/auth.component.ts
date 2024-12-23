@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { IResLogin } from './interfaces/ILogin.interface';
 
 @Component({
   selector: 'app-auth',
@@ -29,7 +30,7 @@ export class AuthComponent {
 
   onLogin() {
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IResLogin) => {
         localStorage.setItem('userToken', res.token);
       },
       error: (err) => {
@@ -38,12 +39,7 @@ export class AuthComponent {
       complete: () => {
         this.toast.success('User logged in successfully')
         this.authService.getProfile();
-        if (this.authService.role === 'Employee') {
-          this.router.navigateByUrl('/dashboard/employee');
-        }
-        else if (this.authService.role === 'Manager') {
-          this.router.navigateByUrl('/dashboard/manager');
-        }
+        this.router.navigateByUrl('/dashboard/home');
       }
     });
   }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-response.interface';
 import { IUser } from '../interfaces/user.interface';
+import { IUsersParams } from '../interfaces/users-params';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UsersService {
 
  constructor(private _http: HttpClient) { }
 
-  getUsers(params?: any): Observable<IDataResponse<IUser>> {
+  getUsers(params?: IUsersParams): Observable<IDataResponse<IUser>> {
     return this._http.get<IDataResponse<IUser>>('Users/', {
       params: {
         userName: params?.userName || '',
@@ -21,7 +22,7 @@ export class UsersService {
       }
     });
   }
-  onActivateUser(id: number): Observable<any> {
-    return this._http.put(`Users/${id}`, {});
+  onActivateUser(id: number): Observable<IDataResponse<IUser>> {
+    return this._http.put<IDataResponse<IUser>>(`Users/${id}`, {});
   }
 }

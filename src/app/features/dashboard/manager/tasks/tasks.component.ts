@@ -24,7 +24,7 @@ export class TasksComponent {
   tableType = TableTypeEnum.Tasks;
   tableData: ITableData;
   resData: IDataResponse<ITask> | undefined;
-  userData: IDataResponse<IUser> | undefined;
+  userData: IUser[] | undefined;
   projectData: IProject[] = [];
   statusValue = '';
   searchValue = '';
@@ -51,7 +51,7 @@ export class TasksComponent {
         color: 'warn',
         label: 'Delete',
         icon: 'delete',
-        callback: (row: any) => this.openDeleteDialog(row),
+        callback: (row: ITask) => this.openDeleteDialog(row),
       },
     ],
       this.tableData = {
@@ -91,7 +91,7 @@ export class TasksComponent {
       pageSize: 9999,
     };
     this._UsersService.getUsers(myParams).subscribe({
-      next: (res: any) => {
+      next: (res: IDataResponse<IUser>) => {
         this.userData = res.data
       },
       error: (err) => {

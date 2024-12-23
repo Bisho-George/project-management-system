@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IHomeRole } from '../interface/home/home-role.interface';
+import { IDataResponse } from '../interface/api-data-response/data-response.interface';
+import { IProject } from 'src/app/features/dashboard/employee/projects/interfaces/project.interface';
+import { ITask } from 'src/app/features/dashboard/manager/tasks/interfaces/task.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +20,11 @@ getTasksCount():Observable<any>
   {
     return this._HttpClient.get<IHomeRole>('Users/count')
   }
-  getTasksData():Observable<any>
+  getTasksData():Observable<IDataResponse<ITask>>
   {
-    return this._HttpClient.get('Task/Manager')
+    return this._HttpClient.get<IDataResponse<ITask>>('Task/Manager')
   }
-   getProjects(): Observable<any> {
-      return this._HttpClient.get('Project/manager' )
+   getProjects(): Observable<IDataResponse<IProject>> {
+      return this._HttpClient.get<IDataResponse<IProject>>('Project/manager' )
     }
 }

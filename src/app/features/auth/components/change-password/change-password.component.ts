@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { IRes } from '../../interfaces/res.interface';
 
 @Component({
   selector: 'app-change-password',
@@ -30,14 +31,17 @@ export class ChangePasswordComponent {
   }
   changePassword() {
     this.authService.changePassword(this.changePasswordForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
+        console.log(res,'change');
+
         this.resMessage = res.message;
       },
       error: (err) => {
         this.toast.error(err.error.message);
       },
       complete: () => {
-        this.toast.success(this.resMessage);
+        this.router.navigate(['/dashboard/home'])
+        this.toast.success('Password has been updated successfully');
       }
     }
     );
@@ -50,11 +54,11 @@ export class ChangePasswordComponent {
     return this.changePasswordForm.get('oldPassword');
   }
 
-  get password() {
-    return this.changePasswordForm.get('password');
+  get newPassword() {
+    return this.changePasswordForm.get('newPassword');
   }
 
-  get confirmPassword() {
-    return this.changePasswordForm.get('confirmPassword');
+  get confirmNewPassword() {
+    return this.changePasswordForm.get('confirmNewPassword');
   }
 }

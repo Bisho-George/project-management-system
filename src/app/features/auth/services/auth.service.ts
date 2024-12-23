@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ILogin } from '../interfaces/ILogin.interface';
+import { ILogin, IResLogin } from '../interfaces/ILogin.interface';
 import { IResetPassword } from '../interfaces/IResetPassword.interface';
 import { jwtDecode } from 'jwt-decode';
 import { IJwt } from '../interfaces/IJwt.interface';
 import { IVerifyAccount } from '../interfaces/IVerifyAccount.interface';
 import { Router } from '@angular/router';
 import { IchangePassword } from '../interfaces/IchangePassword';
+import { IRes } from '../interfaces/res.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -38,23 +39,23 @@ export class AuthService {
   }
 
   login(data: ILogin) {
-    return this._http.post('Users/Login', data)
+    return this._http.post<IResLogin>('Users/Login', data)
   }
 
   register(data: FormData) {
-    return this._http.post('Users/Register', data)
+    return this._http.post<IRes>('Users/Register', data)
   }
 
   requestResetPassword(email: string) {
-    return this._http.post('Users/Reset/Request', { email });
+    return this._http.post<IRes>('Users/Reset/Request', { email });
   }
 
   resetPassword(data: IResetPassword) {
-    return this._http.post('Users/Reset', data);
+    return this._http.post<IRes>('Users/Reset', data);
   }
 
   verifyAccount(data: IVerifyAccount) {
-    return this._http.put('Users/verify', data);
+    return this._http.put<IRes>('Users/verify', data);
   }
 
   logout() {
@@ -62,6 +63,6 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
   changePassword(data:IchangePassword){
-    return this._http.put('Users/ChangePassword',data)
+    return this._http.put<IRes>('Users/ChangePassword',data)
   }
 }

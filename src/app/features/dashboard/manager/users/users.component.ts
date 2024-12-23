@@ -31,6 +31,20 @@ export class UsersComponent {
 
   constructor(private dialog: MatDialog, private _UsersService: UsersService, private toast: ToastrService) {
     this.actions = [
+        {
+          type: 'button',
+          label: 'View',
+          color: 'accent',
+          icon: 'visibility',
+          callback: (row: IUser) => console.log('view', row),
+        },
+        {
+          type: 'button',
+          label: 'Block',
+          icon: 'block',
+          callback: (row: IUser) => console.log('Block', row),
+        },
+      ]
       {
         type: 'button',
         label: 'View',
@@ -101,7 +115,6 @@ export class UsersComponent {
     };
   }
 
-
   private formatHeader(key: string): string {
     return key
       .replace(/_/g, ' ')
@@ -123,32 +136,27 @@ export class UsersComponent {
     this.getUsers();
   }
 
-  openViewDialog(item: any): void {
+  openViewDialog(item: IUser): void {
     const dialogRef = this.dialog.open(ViewUserProfileComponent, {
-      width: '40%',
+      width: '45%',
       data: { item },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe();
   }
 
-  openBlockDialog(item: any): void {
+  openBlockDialog(item: IUser): void {
     const dialogRef = this.dialog.open(DeleteItemComponent, {
       data: { text: 'User', id: item.id, type: item.isActivated ? 'Block ' : 'Unblock ', data: item, image: 'assets/images/png/block-dialog-picture.png', widthImage: 'width: 100px; margin-bottom:20px;' }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       if (result) {
         this._UsersService.onActivateUser(result).subscribe({
-          next: (res) => {
-            console.log(res);
-          }, error: (err) => {
+          next: (res) => {},
+           error: (err) => {
             this.toast.error(err.error.message, 'error')
-          }, complete: () => {
+          }, complete: ( ) => {
             this.getUsers()
-            this.toast.success('User Active now');
+            this.toast.success('Activity updated successfully');
           }
         })
       }

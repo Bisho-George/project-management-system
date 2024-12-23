@@ -13,7 +13,7 @@
           <p class="m-0">welcome to PMS</p>
           <h3 class="main-color main-header fs-1">Verify Account</h3>
           <form [formGroup]="verifyForm" (ngSubmit)="onVerify()">
-            <mat-form-field>
+            <mat-form-field class="dark-input">
               <mat-label>Email</mat-label>
               <input readonly matInput type="email" formControlName="email" placeholder="Email" aria-label="Email"
                 aria-describedby="basic-addon1">
@@ -22,7 +22,7 @@
                 <span *ngIf="email?.errors?.['email']">Email is not valid</span>
               </mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="dark-input">
               <mat-label>Otp</mat-label>
               <input matInput type="text" formControlName="code" placeholder="Otp" aria-label="Otp"
                 aria-describedby="basic-addon1">

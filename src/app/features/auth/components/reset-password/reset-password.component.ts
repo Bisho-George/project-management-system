@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { confirmPasswordValidator } from '../../validators/confirm-password.validator';
+import { IRes } from '../../interfaces/res.interface';
 
 @Component({
   selector: 'app-reset-password',
@@ -38,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
 
   onReset() {
     this.authService.resetPassword(this.resetForm.value).subscribe({
-      next: (res: any) => {
+      next: (res: IRes) => {
         this.resMessage = res.message;
       },
       error: (err) => {

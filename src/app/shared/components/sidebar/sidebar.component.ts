@@ -14,8 +14,6 @@ interface Imenu{
 export class SidebarComponent {
   @Output() isOpenedValue = new EventEmitter<boolean>();
   isOpened:boolean =true;
-  isMaxHeight:boolean=true;
-  is100vHeight:boolean=false;
   constructor(private _AuthService:AuthService){}
   isManager(){
     return this._AuthService.role === 'Manager' ? true : false
@@ -35,10 +33,4 @@ export class SidebarComponent {
     this.isOpened = !this.isOpened;
     this.isOpenedValue.emit(this.isOpened);
   }
-  @HostListener('window:scroll', [])
-    onWindowScroll() {
-      const offset = window.scrollY;
-      this.isMaxHeight = offset < 64;
-      this.is100vHeight= offset > 64;
-    }
 }
