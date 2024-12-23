@@ -1,8 +1,8 @@
 <section>
-  <app-header-section title="Users" ></app-header-section>
-<div class="container">
+  <app-header-section title="Users"></app-header-section>
+  <div class="container">
     <div class="row">
-      <mat-card class="py-4 overflow-x-scroll">
+      <mat-card class="py-4">
         <div class="row">
           <div class="col-6">
             <mat-form-field class="mdc-text-field-outlined rounded-full" appearance="outline">
@@ -10,25 +10,23 @@
               <input [(ngModel)]="searchValue" (keydown.enter)="getUsers()" matInput placeholder="Search fleets">
               <mat-icon matPrefix>search</mat-icon>
               <mat-icon (click)="clearFilter()" *ngIf="searchValue !== ''" matSuffix>close</mat-icon>
-          </mat-form-field>
+            </mat-form-field>
           </div>
           <div class="col-3">
             <mat-form-field class="rounded-full" appearance="outline">
               <mat-label>Role</mat-label>
               <mat-select [(ngModel)]="roleId" (selectionChange)="getUsers()">
-                <mat-option  [value]="[1,2]">All</mat-option>
-                <mat-option  [value]="1">Manager</mat-option>
-                <mat-option  [value]="2">Employee</mat-option>
+                <mat-option [value]="[1,2]">All</mat-option>
+                <mat-option [value]="1">Manager</mat-option>
+                <mat-option [value]="2">Employee</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
         </div>
-        <app-table  [tableData]="tableData"></app-table>
-        <app-paginator [pageSize]="resTable?.pageSize || 5"
-        [pageNumber]="resTable?.pageNumber || 1"
-        [totalRecords]="resTable?.totalNumberOfRecords || 0"
-        [pageSizeOptions]="[5, 10, 20]"
-        (pageChange)="handlePageChange($event)"></app-paginator>
+        <app-table [type]="tableType" [tableData]="tableData"></app-table>
+        <app-paginator [pageSize]="resTable?.pageSize || 5" [pageNumber]="resTable?.pageNumber || 1"
+          [totalRecords]="resTable?.totalNumberOfRecords || 0" [pageSizeOptions]="[5, 10, 20]"
+          (pageChange)="handlePageChange($event)"></app-paginator>
       </mat-card>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { IDataResponse } from 'src/app/shared/interface/api-data-response/data-r
 import { ITableData } from 'src/app/shared/interface/table/table-data.interface';
 import { IProject } from './interfaces/project.interface';
 import { ProjectsService } from './services/projects.service';
+import { TableTypeEnum } from 'src/app/shared/enums/table-type-enum';
 
 @Component({
   selector: 'app-projects',
@@ -15,6 +16,7 @@ import { ProjectsService } from './services/projects.service';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+  tableType = TableTypeEnum.Projects;
   tableData: ITableData;
   searchValue = '';
   pageNumber = 1
@@ -71,8 +73,6 @@ export class ProjectsComponent implements OnInit {
         },
       ],
     };
-    // Trigger change detection explicitly if needed
-    this.tableData = { ...this.tableData };
   }
 
   getProjects() {

@@ -12,6 +12,8 @@ import { ProjectsService } from '../projects/services/projects.service';
 import { UsersService } from '../users/services/users.service';
 import { ITask } from './interfaces/task.interface';
 import { TasksService } from './services/tasks.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TableTypeEnum } from 'src/app/shared/enums/table-type-enum';
 
 @Component({
   selector: 'app-tasks',
@@ -19,6 +21,7 @@ import { TasksService } from './services/tasks.service';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent {
+  tableType = TableTypeEnum.Tasks;
   tableData: ITableData;
   resData: IDataResponse<ITask> | undefined;
   userData: IUser[] | undefined;
@@ -164,6 +167,7 @@ export class TasksComponent {
       this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
       return;
     }
+    console.log(res);
     const excludedFields = ['id'];
     const sampleTask = res.data[0];
     this.tableData = {
@@ -176,8 +180,6 @@ export class TasksComponent {
         })),
       actions: this.actions
     };
-    // Trigger change detection explicitly if needed
-    this.tableData = { ...this.tableData };
   }
 
   private formatHeader(key: string): string {

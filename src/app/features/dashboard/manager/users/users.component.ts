@@ -7,6 +7,8 @@ import { IUser } from './interfaces/user.interface';
 import { UsersService } from './services/users.service';
 import { ViewUserProfileComponent } from 'src/app/shared/components/view-user-profile/view-user-profile.component';
 import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delete-item.component';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TableTypeEnum } from 'src/app/shared/enums/table-type-enum';
 
 
 @Component({
@@ -15,12 +17,18 @@ import { DeleteItemComponent } from 'src/app/shared/components/delete-item/delet
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
-  tableData: ITableData;
+  tableType: TableTypeEnum = TableTypeEnum.Users;
   baseUrl = 'https://upskilling-egypt.com:3003/';
   resTable: IDataResponse<IUser> | undefined;
   searchValue = '';
   roleId: number[] = [1, 2];
   actions: ITableAction[] = [];
+  tableData: ITableData = {
+    data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
+    columns: [],
+    actions: this.actions,
+  };
+
   constructor(private dialog: MatDialog, private _UsersService: UsersService, private toast: ToastrService) {
     this.actions = [
         {
@@ -37,6 +45,20 @@ export class UsersComponent {
           callback: (row: IUser) => console.log('Block', row),
         },
       ]
+      {
+        type: 'button',
+        label: 'View',
+        color: 'accent',
+        icon: 'visibility',
+        callback: (row: any) => console.log('view', row),
+      },
+      {
+        type: 'button',
+        label: 'Block',
+        icon: 'block',
+        callback: (row: any) => console.log('Block', row),
+      },
+    ]
     this.tableData = {
       data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
       columns: [],
@@ -46,11 +68,10 @@ export class UsersComponent {
 
   ngOnInit(): void {
     this.getUsers();
-    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
-  getUsers() {
-    let userParams = {
+  getUsers(): void {
+    const userParams = {
       userName: this.searchValue,
       pageNumber: this.tableData?.data.pageNumber,
       pageSize: this.tableData?.data.pageSize,
@@ -62,21 +83,25 @@ export class UsersComponent {
           if (user.imagePath !== null) {
             user.imagePath = this.baseUrl + user.imagePath;
           }
-        })
+        });
         this.passDataToTable(res);
         this.resTable = res;
       },
       error: (err) => {
         this.toast.error(err.error.message);
-      }
+      },
     });
   }
-  passDataToTable(res: IDataResponse<IUser>) {
+
+  passDataToTable(res: IDataResponse<IUser>): void {
     if (!res.data || res.data.length === 0) {
-      this.tableData = { ...this.tableData, data: { ...this.tableData?.data, data: [] } };
+      this.tableData = {
+        ...this.tableData,
+        data: { ...this.tableData.data, data: [] },
+      };
       return;
     }
-    const excludedFields = ['id'];
+    const excludedFields = ['id', 'creationDate', 'modificationDate'];
     const sampleUser = res.data[0];
     this.tableData = {
       data: res,
@@ -86,24 +111,8 @@ export class UsersComponent {
           field: key,
           header: this.formatHeader(key),
         })),
-      actions: [
-        {
-          type: 'button',
-          label: 'View',
-          color: 'accent',
-          icon: 'visibility',
-          callback: (row: IUser) => this.openViewDialog(row),
-        },
-        {
-          type: 'button',
-          label:  'Block',
-          icon: 'block',
-          callback: (row: IUser) => this.openBlockDialog(row),
-        },
-      ],
+      actions: this.actions,
     };
-    // Trigger change detection explicitly if needed
-    this.tableData = { ...this.tableData };
   }
 
   private formatHeader(key: string): string {

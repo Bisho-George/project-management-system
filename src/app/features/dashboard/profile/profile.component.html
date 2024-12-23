@@ -1,0 +1,95 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 mx-auto mb-2">
+        <div class="d-flex justify-content-center">
+          <img src="../../../../assets/images/svg/navbar-logo.svg" alt="pms logo">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 m-auto auth-form">
+        <div class="my-3">
+          <p class="m-0">Welcome to PMS</p>
+          <h3 class="main-header m-0">Create new account</h3>
+        </div>
+        <div class="row justify-content-center mb-3" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)" [class.dragging]="isDragging">
+          <div class="image-container" (click)="image.click()">
+            <img class="rounded-circle" [src]="this.imageSource()">
+            <div class="camera-icon">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <input #image type="file" (change)="fileSelected($event)" class="hidden-input" />
+            <mat-icon *ngIf="croppedImage()" (click)="onRemove($event)">cancel</mat-icon>
+          </div>
+        </div>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          <div class="row justify-content-between">
+            <div class="col-md-6">
+              <mat-form-field class="dark-input">
+                <mat-label>User name</mat-label>
+                <input type="text" matInput formControlName="userName" placeholder="Enter your username">
+                <mat-error *ngIf="userName?.invalid && userName?.touched">
+                  <span *ngIf="userName?.hasError('required')">UserName is required</span>
+                  <span *ngIf="userName?.hasError('pattern')">UserName should contain at most 8 characters
+                    and at least one digit</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="dark-input">
+                <mat-label>E-mail</mat-label>
+                <input type="email" matInput formControlName="email" placeholder="Enter your e-mail">
+                <mat-error *ngIf="email?.invalid && email?.touched">
+                  <span *ngIf="email?.hasError('required')">Email is required</span>
+                  <span *ngIf="email?.hasError('email')">
+                    Please enter a valid email address
+                  </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="dark-input">
+                <mat-label>Country</mat-label>
+                <input type="text" matInput formControlName="country" placeholder="Enter your country">
+                <mat-error *ngIf="country?.invalid && country?.touched">
+                  <span *ngIf="country?.hasError('required')">country is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="dark-input">
+                <mat-label>Phone number</mat-label>
+                <input type="text" matInput formControlName="phoneNumber" placeholder="Enter your phone number">
+                <mat-error *ngIf="phoneNumber?.invalid && phoneNumber?.touched">
+                  <span *ngIf="phoneNumber?.hasError('required')">Phone number is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 mx-auto">
+              <mat-form-field class="dark-input">
+                <mat-label>Confirm password</mat-label>
+                <input placeholder="Enter your confirm-password" matInput
+                  [type]="isPasswordVisible['confirmPassword'] ? 'text': 'password'" formControlName="confirmPassword">
+                <button type="button" class="icon-button" mat-icon-button matSuffix
+                  (click)="togglePasswordVisibility('confirmPassword')" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="isPasswordVisible['confirmPassword']">
+                  <i [ngClass]="isPasswordVisible['confirmPassword'] ? 'fa-eye-slash': 'fa-eye'" class="fa-regular"></i>
+                </button>
+                <mat-error *ngIf="confirmPassword?.touched">
+                  <span *ngIf="confirmPassword?.hasError('required')">confirm password is required</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mx-auto mt-4">
+                <button [disabled]="profileForm.invalid" class="button main-btn">Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
