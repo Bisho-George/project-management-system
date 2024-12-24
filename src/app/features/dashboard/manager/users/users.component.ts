@@ -31,20 +31,20 @@ export class UsersComponent {
 
   constructor(private dialog: MatDialog, private _UsersService: UsersService, private toast: ToastrService) {
     this.actions = [
-        {
-          type: 'button',
-          label: 'View',
-          color: 'accent',
-          icon: 'visibility',
-          callback: (row: IUser) => console.log('view', row),
-        },
-        {
-          type: 'button',
-          label: 'Block',
-          icon: 'block',
-          callback: (row: IUser) => console.log('Block', row),
-        },
-      ]
+      {
+        type: 'button',
+        label: 'View',
+        color: 'accent',
+        icon: 'visibility',
+        callback: (row: IUser) => this.openViewDialog(row),
+      },
+      {
+        type: 'button',
+        label: 'Block',
+        icon: 'block',
+        callback: (row: IUser) => this.openBlockDialog(row),
+      },
+    ]
     this.tableData = {
       data: { data: [], pageNumber: 1, pageSize: 5, totalNumberOfRecords: 0, totalNumberOfPages: 0 },
       columns: [],
@@ -137,10 +137,10 @@ export class UsersComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this._UsersService.onActivateUser(result).subscribe({
-          next: (res) => {},
-           error: (err) => {
+          next: (res) => { },
+          error: (err) => {
             this.toast.error(err.error.message, 'error')
-          }, complete: ( ) => {
+          }, complete: () => {
             this.getUsers()
             this.toast.success('Activity updated successfully');
           }
