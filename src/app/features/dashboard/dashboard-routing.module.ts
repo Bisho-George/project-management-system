@@ -9,7 +9,7 @@ import { DashboardComponent } from './dashboard.component';
 const routes: Routes = [
   {
     path: '', component: DashboardComponent, children: [
-      { path: '', redirectTo: 'manager', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', canActivate: [authGuard], component: HomeComponent },
       { path: 'employee', canActivate: [employeeGuard], loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule) },
       { path: 'manager', canActivate: [managerGuard], loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule) },
