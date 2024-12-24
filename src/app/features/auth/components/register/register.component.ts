@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
   error!: string;
   files: File[] = [];
   placeholder = computed(
-    () => '../../../../../assets/images/profile-picture.svg'
+    () => '../../../../../assets/images/svg/profile-picture.svg'
   );
 
   imageSource = computed(() => {
